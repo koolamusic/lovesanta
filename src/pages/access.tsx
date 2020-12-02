@@ -20,10 +20,10 @@ import { DarkModeSwitch } from '../components/DarkModeSwitch'
 const PinHolder = () => (
     <HStack spacing="16">
         <PinInput size="lg">
-            <PinInputField isFullWidth />
-            <PinInputField isFullWidth />
-            <PinInputField isFullWidth />
-            <PinInputField isFullWidth />
+            <PinInputField />
+            <PinInputField />
+            <PinInputField />
+            <PinInputField />
         </PinInput>
     </HStack>
 )

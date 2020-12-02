@@ -1,4 +1,4 @@
-import * as airtable from './config'
+import * as airtable from './airtable.config'
 import { IRecordOptionProps } from './interface'
 
 const PARAMS = {
@@ -15,3 +15,9 @@ export const listRecord = async (): Promise<IRecordOptionProps[]> => {
     return data;
 };
 
+export const findByName = async (name: string): Promise<IRecordOptionProps[]> => {
+    return await airtable
+        .filterCollectionBy({ ...PARAMS, filterByFormula: `AND({Name} = '${name}')` })
+        .all()
+        .then((v) => v.map((record) => ({ id: record.id, ...record.fields })))
+};

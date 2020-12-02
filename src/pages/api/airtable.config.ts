@@ -1,10 +1,11 @@
 import Airtable from 'airtable';
-import secrets from './secrets'
+import secrets from './constants'
 
 /* Configure API Access for Airtable Base */
 interface TableOptionProps {
     baseName: string;
     baseView: string;
+    filterByFormula?: string;
     limit?: number | 10;
 }
 
@@ -33,6 +34,19 @@ export const getSimpleCollection = (options: Omit<TableOptionProps, 'limit'>) =>
     });
 };
 
+export const filterCollectionBy = (options: Omit<TableOptionProps, 'limit'>) => {
+    const { baseName, baseView, filterByFormula } = options;
+    const base = new Airtable({ apiKey: secrets.AIRTABLE_KEY }).base(secrets.AIRTABLE_BASE);
+    console.log(`Filter Operation in ${baseName} for ${filterByFormula}`);
+
+
+    return base(baseName).select({
+        view: baseView,
+        filterByFormula
+    });
+};
+
+
 export const getCollections = (options: TableOptionProps) => {
     const { baseName, limit, baseView } = options;
     const base = new Airtable({ apiKey: secrets.AIRTABLE_KEY }).base(secrets.AIRTABLE_BASE);
@@ -42,6 +56,15 @@ export const getCollections = (options: TableOptionProps) => {
         view: baseView
     });
 };
+
+/* Find a Record using a string */
+export const getByRecord = (baseName: string, filter: string) => {
+    const base = new Airtable({ apiKey: secrets.AIRTABLE_KEY }).base(secrets.AIRTABLE_BASE);
+    console.log(`Find Operation in ${baseName} for ${filter}`);
+
+    return base(baseName).find(filter);
+};
+
 
 export const createOneRecord = <T extends CreateRecordOptionProps | Record<any, string>>(
     baseName: string,

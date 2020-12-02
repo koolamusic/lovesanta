@@ -28,10 +28,10 @@ const Index = () => (
         <FormLabel color="gray.700" margin="0" my="4" p="4">Your Secure pin</FormLabel>
         <HStack spacing="4">
             <PinInput size="lg">
-                <PinInputField isFullWidth />
-                <PinInputField isFullWidth />
-                <PinInputField isFullWidth />
-                <PinInputField isFullWidth />
+                <PinInputField />
+                <PinInputField />
+                <PinInputField />
+                <PinInputField />
             </PinInput>
         </HStack>
         <Button type="submit" size="lg" isFullWidth mt="8" colorScheme="teal">Start</Button>
