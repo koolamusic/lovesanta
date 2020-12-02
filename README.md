@@ -1,27 +1,23 @@
-# Example app with [chakra-ui](https://github.com/chakra-ui/chakra-ui) and Typescript
+# Love Dip
 
-This example features how to use [chakra-ui](https://github.com/chakra-ui/chakra-ui) as the component library within a Next.js app with typescript.
+So you wanna host a lovefeast, however participants need to dip and select their pairs randomly, as well as secretly. No one is supposed to know another person's pair.
+This App is built with NextJs and uses Airtable as the Database.
 
-Next.js and chakra-ui have built-in TypeScript declarations, so we'll get autocompletion for their modules straight away.
+- Users can set a secret code
+- Users can Generate their pair randomly (using some lodash helpers)
+- Users can Generate Random Pairs only (3times) to avoid abuse.
 
-We are connecting the Next.js `_app.js` with `chakra-ui`'s Provider and theme so the pages can have app-wide dark/light mode. We are also creating some components which shows the usage of `chakra-ui`'s style props.
+## Prerequisites
 
-## Deploy your own
+- You need `git` installed locally
+- You need `Nodejs` and `npm` installed
+- You need a Code Editor (Vscode, webstorm, Atom) etc
 
-Deploy the example using [Vercel](https://vercel.com):
+```sh
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/import/project?template=https://github.com/vercel/next.js/tree/canary/examples/with-chakra-ui-typescript)
+git clone https://github.com/koolamusic/love-dip
+$ cd love-dip
+$ npm install
+$ npm run dev
 
-## How to use
-
-### Using `create-next-app`
-
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init) or [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) to bootstrap the example:
-
-```bash
-npx create-next-app --example with-chakra-ui-typescript with-chakra-ui-typescript-app
-# or
-yarn create next-app --example with-chakra-ui-typescript with-chakra-ui-typescript-app
 ```
-
-Deploy it to the cloud with [Vercel](https://vercel.com/import?filter=next.js&utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
