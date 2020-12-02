@@ -16,6 +16,7 @@ import {
     HStack,
     PinInputProps
 } from '@chakra-ui/react'
+import { Container } from '../Container'
 import { IRecordResponse } from '../../pages/api/interface'
 import isEmpty from 'lodash/isEmpty'
 
@@ -26,7 +27,7 @@ export interface IItem {
 
 
 const PinHolder = (props: PinInputProps) => (
-    <HStack spacing="16">
+    <HStack>
         <PinInput size="lg" {...props}>
             <PinInputField />
             <PinInputField />
@@ -110,20 +111,21 @@ const AuthPage = () => {
 
 
     return (
-        <Flex alignItems="center" direction="column">
-            <Flex mt="12" pt="12" />
-            <Heading textAlign="center" as="h2" color="gray.600" my="6">Love Dip</Heading>
-            <form>
+        <Container minHeight="100vh">
+
+            <Flex direction="column" width="100%">
+                <Flex mt="12" pt="12" />
+                <Heading textAlign="center" as="h2" color="gray.600" my="6">Love Dip</Heading>
                 <Alert status="success" my="4">
                     <AlertIcon />
-                Hello <span style={{ textTransform: 'capitalize' }}> {sessionUser.name}</span>, Please enter your Pin 😀
+                Hello <span style={{ fontWeight: "bold", textTransform: 'capitalize' }}>: {sessionUser.name}</span>, Enter your Pin 😀
             </Alert>
                 <FormLabel color="gray.700" margin="0" mt="4" pb="4">Enter your Pin Abeg 😉</FormLabel>
                 <PinHolder onChange={(input) => setUserPin(input)} onComplete={(val) => createPinAccess(val)}><></></PinHolder>
                 <Button onClick={() => createPinAccess(userPin)} size="lg" isLoading={isSubmitting} isFullWidth mt="8" colorScheme="teal">Check my Pair</Button>
-            </form>
 
-        </Flex>
+            </Flex>
+        </Container>
     )
 }
 
