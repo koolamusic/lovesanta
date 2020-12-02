@@ -38,7 +38,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
                 try {
                     await (await findByName(body.params.name)).map((val, _idx) => (
                         airtable.updateOneRecord(BASENAME, val.id, {
-                            pin: body.params.pin
+                            pin: body.params.pin,
+                            isActivated: "true"
                         })
                             .then((v) => v
                                 .map((record) =>

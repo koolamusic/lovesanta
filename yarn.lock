@@ -685,7 +685,7 @@
   resolved "https://registry.yarnpkg.com/@emotion/memoize/-/memoize-0.7.4.tgz#19bf0f5af19149111c40d98bb0cf82119f5d9eeb"
   integrity sha512-Ja/Vfqe3HpuzRsG1oBtWTHk2PGZ7GR+2Vz5iYGelAw8dx32K0y7PjVuxK6z1nMpZOqAFsRUPCkK1YjJ56qJlgw==
 
-"@emotion/react@11.1.1":
+"@emotion/react@11.1.1", "@emotion/react@^11.1.1":
   version "11.1.1"
   resolved "https://registry.yarnpkg.com/@emotion/react/-/react-11.1.1.tgz#4b304d494af321b0179e6763830e07cf674f0423"
   integrity sha512-otA0Np8OnOeU9ChkOS9iuLB6vIxiM+bJiU0id33CsQn3R2Pk9ijVHnxevENIKV/P2S7AhrD8cFbUGysEciWlEA==
@@ -4143,6 +4143,14 @@ rc@^1.2.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
+react-awesome-reveal@^3.5.1:
+  version "3.5.1"
+  resolved "https://registry.yarnpkg.com/react-awesome-reveal/-/react-awesome-reveal-3.5.1.tgz#b874cec989d8f4323e09939b7da435c71891153d"
+  integrity sha512-GIi62++gljV04lNTYI6LJqrS0bBrNX7GFBBl7zvMdf8Wt5ySipVrRjdKZVTVR1ls/EVon9Yn2915G5JW/rVb6A==
+  dependencies:
+    "@emotion/react" "^11.1.1"
+    react-intersection-observer "^8.30.3"
+
 react-clientside-effect@^1.2.2:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/react-clientside-effect/-/react-clientside-effect-1.2.2.tgz#6212fb0e07b204e714581dd51992603d1accc837"
@@ -4184,6 +4192,11 @@ react-highlight-words@^0.16.0:
     highlight-words-core "^1.2.0"
     memoize-one "^4.0.0"
     prop-types "^15.5.8"
+
+react-intersection-observer@^8.30.3:
+  version "8.31.0"
+  resolved "https://registry.yarnpkg.com/react-intersection-observer/-/react-intersection-observer-8.31.0.tgz#0ed21aaf93c4c0475b22b0ccaba6169076d01605"
+  integrity sha512-XraIC/tkrD9JtrmVA7ypEN1QIpKc52mXBH1u/bz/aicRLo8QQEJQAMUTb8mz4B6dqpPwyzgjrr7Ljv/2ACDtqw==
 
 react-is@16.13.1, react-is@^16.13.1, react-is@^16.7.0, react-is@^16.8.1:
   version "16.13.1"

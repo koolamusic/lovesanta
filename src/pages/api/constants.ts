@@ -1,3 +1,6 @@
+const { AIRTABLE_KEY, AIRTABLE_BASE } = process.env
+// const endpoint = process.env.NEXT_PUBLIC_API_URL;
+
 export const BASENAME = 'List'
 export const PARAMS = {
     baseName: BASENAME,
@@ -6,8 +9,8 @@ export const PARAMS = {
 
 
 export default {
-    AIRTABLE_KEY: 'keyYQGz5RC2dOKH1s',
-    AIRTABLE_BASE: 'appm6ak8bd4X7bfsH'
+    AIRTABLE_KEY,
+    AIRTABLE_BASE,
 }
 
 

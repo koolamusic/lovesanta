@@ -2,6 +2,7 @@ import React from 'react'
 import axios from 'axios'
 import { SESSION_USER } from '../realm'
 import { useRealm } from 'use-realm'
+import { AttentionSeeker } from 'react-awesome-reveal'
 
 import { Container } from '../Container'
 import { DarkModeSwitch } from '../DarkModeSwitch'
@@ -44,6 +45,7 @@ const DipPage = () => {
 
 
     const pairAction = async (): Promise<void> => {
+        await setSubmitting(true)
 
 
         try {
@@ -89,31 +91,43 @@ const DipPage = () => {
         }
     }
 
-
-    return (
-        <Container height="100vh">
-            <Flex mt="12" pt="12" />
+    const PairBox: React.FC<{pairName: string}> = ({pairName}) => (
+        <>
             <Heading textAlign="center" as="h2" color="gray.600" my="0">Your Pair is:</Heading>
-            <Text color="red.600" fontWeight="bold" textAlign="center" maxW="30rem" mb="6">{sessionUser.count} Tries remaining</Text>
             {/* <Text color="gray.600" textAlign="center" maxW="30rem" mb="6">Keep calm, let us pair you with a lovely human</Text> */}
 
             <Alert status="success" border="1px dashed" borderColor="ButtonShadow">
                 <Box flex="1">
-                    <AlertTitle fontSize="2rem" my="6" textAlign="center" textTransform="capitalize">{sessionUser.pairName}</AlertTitle>
+                    <AlertTitle fontSize="2rem" my="6" textAlign="center" textTransform="capitalize">
+                        <AttentionSeeker>
+                            {pairName}
+                        </AttentionSeeker>
+                    </AlertTitle>
                     <AlertDescription display="block" pb="3">
-                        Hey Friend, <strong style={{ color: "##ff3092", textTransform: 'capitalize' }}>{sessionUser.pairName} </strong>
+                        Hey, <strong style={{ color: "##ff3092", textTransform: 'capitalize' }}>{pairName} </strong>
                         {/* {sessionUser.name.charAt(0).toUpperCase() + sessionUser.name.slice(1)} */}
-                          will be expecting a wonderful gift from you this Christmas, do well to buy them something lovely
+                          will be expecting a wonderful gift from you this Christmas, do well to buy them something lovely, they dont have to know that you've been paired to buy them a gift
                 </AlertDescription>
                 </Box>
             </Alert>
 
+        </>
+    )
 
+
+    return (
+        <Container height="100vh">
+            <Flex mt="12" pt="12" />
+            {!sessionUser.pairName && (<Heading as="h6" textAlign="center" fontSize="2rem">You currently don't have an pair yet</Heading>)}
+            <Text color="red.600" fontWeight="bold" textAlign="center" maxW="30rem" mb="6">If you don't like your pair, you have {3 - sessionUser.count} Tries remaining to generate a new one</Text>
+            {sessionUser.pairId && sessionUser.pairName && (
+                <PairBox pairName={sessionUser.pairName} />
+            )}
 
             <Button isLoading={isSubmitting} isDisabled={sessionUser.count > 2} onClick={pairAction} size="lg" isFullWidth mt="8" colorScheme="teal">Generate New Pair</Button>
             <Alert status="warning" mt="1">
                 <AlertIcon />
-                    Warning: You can only generate a new pair twice (2 times)
+                    Warning: You can only generate a new pair thrice (3 times)
                 </Alert>
 
 

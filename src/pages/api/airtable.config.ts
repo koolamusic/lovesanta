@@ -27,7 +27,7 @@ interface IManyRecordField {
 
 export const getSimpleCollection = (options: Omit<TableOptionProps, 'limit'>) => {
     const { baseName, baseView } = options;
-    const base = new Airtable({ apiKey: secrets.AIRTABLE_KEY }).base(secrets.AIRTABLE_BASE);
+    const base = new Airtable({ apiKey: secrets.AIRTABLE_KEY }).base(secrets.AIRTABLE_BASE as string);
 
     return base(baseName).select({
         view: baseView
@@ -36,7 +36,7 @@ export const getSimpleCollection = (options: Omit<TableOptionProps, 'limit'>) =>
 
 export const filterCollectionBy = (options: Omit<TableOptionProps, 'limit'>) => {
     const { baseName, baseView, filterByFormula } = options;
-    const base = new Airtable({ apiKey: secrets.AIRTABLE_KEY }).base(secrets.AIRTABLE_BASE);
+    const base = new Airtable({ apiKey: secrets.AIRTABLE_KEY }).base(secrets.AIRTABLE_BASE as string);
     console.log(`Filter Operation in ${baseName} for ${filterByFormula}`);
 
 
@@ -49,7 +49,7 @@ export const filterCollectionBy = (options: Omit<TableOptionProps, 'limit'>) => 
 
 export const getCollections = (options: TableOptionProps) => {
     const { baseName, limit, baseView } = options;
-    const base = new Airtable({ apiKey: secrets.AIRTABLE_KEY }).base(secrets.AIRTABLE_BASE);
+    const base = new Airtable({ apiKey: secrets.AIRTABLE_KEY }).base(secrets.AIRTABLE_BASE as string);
 
     return base(baseName).select({
         maxRecords: limit,
@@ -59,7 +59,7 @@ export const getCollections = (options: TableOptionProps) => {
 
 /* Find a Record using a string */
 export const getByRecord = (baseName: string, recordId: string) => {
-    const base = new Airtable({ apiKey: secrets.AIRTABLE_KEY }).base(secrets.AIRTABLE_BASE);
+    const base = new Airtable({ apiKey: secrets.AIRTABLE_KEY }).base(secrets.AIRTABLE_BASE as string);
     console.log(`Find Operation in ${baseName} for ${recordId}`);
 
     return base(baseName).find(recordId);
@@ -70,7 +70,7 @@ export const createOneRecord = <T extends CreateRecordOptionProps | Record<any, 
     baseName: string,
     payload: T
 ) => {
-    const base = new Airtable({ apiKey: secrets.AIRTABLE_KEY }).base(secrets.AIRTABLE_BASE);
+    const base = new Airtable({ apiKey: secrets.AIRTABLE_KEY }).base(secrets.AIRTABLE_BASE as string);
 
     console.log(`creating a record in ${baseName} for ${payload}`);
 
@@ -88,7 +88,7 @@ export const updateOneRecord = <T extends CreateRecordOptionProps | Record<any, 
     recordId: string,
     payload: Partial<T>
 ) => {
-    const base = new Airtable({ apiKey: secrets.AIRTABLE_KEY }).base(secrets.AIRTABLE_BASE);
+    const base = new Airtable({ apiKey: secrets.AIRTABLE_KEY }).base(secrets.AIRTABLE_BASE as string);
 
     console.log(`updating new record in ${baseName} for ${payload}`);
 
@@ -103,7 +103,7 @@ export const updateOneRecord = <T extends CreateRecordOptionProps | Record<any, 
 };
 
 export const createManyRecord = <T extends IManyRecordField>(baseName: string, payload: T[]) => {
-    const base = new Airtable({ apiKey: secrets.AIRTABLE_KEY }).base(secrets.AIRTABLE_BASE);
+    const base = new Airtable({ apiKey: secrets.AIRTABLE_KEY }).base(secrets.AIRTABLE_BASE as string);
 
     console.log(`creating new record in ${baseName}`);
     return base(baseName).create([[...payload]]);
