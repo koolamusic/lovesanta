@@ -42,8 +42,18 @@ const AuthPage = () => {
     const [userPin, setUserPin] = React.useState('');
     const toast = useToast()
 
-    const [sessionUser,] = useRealm<IRecordResponse>(SESSION_USER);
     const [, setStep] = useRealm<string>(STEP);
+    const [sessionUser, setUser] = useRealm<IRecordResponse>(SESSION_USER);
+    const [isMounted, setMount] = React.useState(false);
+
+    React.useEffect(() => {
+        setMount(true)
+        return () => {
+            setMount(false)
+
+        }
+
+    }, [isMounted])
 
 
 
@@ -68,9 +78,13 @@ const AuthPage = () => {
                     isClosable: true,
                 })
 
+            } else {
+                await setUser(response.data)
+                await setSubmitting(false)
+                setTimeout(() => {
+                    isMounted && setStep('dip')
+                }, 300);
             }
-            await setStep('dip')
-            return;
             console.log(response.data)
 
         } catch (error) {
@@ -98,9 +112,9 @@ const AuthPage = () => {
             <form>
                 <Alert status="info" my="4">
                     <AlertIcon />
-                Hello {sessionUser.name}, since this is your first time, Create a new Secure Pin 😀
+                Hello {sessionUser.name.charAt(0).toUpperCase() + sessionUser.name.slice(1)}, since this is your first time, Create a new Secure Pin 😀
             </Alert>
-                <FormLabel color="gray.700" margin="0" mt="4">Your Secure pin</FormLabel>
+                <FormLabel color="gray.700" margin="0" mt="4" pb="2">Your Secure pin</FormLabel>
                 <PinHolder onChange={(input) => setUserPin(input)} onComplete={(val) => createPinAccess(val)}><></></PinHolder>
                 <Button onClick={() => createPinAccess(userPin)} size="lg" isLoading={isSubmitting} isFullWidth mt="8" colorScheme="teal">Create Secure Pin</Button>
             </form>

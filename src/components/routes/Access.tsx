@@ -4,10 +4,6 @@ import { useRealm } from 'use-realm'
 import { STEP, SESSION_USER } from '../realm'
 
 import {
-    List,
-    ListIcon,
-    ListItem,
-    Input,
     useToast,
     Select,
     FormLabel,
@@ -47,8 +43,21 @@ const AccessPage = () => {
     const [userName, setName] = React.useState('');
     const [isSubmitting, setSubmitting] = React.useState<boolean>(false)
 
-    const [, setStep] = useRealm<string>(STEP);
     const [, setUser] = useRealm<IRecordResponse>(SESSION_USER);
+    const [, setStep] = useRealm<string>(STEP);
+    const [isMounted, setMount] = React.useState(false);
+
+    React.useEffect(() => {
+        setMount(true)
+        return () => {
+            setMount(false)
+
+        }
+
+    }, [isMounted])
+
+
+
 
     const toast = useToast()
 
@@ -74,9 +83,11 @@ const AccessPage = () => {
                 })
 
             }
+            /* Initialize user data in session */
+            setUser(response.data[0])
+
             if (response.data[0].isActivated === 'false' && response.data[0].pin === undefined) {
-                setUser(response.data[0])
-                setStep('createPin')
+                isMounted && setStep('createPin')
             } else {
                 await setStep('authenticate')
                 console.log(response.data[0])

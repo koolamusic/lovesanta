@@ -9,8 +9,8 @@ export const PINCODE = ''
 export const STEP = createRealm<string>('default')
 export const SESSION_USER = createRealm<IRecordResponse>({
     id: "string",
-    name: "string",
-    isActivated: false,
+    name: "Human",
+    isActivated: "false",
     pin: "string",
     isPaired: false,
     pairId: "string",

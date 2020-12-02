@@ -20,10 +20,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
 
     console.log(body, method, id, name)
-    // const userAccess = await findByFilter(`AND({name} = '${name}', {pin} = '${pin}')`)
+
+    /* Callback to send response payload */
     const resCallback = (payload: any) => {
         return res.status(200).json(payload)
-
     }
 
 
@@ -55,16 +55,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
                 } catch (error) {
                     res.status(500).json(error)
                 }
-
+            } else {
+                res.status(200).json(putAccess)
             }
-
-            /* Query and return new account ::HACK */
-            //     await findByFilter(`AND({name} = '${body.params.name}', {pin} = '${body.params.pin}')`)
-            //    (newAccount)
             break
         case 'POST':
-            // Update or create data in your database
-            res.status(200).json(null)
+            const postAccess = await findByFilter(`AND({name} = '${body.params.name}', {pin} = '${body.params.pin}')`)
+            res.status(200).json(postAccess)
             break
         default:
             res.setHeader('Allow', ['GET', 'POST', 'PATCH', 'PUT'])
