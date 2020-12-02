@@ -117,7 +117,7 @@ const AuthPage = () => {
             <form>
                 <Alert status="success" my="4">
                     <AlertIcon />
-                Hello {sessionUser.name}, Please enter your Pin 😀
+                Hello <span style={{ textTransform: 'capitalize' }}> {sessionUser.name}</span>, Please enter your Pin 😀
             </Alert>
                 <FormLabel color="gray.700" margin="0" mt="4" pb="4">Enter your Pin Abeg 😉</FormLabel>
                 <PinHolder onChange={(input) => setUserPin(input)} onComplete={(val) => createPinAccess(val)}><></></PinHolder>

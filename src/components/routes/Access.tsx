@@ -73,19 +73,15 @@ const AccessPage = () => {
                     name: userName,
                 }
             });
-            if (response.data[0] === undefined) {
-                toast({
-                    title: "Access Denied.",
-                    description: "invalid request",
-                    status: "error",
-                    duration: 3000,
-                    isClosable: true,
-                })
+
+            if (!response.data || response.data.length === 0) {
+                setSubmitting(false)
+                throw new Error('We dont know you 🙄')
 
             }
+
             /* Initialize user data in session */
             setUser(response.data[0])
-
             if (response.data[0].isActivated === 'false' && response.data[0].pin === undefined) {
                 isMounted && setStep('createPin')
             } else {

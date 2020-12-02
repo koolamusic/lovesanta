@@ -1,22 +1,36 @@
-// Fake users data
 import { NextApiRequest, NextApiResponse } from 'next'
 import * as airtable from './airtable.config'
-import { IRecordResponse } from './interface'
-import { BASENAME } from './constants'
+import { IRecordResponse, IAirtableRawJSON } from './interface'
+import { BASENAME, PARAMS } from './constants'
 import { findByName, findByFilter } from './mapper';
 import _ from 'lodash'
 
-
-export default async function handler(req: NextApiRequest, res: NextApiResponse<IRecordResponse[] | null>): Promise<void> {
-
+type THandlerResponse = IRecordResponse | IRecordResponse[] | null | undefined
+export default async function handler(req: NextApiRequest, res: NextApiResponse<THandlerResponse>): Promise<void> {
     const { query: { id, name }, method, body } = req
-
-
     console.log(body, method, id, name)
 
-    /* Callback to send response payload */
+    /* Callback function to return response */
     const resCallback = (payload: any) => {
         return res.status(200).json(payload)
+    }
+
+    /* Function to get Request User */
+    const getUser = async (): Promise<IAirtableRawJSON> => {
+        const record = await airtable.getByRecord(BASENAME, body.params.userId)
+        return (record as unknown) as IAirtableRawJSON
+
+    }
+
+
+    const isAuthenticated = (): boolean => {
+        findByFilter(`AND({name} = '${body.params.name}', {pin} = '${body.params.pin}')`)
+            .then((v) => v.map((record) => {
+                if (_.isEmpty(record) || record.id === undefined) {
+                    return false
+                }
+            }))
+        return true
     }
 
 
@@ -26,35 +40,57 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
             const userRecord = await findByName(sanitizeName)
             res.status(200).json(userRecord)
             break
-        case 'PATCH':
-            // Update or create data in your database
-            res.status(200).json(null)
-            break
-
         case 'PUT':
             const putAccess = await findByFilter(`AND({name} = '${body.params.name}', {pin} = '${body.params.pin}')`)
-            console.log(putAccess)
-            if (_.isArray(putAccess) && !putAccess.length) {
-                try {
-                    await (await findByName(body.params.name)).map((val, _idx) => (
-                        airtable.updateOneRecord(BASENAME, val.id, {
-                            pin: body.params.pin
-                        })
-                            .then((v) => v
-                                .map((record) =>
-                                    resCallback({ id: record.id, ...record.fields })))
-                    ))
-
-                } catch (error) {
-                    res.status(500).json(error)
-                }
-            } else {
-                res.status(200).json(putAccess)
-            }
+            res.status(200).json(putAccess)
             break
         case 'POST':
-            const postAccess = await findByFilter(`AND({name} = '${body.params.name}', {pin} = '${body.params.pin}')`)
-            res.status(200).json(postAccess)
+            let collections: IRecordResponse[] = [];
+            if (isAuthenticated()) {
+                collections = await airtable
+                    .getSimpleCollection(PARAMS)
+                    .all()
+                    .then((v) => v.map((record) => ({ id: record.id, ...record.fields })));
+            }
+            try {
+                /* Check if user Exceeds their limit */
+                const user = await getUser()
+                console.log("OUR USER -=========>", user)
+                if (user.fields.count > 2) {
+                    throw new Error('Your limit has been exceeded')
+                }
+
+                /* Prevent user from pairing themselves by removing them from the list */
+                const filterOwnerCollection = await collections.filter((item) => item.id !== body.params.userId)
+
+                /* Filter users who haven't been paired */
+                const noPairCollection = await filterOwnerCollection.filter((item) => !item.isPaired)
+
+
+                /* Select A random user from the list */
+                const sampledArr = (noPairCollection.length > 1 ? _.sample(noPairCollection) : noPairCollection) as IRecordResponse
+
+
+                /* Update requester record and increment count */
+                await airtable.updateOneRecord(BASENAME, body.params.userId, {
+                    count: body.params.count + 1,
+                    pairId: sampledArr.id,
+                    pairName: sampledArr.name
+                }).then((raw) => {
+
+                    /* Update Paired (sampledArr) User with isPaired Boolean */
+                    airtable.updateOneRecord(BASENAME, sampledArr.id, {
+                        isPaired: true
+                    })
+                    resCallback(raw.map((record) => ({ id: record.id, ...record.fields })))
+                    // res.status(200).json((requesterRecord as unknown) as THandlerResponse)
+                })
+
+            } catch (error) {
+                res.status(409).json(error)
+
+            }
+
             break
         default:
             res.setHeader('Allow', ['GET', 'POST', 'PATCH', 'PUT'])

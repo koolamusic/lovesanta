@@ -58,11 +58,11 @@ export const getCollections = (options: TableOptionProps) => {
 };
 
 /* Find a Record using a string */
-export const getByRecord = (baseName: string, filter: string) => {
+export const getByRecord = (baseName: string, recordId: string) => {
     const base = new Airtable({ apiKey: secrets.AIRTABLE_KEY }).base(secrets.AIRTABLE_BASE);
-    console.log(`Find Operation in ${baseName} for ${filter}`);
+    console.log(`Find Operation in ${baseName} for ${recordId}`);
 
-    return base(baseName).find(filter);
+    return base(baseName).find(recordId);
 };
 
 

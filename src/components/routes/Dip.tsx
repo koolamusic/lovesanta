@@ -28,10 +28,8 @@ export interface IItem {
 
 const DipPage = () => {
     const [isSubmitting, setSubmitting] = React.useState<boolean>(false)
-    const [userPin, setUserPin] = React.useState('');
     const toast = useToast()
 
-    const [, setStep] = useRealm<string>(STEP);
     const [sessionUser, setUser] = useRealm<IRecordResponse>(SESSION_USER);
     const [isMounted, setMount] = React.useState(false);
 
@@ -47,11 +45,20 @@ const DipPage = () => {
 
     const pairAction = async (): Promise<void> => {
 
+
         try {
-            const response = await axios.put<IRecordResponse>('/api/access/user', {
+            if (!sessionUser.id && !sessionUser.name && !sessionUser.pin) {
+                await setSubmitting(false)
+                // window.location.reload()
+                throw new Error("You have been logged out, refresh to login")
+            }
+
+            const response = await axios.post<IRecordResponse[]>('/api/pair', {
                 params: {
+                    userId: sessionUser.id,
                     name: sessionUser.name,
                     pin: sessionUser.pin,
+                    count: sessionUser.count,
                 }
             });
             if (response.data === undefined) {
@@ -64,11 +71,9 @@ const DipPage = () => {
                 })
 
             } else {
-                await setUser(response.data)
+                /* Manage the API Response here */
+                await isMounted && setUser(response.data[0])
                 await setSubmitting(false)
-                setTimeout(() => {
-                    isMounted && setStep('dip')
-                }, 300);
             }
             console.log(response.data)
 
@@ -88,21 +93,24 @@ const DipPage = () => {
     return (
         <Container height="100vh">
             <Flex mt="12" pt="12" />
-            <Heading textAlign="center" as="h2" color="gray.600" my="6">Your Pair</Heading>
+            <Heading textAlign="center" as="h2" color="gray.600" my="0">Your Pair is:</Heading>
+            <Text color="red.600" fontWeight="bold" textAlign="center" maxW="30rem" mb="6">{sessionUser.count} Tries remaining</Text>
             {/* <Text color="gray.600" textAlign="center" maxW="30rem" mb="6">Keep calm, let us pair you with a lovely human</Text> */}
 
             <Alert status="success" border="1px dashed" borderColor="ButtonShadow">
                 <Box flex="1">
-                    <AlertTitle fontSize="2rem" my="6">You've been paired!</AlertTitle>
+                    <AlertTitle fontSize="2rem" my="6" textAlign="center" textTransform="capitalize">{sessionUser.pairName}</AlertTitle>
                     <AlertDescription display="block" pb="3">
-                        Congratulations, {sessionUser.name.charAt(0).toUpperCase() + sessionUser.name.slice(1)} will be expecting a wonderful gift from you this Christmas, do well to buy them something lovely
+                        Hey Friend, <strong style={{ color: "##ff3092", textTransform: 'capitalize' }}>{sessionUser.pairName} </strong>
+                        {/* {sessionUser.name.charAt(0).toUpperCase() + sessionUser.name.slice(1)} */}
+                          will be expecting a wonderful gift from you this Christmas, do well to buy them something lovely
                 </AlertDescription>
                 </Box>
             </Alert>
 
 
 
-            <Button type="submit" size="lg" isFullWidth mt="8" colorScheme="teal">Generate new pair</Button>
+            <Button isLoading={isSubmitting} isDisabled={sessionUser.count > 2} onClick={pairAction} size="lg" isFullWidth mt="8" colorScheme="teal">Generate New Pair</Button>
             <Alert status="warning" mt="1">
                 <AlertIcon />
                     Warning: You can only generate a new pair twice (2 times)
