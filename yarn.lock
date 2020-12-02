@@ -5210,10 +5210,10 @@ use-callback-ref@^1.2.1, use-callback-ref@^1.2.3:
   resolved "https://registry.yarnpkg.com/use-callback-ref/-/use-callback-ref-1.2.4.tgz#d86d1577bfd0b955b6e04aaf5971025f406bea3c"
   integrity sha512-rXpsyvOnqdScyied4Uglsp14qzag1JIemLeTWGKbwpotWht57hbP78aNT+Q4wdFKQfQibbUX4fb6Qb4y11aVOQ==
 
-use-realm@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/use-realm/-/use-realm-1.1.1.tgz#041c9ccf604eb8c518ec091d73fa4bbf6acd100e"
-  integrity sha512-dflzpOwWNXv2KDlAFKwhPmLDVAA9MTC6fEslFXPenMx7+WrpN1rn1Grq6PrxvtbG51gO+DNL0DA059Wzn856AQ==
+use-realm@1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/use-realm/-/use-realm-1.1.2.tgz#a740c5b6be570d49659e8b464fa3dd51ba12a891"
+  integrity sha512-VrluXkkwsP4Q4uXcWQ85HuZcDUHqdU0UZGMMVib5TL4tmsDCsiiqbyEspnMkSbgpYrb7VgYEMT9TWS72A94rXA==
 
 use-sidecar@^1.0.1:
   version "1.0.3"
