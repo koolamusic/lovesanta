@@ -18,6 +18,7 @@ import {
     PinInputProps
 } from '@chakra-ui/react'
 import { IRecordResponse } from '../../pages/api/interface'
+import isEmpty from 'lodash/isEmpty'
 
 export interface IItem {
     label: string;
@@ -61,15 +62,19 @@ const AuthPage = () => {
 
 
     const formAction = async (userPin: string): Promise<void> => {
-
         try {
+            if (userPin.length !== 4) {
+                await setSubmitting(false)
+                throw new Error("Pin must be 4 digits")
+            }
             const response = await axios.post<IRecordResponse>('/api/access/user', {
                 params: {
                     name: sessionUser.name,
                     pin: userPin,
                 }
             });
-            if (response.data === undefined) {
+            if (response.data === undefined || isEmpty(response.data)) {
+                await setSubmitting(false)
                 toast({
                     title: "Access Denied.",
                     description: "There seems to be an issue",

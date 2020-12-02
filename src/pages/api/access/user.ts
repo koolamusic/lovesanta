@@ -2,16 +2,9 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import * as airtable from '../airtable.config'
 import { IRecordResponse } from '../interface'
-import { BASENAME, PARAMS } from '../constants'
+import { BASENAME } from '../constants'
 import { findByName, findByFilter } from '../mapper';
 import _ from 'lodash'
-
-
-
-// airtable.updateOneRecord("List", "rec8KYfpGbBNNQ3Z1", {
-//     isPaired: true,
-//     count: 3
-// })
 
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<IRecordResponse[] | null>): Promise<void> {

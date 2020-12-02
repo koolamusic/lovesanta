@@ -62,7 +62,12 @@ const AuthPage = () => {
 
     const formAction = async (userPin: string): Promise<void> => {
 
+
         try {
+            if (userPin.length !== 4) {
+                await setSubmitting(false)
+                throw new Error("Pin must be 4 digits")
+            }
             const response = await axios.put<IRecordResponse>('/api/access/user', {
                 params: {
                     name: sessionUser.name,
