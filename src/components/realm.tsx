@@ -7,6 +7,7 @@ import {
 export const RECORDID = ''
 export const PINCODE = ''
 export const STEP = createRealm<string>('default')
+//@ts-ignore
 export const SESSION_USER = createRealm<IRecordResponse>({
     id: "string",
     name: "Human",

@@ -5,7 +5,6 @@ import { useRealm } from 'use-realm'
 
 import {
     useToast,
-    Select,
     Alert,
     AlertIcon,
     FormLabel,

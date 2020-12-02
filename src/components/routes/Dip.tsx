@@ -1,6 +1,6 @@
 import React from 'react'
 import axios from 'axios'
-import { SESSION_USER, STEP } from '../realm'
+import { SESSION_USER } from '../realm'
 import { useRealm } from 'use-realm'
 
 import { Container } from '../Container'
