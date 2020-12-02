@@ -17,7 +17,10 @@ This App is built with NextJs and uses Airtable as the Database.
 
 git clone https://github.com/koolamusic/love-dip
 $ cd love-dip
-$ npm install
-$ npm run dev
+$ npm install && npm run dev
 
 ```
+
+## Build and Deploy
+
+To build this project run `npm run build` and deploy to vercel
