@@ -13,6 +13,7 @@
     "@emotion/react": "11.1.1",
     "@emotion/styled": "11.0.0",
     "@types/lodash": "^4.14.165",
+    "airtable": "^0.10.1",
     "axios": "^0.21.0",
     "framer-motion": "^2.9.4",
     "lodash": "^4.17.20",
