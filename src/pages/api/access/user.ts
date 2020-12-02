@@ -1,9 +1,10 @@
 // Fake users data
 import { NextApiRequest, NextApiResponse } from 'next'
 import * as airtable from '../airtable.config'
-import { IRecordOptionProps } from '../interface'
+import { IRecordResponse } from '../interface'
 import { BASENAME, PARAMS } from '../constants'
-import { findByName } from '../mapper';
+import { findByName, findByFilter } from '../mapper';
+import _ from 'lodash'
 
 
 
@@ -13,37 +14,57 @@ import { findByName } from '../mapper';
 // })
 
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse<IRecordOptionProps[]>): Promise<void> {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<IRecordResponse[] | null>): Promise<void> {
 
-    const { query: { id, name }, method, } = req
+    const { query: { id, name }, method, body } = req
 
-    const sanitizeName = name.toString()
 
-    console.log(method, id, name)
-    const allCollections = await airtable
-        .getSimpleCollection(PARAMS)
-        .all()
-        .then((v) => v.map((record) => ({ id: record.id, ...record.fields })));
+    console.log(body, method, id, name)
+    // const userAccess = await findByFilter(`AND({name} = '${name}', {pin} = '${pin}')`)
+    const resCallback = (payload: any) => {
+        return res.status(200).json(payload)
 
-    const userRecord = await findByName(sanitizeName)
+    }
 
 
     switch (method) {
         case 'GET':
-            // Get data from your database
+            const sanitizeName = name.toString()
+            const userRecord = await findByName(sanitizeName)
             res.status(200).json(userRecord)
-            break
-        case 'PUT':
-            // Update or create data in your database
-            // res.status(200).json({ id, name: name || `User ${id}` })
-            break
-        case 'POST':
-            // Update or create data in your database
-            // res.status(200).json({ id, name: name || `User ${id}` })
             break
         case 'PATCH':
             // Update or create data in your database
-            // res.status(200).json({ id, name: name || `User ${id}` })
+            res.status(200).json(null)
+            break
+
+        case 'PUT':
+            const putAccess = await findByFilter(`AND({name} = '${body.params.name}', {pin} = '${body.params.pin}')`)
+            console.log(putAccess)
+            if (_.isArray(putAccess) && !putAccess.length) {
+                try {
+                    await (await findByName(body.params.name)).map((val, _idx) => (
+                        airtable.updateOneRecord(BASENAME, val.id, {
+                            pin: body.params.pin
+                        })
+                            .then((v) => v
+                                .map((record) =>
+                                    resCallback({ id: record.id, ...record.fields })))
+                    ))
+
+                } catch (error) {
+                    res.status(500).json(error)
+                }
+
+            }
+
+            /* Query and return new account ::HACK */
+            //     await findByFilter(`AND({name} = '${body.params.name}', {pin} = '${body.params.pin}')`)
+            //    (newAccount)
+            break
+        case 'POST':
+            // Update or create data in your database
+            res.status(200).json(null)
             break
         default:
             res.setHeader('Allow', ['GET', 'POST', 'PATCH', 'PUT'])

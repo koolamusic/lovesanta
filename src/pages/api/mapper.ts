@@ -1,5 +1,5 @@
 import * as airtable from './airtable.config'
-import { IRecordOptionProps } from './interface'
+import { IRecordResponse } from './interface'
 
 const PARAMS = {
     baseName: 'List',
@@ -7,7 +7,7 @@ const PARAMS = {
 };
 
 
-export const listRecord = async (): Promise<IRecordOptionProps[]> => {
+export const listRecord = async (): Promise<IRecordResponse[]> => {
     const data = await airtable
         .getSimpleCollection(PARAMS)
         .all()
@@ -15,9 +15,16 @@ export const listRecord = async (): Promise<IRecordOptionProps[]> => {
     return data;
 };
 
-export const findByName = async (name: string): Promise<IRecordOptionProps[]> => {
+export const findByName = async (name: string): Promise<IRecordResponse[]> => {
     return await airtable
-        .filterCollectionBy({ ...PARAMS, filterByFormula: `AND({Name} = '${name}')` })
+        .filterCollectionBy({ ...PARAMS, filterByFormula: `AND({name} = '${name}')` })
+        .all()
+        .then((v) => v.map((record) => ({ id: record.id, ...record.fields })))
+};
+
+export const findByFilter = async (filterByFormula: string): Promise<IRecordResponse[]> => {
+    return await airtable
+        .filterCollectionBy({ ...PARAMS, filterByFormula })
         .all()
         .then((v) => v.map((record) => ({ id: record.id, ...record.fields })))
 };

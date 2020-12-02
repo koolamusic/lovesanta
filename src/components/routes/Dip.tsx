@@ -14,15 +14,11 @@ import {
     AlertIcon,
     AlertDescription,
     AlertTitle,
-    Box,
-    CloseButton,
-    PinInput,
-    PinInputField,
-    HStack
+    Box
 } from '@chakra-ui/react'
 
-import { Container } from '../components/Container'
-import { DarkModeSwitch } from '../components/DarkModeSwitch'
+import { Container } from '../Container'
+import { DarkModeSwitch } from '../DarkModeSwitch'
 
 
 const Index = () => (

@@ -1,52 +1,59 @@
-import React from 'react'
-import {
-  Link as ChakraLink,
-  List,
-  ListIcon,
-  ListItem,
-  Input,
-  FormLabel,
-  Heading,
-  Button,
-  Flex,
-  PinInput,
-  PinInputField,
-  HStack
-} from '@chakra-ui/react'
-
+import React from 'react';
+import { useRealm } from 'use-realm'
 import { Container } from '../components/Container'
 import { DarkModeSwitch } from '../components/DarkModeSwitch'
-
-const PinHolder = () => (
-  <HStack spacing="16">
-    <PinInput size="lg">
-      <PinInputField />
-      <PinInputField />
-      <PinInputField />
-      <PinInputField />
-    </PinInput>
-  </HStack>
-)
+import { STEP } from '../components/realm'
 
 
-const Index = () => (
-  <Container height="100vh">
-    <Flex mt="12" pt="12" />
-    <Heading as="h1" fontSize={['6vw', '2vw']} textAlign="center" color="gray.600" mt="6">Love Dip</Heading>
-
-    <form>
-      <FormLabel color="gray.700" margin="0">Your name</FormLabel>
-      <Input name="name" isFullWidth placeholder="Your name" size="lg" mb="2" />
-
-      <FormLabel color="gray.700" margin="0" mt="2">Your Secure pin</FormLabel>
-      <PinHolder />
-      <Button type="submit" size="lg" isFullWidth mt="8" colorScheme="teal">Start</Button>
-    </form>
+/* Import Page Components here */
+import DefaultAccess from '../components/routes/Access';
+import CreatePin from '../components/routes/CreatePin'
+import Authenticate from '../components/routes/EnterPin'
+import Dip from '../components/routes/Dip'
 
 
+interface IViewProps {
+  useFormStep: (...args: any) => React.Dispatch<React.SetStateAction<string>> | Promise<void>;
+}
 
-    <DarkModeSwitch />
-  </Container>
-)
+export default function View(props: IViewProps): JSX.Element {
+  const [__step__,] = useRealm<string>(STEP);
 
-export default Index
+
+  // console.warn(store, __step__);
+  // const handleWizard = async (data: any): Promise<void> => {
+  //   await setStore(Object.assign(store, data));
+  //   useStep(data?.__step__);
+  // };
+
+  let FormComponent: React.FC<IViewProps> = () => <div>Root</div>;
+
+  switch (__step__) {
+    case 'default':
+      FormComponent = DefaultAccess;
+      break;
+    case 'createPin':
+      FormComponent = CreatePin;
+      break;
+    case 'authenticate':
+      FormComponent = Authenticate;
+      break;
+    case 'dip':
+      FormComponent = Dip;
+      break;
+    // case 'activity':
+    //     FormComponent = Activity;
+    //     break;
+    default:
+      break;
+  }
+
+  return (
+    <Container minH="100vh">
+      {/* === emebed form fields here === */}
+      <FormComponent {...props} />
+      <DarkModeSwitch />
+
+    </Container>
+  );
+}

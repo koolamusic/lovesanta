@@ -1,10 +1,5 @@
 import React from 'react'
 import {
-    Link as ChakraLink,
-    List,
-    ListIcon,
-    ListItem,
-    Input,
     Text,
     FormLabel,
     Heading,

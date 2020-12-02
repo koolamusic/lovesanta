@@ -11,8 +11,8 @@ export const Container = (props: FlexProps) => {
     <Flex
       direction="column"
       maxW="600px"
-      borderX="1px solid"
-      padding="3rem 2rem"
+      // borderX="1px solid"
+      padding={["1rem 1rem", "2rem 3rem"]}
       borderColor={theme.colors.gray[100]}
       margin="auto"
       alignItems="center"
