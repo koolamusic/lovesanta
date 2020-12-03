@@ -7,6 +7,10 @@ This App is built with NextJs and uses Airtable as the Database.
 - Users can Generate their pair randomly (using some lodash helpers)
 - Users can Generate Random Pairs only (3times) to avoid abuse.
 
+## Serverless
+
+The APIs are a set of serverless functions, coupled with the delivery of Nextjs on Edge (a.k.a) Vercel and the power of Airtable as a User friendly database. This project was written within 24-hours 😉 So there might be a few edge cases not covered yet within the access and pairing algorithms, coupled with a bunch of if/else :(
+
 ## Prerequisites
 
 - You need `git` installed locally

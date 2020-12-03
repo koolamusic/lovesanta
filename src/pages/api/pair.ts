@@ -60,6 +60,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
                     throw new Error('Your limit has been exceeded')
                 }
 
+                /* Check if user has an existing pair, so we can update that Pair-ID with their new isPaired Status */
+                if (_.startsWith(user.fields.pairId, 'rec')) {
+                    await airtable.updateOneRecord(BASENAME, user.fields.pairId, {
+                        isPaired: false
+                    })
+                }
+
                 /* Prevent user from pairing themselves by removing them from the list */
                 const filterOwnerCollection = await collections.filter((item) => item.id !== body.params.userId)
 
