@@ -83,10 +83,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
                     count: body.params.count + 1,
                     pairId: sampledArr.id,
                     pairName: sampledArr.name
-                }).then((raw) => {
+                }).then(async (raw) => {
 
                     /* Update Paired (sampledArr) User with isPaired Boolean */
-                    airtable.updateOneRecord(BASENAME, sampledArr.id, {
+                    await airtable.updateOneRecord(BASENAME, sampledArr.id, {
                         isPaired: true
                     })
                     resCallback(raw.map((record) => ({ id: record.id, ...record.fields })))
