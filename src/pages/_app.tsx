@@ -1,14 +1,28 @@
-import { ChakraProvider } from '@chakra-ui/react'
+import { AppProps } from 'next/app';
+import * as React from 'react';
+import Router from 'next/router';
+import progress from 'nprogress';
+import { GlobalStyle } from '@/components/GlobalStyle';
+import { ThemeProvider } from '@/theme/ThemeProvider';
 
-import theme from '../theme'
-import { AppProps } from 'next/app'
+/* Configure N-progress Routing Feedback */
+progress.configure({ showSpinner: false });
 
-function MyApp({ Component, pageProps }: AppProps) {
+/* ------Apply NextJs Custom Routing------ */
+Router.events.on('routeChangeStart', () => progress.start());
+Router.events.on('routeChangeComplete', (_url) => {
+  progress.done();
+});
+Router.events.on('routeChangeError', () => progress.done());
+
+function App({ Component, pageProps }: AppProps): JSX.Element {
   return (
-    <ChakraProvider resetCSS theme={theme}>
+    <ThemeProvider cookies={pageProps.cookies}>
+      <GlobalStyle />
       <Component {...pageProps} />
-    </ChakraProvider>
-  )
+    </ThemeProvider>
+  );
 }
 
-export default MyApp
+export default App;
+export { getServerSideProps } from '@/theme/ThemeProvider';

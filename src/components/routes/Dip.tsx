@@ -19,7 +19,7 @@ import {
     AlertTitle,
     Box
 } from '@chakra-ui/react'
-import { IRecordResponse } from '../../pages/api/interface'
+import { IRecordResponse } from '../../lib/interface'
 
 export interface IItem {
     label: string;

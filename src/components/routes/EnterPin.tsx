@@ -17,7 +17,7 @@ import {
     PinInputProps
 } from '@chakra-ui/react'
 import { Container } from '../Container'
-import { IRecordResponse } from '../../pages/api/interface'
+import { IRecordResponse } from '../../lib/interface'
 import isEmpty from 'lodash/isEmpty'
 
 export interface IItem {
