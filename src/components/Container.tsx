@@ -1,5 +1,4 @@
 import { Flex, useColorMode, FlexProps } from '@chakra-ui/react';
-import { theme } from '../theme/theme';
 
 export const Container = (props: FlexProps) => {
   const { colorMode } = useColorMode();
@@ -14,7 +13,6 @@ export const Container = (props: FlexProps) => {
       // position="relative"
       // borderX="1px solid"
       padding={['1rem 1rem', '2rem 3rem']}
-      borderColor={theme.colors.gray[100]}
       margin='auto'
       alignItems='center'
       justifyContent='flex-start'
