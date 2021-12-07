@@ -3,9 +3,19 @@ import axios from 'axios';
 import { AttentionSeeker } from 'react-awesome-reveal';
 
 import { Container } from '../Container';
-import { DarkModeSwitch } from '../DarkModeSwitch';
-
-import { useToast, AlertIcon, Heading, Button, Flex, Text, Alert, AlertDescription, AlertTitle, Box } from '@chakra-ui/react';
+import {
+  useToast,
+  AlertIcon,
+  Heading,
+  Button,
+  Flex,
+  Text,
+  Alert,
+  AlertDescription,
+  AlertTitle,
+  Box,
+  useColorModeValue,
+} from '@chakra-ui/react';
 import { IRecordResponse } from '../../lib/interface';
 import { FAMILY } from '@/lib/constants';
 import useAccess from '@/hooks/useAccess';
@@ -79,8 +89,8 @@ const DipPage = () => {
           <AlertTitle fontSize='2rem' my='6' textAlign='center' textTransform='capitalize'>
             {/* <AttentionSeeker>{pairName}</AttentionSeeker> */}
           </AlertTitle>
-          {/* Hey, <strong style={{ color: '##ff3092', textTransform: 'capitalize' }}>{pairName} </strong> */}
           <AlertDescription display='block' pb='3'>
+            {/* Hey, <strong style={{ color: '##ff3092', textTransform: 'capitalize' }}>{pairName} </strong> */}
             {/* {store.name.charAt(0).toUpperCase() + store.name.slice(1)} */}
             will be expecting a wonderful gift from you this Christmas, do well to buy them something lovely, they dont have to
             know that you&apos;ve been paired to buy them a gift
@@ -98,9 +108,7 @@ const DipPage = () => {
           You currently don&apos;t have an pair yet
         </Heading>
       )} */}
-      <Text color='red.600' fontWeight='bold' textAlign='center' maxW='30rem' mb='6'>
-        If you don&apos;t like your pair, you have {3 - store.count} Tries remaining to generate a new one
-      </Text>
+
       {/* {store.pairId && store.pairName && <PairBox pairName={store.pairName} />} */}
 
       <Button
@@ -114,12 +122,30 @@ const DipPage = () => {
       >
         Generate New Pair
       </Button>
-      <Alert status='warning' mt='1'>
-        <AlertIcon />
-        Warning: You can only generate a new pair thrice (3 times)
-      </Alert>
 
-      <DarkModeSwitch />
+      {/* Instruction set */}
+      <Alert
+        display={'flex'}
+        flexDir={'column'}
+        alignItems={'flex-start'}
+        border={'1px'}
+        variant={useColorModeValue('solid', 'solid')}
+        borderRadius={'md'}
+        colorScheme={'teal'}
+        mt={6}
+      >
+        <Flex align={'center'} py={2}>
+          <AlertIcon />
+          <AlertTitle mt={1}>Instructions</AlertTitle>
+        </Flex>
+
+        <AlertDescription fontSize={'md'}>1. You can only generate a new pair thrice (3 times)</AlertDescription>
+
+        <AlertDescription fontSize={'md'} maxW='30rem' mb='6'>
+          2. If you don&apos;t like your pair, you have {3 - store.count} Tries remaining to generate a new one
+        </AlertDescription>
+      </Alert>
+      {/*  --------------------- Instruction set ---------------------  */}
     </Container>
   );
 };

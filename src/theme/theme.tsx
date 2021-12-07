@@ -112,6 +112,7 @@ export const theme: Partial<ChakraTheme> = extendTheme({
     Button: {
       baseStyle: {
         boxShadow: '4px 5px 0px 000000',
+        letterSpacing: '.5px',
       },
       defaultProps: {
         size: 'lg',
@@ -137,6 +138,7 @@ export const theme: Partial<ChakraTheme> = extendTheme({
       'html, #__next': {
         height: '100%',
         fontFamily: 'Pixeboy',
+        letterSpacing: '.3px',
       },
       p: {
         fontFamily: 'Sole Sans',

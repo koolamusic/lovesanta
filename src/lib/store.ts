@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { IRecordResponse } from '@/lib/interface';
+import { IRecordResponse, IRecordOptionProps } from '@/lib/interface';
 import create from 'zustand';
 import { persist } from 'zustand/middleware';
 
@@ -19,7 +19,7 @@ type StoreState = {
   pairId: string;
   count: number;
   page: 'default' | 'createPin' | 'enterPin' | 'dip' | string;
-  airtableUser?: IRecordResponse;
+  pairInfo?: IRecordOptionProps;
 };
 
 export enum StoreBoolEnum {

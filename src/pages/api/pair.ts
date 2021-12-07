@@ -54,7 +54,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         collections = await airtable
           .getSimpleCollection(PARAMS)
           .all()
-          .then((v) => v.map((record) => ({ id: record.id, ...record.fields })));
+          .then((v) => v.map((record) => ({ id: record.id, ...record.fields }))) as IRecordResponse[];
       }
       try {
         /* Check if user Exceeds their limit */

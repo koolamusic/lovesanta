@@ -60,7 +60,7 @@ export default function usePinAuth() {
         await store.updateUser(response.data);
         /* Route to the dip page using the user params id for GetServersideProps*/
         /* -- The goal is to use the isActivated instore to handle user setup --- */
-        const params = buildAuthPageParams({ id: store.id, pin: store.pin });
+        const params = buildAuthPageParams({ id: store.id, pin: store.pin, name: store.name });
         parseAuthPageParams(params);
 
         setAccessing(false);

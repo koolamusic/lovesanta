@@ -5,6 +5,7 @@ export const PARAMS = {
 };
 
 const secrets = {
+  BASE_URL: process.env.BASE_URL,
   AIRTABLE_KEY: process.env.AIRTABLE_KEY,
   AIRTABLE_BASE: process.env.AIRTABLE_BASE,
   AIRTABLE_KEY_PUBLIC: process.env.NEXT_PUBLIC_AIRTABLE_KEY,

@@ -10,12 +10,29 @@ interface TableOptionProps {
 }
 
 export interface CreateRecordOptionProps {
+  id?: string // actually only available in update, but we will keep this hack available here
   name: string;
   isActivated: boolean;
   pin: string;
+  hasPair?: boolean;
   isPaired: boolean;
   pairId: string;
   count: number;
+}
+
+export interface UpdateRecordOptionProps {
+  id: string;
+  fields?: {
+    name?: string;
+    isActivated?: boolean;
+    hasPair?: boolean | true | false;
+    isPaired?: boolean | true | false;
+    pin?: string;
+    pairName?: string;
+    pairId?: string;
+    count?: number;
+  }
+
 }
 
 interface IManyRecordField {
@@ -75,10 +92,10 @@ export const createOneRecord = <T extends CreateRecordOptionProps | Record<any, 
   ]);
 };
 
-export const updateOneRecord = async <T extends CreateRecordOptionProps | Record<any, string>>(
+export const updateOneRecord = async <T extends CreateRecordOptionProps | any>(
   baseName: string,
   recordId: string,
-  payload: Partial<T>
+  payload: T
 ) => {
   const base = new Airtable({ apiKey: secrets.AIRTABLE_KEY }).base(secrets.AIRTABLE_BASE as string);
 
@@ -88,7 +105,7 @@ export const updateOneRecord = async <T extends CreateRecordOptionProps | Record
     {
       id: recordId,
       fields: {
-        ...payload,
+        ...payload as any,
       },
     },
   ]);
@@ -97,9 +114,23 @@ export const updateOneRecord = async <T extends CreateRecordOptionProps | Record
   return updatedRecord;
 };
 
+export const updateManyRecord = async <T extends UpdateRecordOptionProps | Record<any, string>>(
+  baseName: string,
+  payload: Partial<T>[]
+) => {
+  const base = new Airtable({ apiKey: secrets.AIRTABLE_KEY }).base(secrets.AIRTABLE_BASE as string);
+
+  console.log(`updating new record in ${baseName} for ${JSON.stringify(payload)}`);
+
+  const updatedRecord = await base(baseName).update(payload as any);
+
+  console.log(base, updatedRecord, '<<<<<<<<CONFIG:updateManyRecord>>>>>>>');
+  return updatedRecord;
+};
+
 export const createManyRecord = <T extends IManyRecordField>(baseName: string, payload: T[]) => {
   const base = new Airtable({ apiKey: secrets.AIRTABLE_KEY }).base(secrets.AIRTABLE_BASE as string);
 
   console.log(`creating new record in ${baseName}`);
-  return base(baseName).create([[...payload]]);
+  return base(baseName).create([...payload]);
 };
