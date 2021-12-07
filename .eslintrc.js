@@ -4,7 +4,7 @@ module.exports = {
     es2021: true,
     node: true,
   },
-  plugins: ['@typescript-eslint', 'simple-import-sort'],
+  plugins: ['@typescript-eslint'],
   extends: [
     'eslint:recommended',
     'next',
@@ -13,7 +13,8 @@ module.exports = {
     'prettier',
   ],
   rules: {
-    "@typescript-eslint/explicit-module-boundary-types": "off"
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-explicit-any": "off"
   },
   globals: {
     React: true,

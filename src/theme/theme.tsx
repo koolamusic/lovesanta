@@ -1,4 +1,4 @@
-import { extendTheme } from '@chakra-ui/react';
+import { extendTheme, ChakraTheme } from '@chakra-ui/react';
 import { createBreakpoints } from '@chakra-ui/theme-tools';
 
 const breakpoints = createBreakpoints({
@@ -15,7 +15,7 @@ const config = {
   cssVarPrefix: 'love-di',
 };
 
-export const theme = extendTheme({
+export const theme: Partial<ChakraTheme> = extendTheme({
   config,
   fonts: {
     body: `"Pixeboy", Inter, Segoe UI, Oxygen, Ubuntu, Roboto, Fira Sans, Helvetica Neue, system-ui, sans-serif`,
@@ -29,6 +29,22 @@ export const theme = extendTheme({
     black: '#16161D',
     grey: '#959595',
     text: '#222222',
+    whiteAlpha: {
+      // 400: 'rgba(255, 255, 255, 0.24)'
+      300: 'rgba(255, 255, 255, 0.54)',
+      // 400: 'red'
+    },
+    /* I hacked this out of lazinees :( so that the hover and focus */
+    /* of input fields that inherit from the blue color scheme can default to black */
+    blue: {
+      200: '#000',
+      300: '#000',
+      400: '#000',
+      500: '#000',
+      600: '#000',
+      700: '#000',
+    },
+
     bg: {
       svg: '#123749',
       dark: 'gray.900',
@@ -100,20 +116,21 @@ export const theme = extendTheme({
       defaultProps: {
         size: 'lg',
         variant: 'outline',
+        colorScheme: 'yellow',
       },
     },
     Heading: {
       baseStyle: {
-        fontWeight: "600",
+        fontWeight: '600',
       },
       sizes: {
         small: {
-          fontSize: "20px",
+          fontSize: '20px',
         },
-        medium: { fontSize: "25px" },
-        large: { fontSize: "30px" },
+        medium: { fontSize: '25px' },
+        large: { fontSize: '30px' },
       },
-    }
+    },
   },
   styles: {
     global: {

@@ -41,7 +41,7 @@ export const useStore = create<StoreState>(
       pairId: '',
       count: 0,
       page: 'default',
-      activate: () => set(state => ({ isActivated: "true" })),
+      activate: () => set({ isActivated: 'true' }),
       updateUser: (user) => set((state) => Object.assign(state, user)),
       wipe: () => set({}, true), // clears the entire store, actions included
     }),

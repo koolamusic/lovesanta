@@ -61,7 +61,6 @@ export const getByRecord = (baseName: string, recordId: string) => {
   return base(baseName).find(recordId);
 };
 
-
 export const createOneRecord = <T extends CreateRecordOptionProps | Record<any, string>>(baseName: string, payload: T) => {
   const base = new Airtable({ apiKey: secrets.AIRTABLE_KEY }).base(secrets.AIRTABLE_BASE as string);
 
@@ -94,8 +93,8 @@ export const updateOneRecord = async <T extends CreateRecordOptionProps | Record
     },
   ]);
 
-  console.log(base, updatedRecord, "<<<<<<<<CONFIG:updateOneRecord>>>>>>>")
-  return updatedRecord
+  console.log(base, updatedRecord, '<<<<<<<<CONFIG:updateOneRecord>>>>>>>');
+  return updatedRecord;
 };
 
 export const createManyRecord = <T extends IManyRecordField>(baseName: string, payload: T[]) => {

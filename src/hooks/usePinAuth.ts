@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { useStore } from '@/lib/store';
 import { IRecordResponse } from '@/lib/interface';
 import isEmpty from 'lodash/isEmpty';
+import { buildAuthPageParams } from '@/lib/helpers';
+import { parseAuthPageParams } from '../lib/helpers';
 
 export default function usePinAuth() {
   const [isAccessing, setAccessing] = useState<boolean>(false);
@@ -15,10 +17,12 @@ export default function usePinAuth() {
     setAccessing(true);
 
     try {
-      if (userPin.length !== 4) {
+      if (userPin.length !== 6) {
         await setAccessing(false);
         throw new Error('Pin must be 4 digits');
       }
+
+      /* ----- START: Switch the Handlers based on activation status ---- */
 
       switch (__activated__) {
         case 'false':
@@ -28,7 +32,7 @@ export default function usePinAuth() {
               pin: userPin,
             },
           });
-          await store.activate
+          await store.activate;
           break;
 
         default:
@@ -40,6 +44,7 @@ export default function usePinAuth() {
           });
           break;
       }
+      /* ----- END: Switch the Handlers based on activation status ---- */
 
       if (response.data === undefined || isEmpty(response.data)) {
         await setAccessing(false);
@@ -51,15 +56,18 @@ export default function usePinAuth() {
           isClosable: true,
         });
       } else {
-        console.log(response.data, '[usePinAuth: handleAuth]')
+        console.log(response.data, '[usePinAuth: handleAuth]');
         await store.updateUser(response.data);
         /* Route to the dip page using the user params id for GetServersideProps*/
         /* -- The goal is to use the isActivated instore to handle user setup --- */
+        const params = buildAuthPageParams({ id: store.id, pin: store.pin });
+        parseAuthPageParams(params);
+
         setAccessing(false);
-        Router.push(`/dip/${store.id}`);
+        Router.push(`/dip/${params}`);
       }
-      console.log(response.data);
     } catch (error: any) {
+      await setAccessing(false);
       toast({
         title: 'Unable to grant your request.',
         description: error.message,

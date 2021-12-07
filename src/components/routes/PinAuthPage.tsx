@@ -4,6 +4,7 @@ import {
   FormLabel,
   VStack,
   Button,
+  Text,
   Flex,
   PinInput,
   PinInputField,
@@ -22,6 +23,8 @@ export interface IItem {
 const PinHolder = (props: PinInputProps) => (
   <HStack>
     <PinInput size='lg' {...props}>
+      <PinInputField />
+      <PinInputField />
       <PinInputField />
       <PinInputField />
       <PinInputField />
@@ -46,10 +49,12 @@ const AuthPage = () => {
       <Center>
         <VStack mt={12}>
           <Flex mt='12' pt='12' />
-          <FormLabel margin='0' mt='4' pb='4'>
-            {' '}
+          <FormLabel fontSize={'lg'} margin='0' mt='4'>
             {store.name.toUpperCase()}, Enter your Pin Abeg 😀
           </FormLabel>
+          <Text pb={8} textAlign='center'>
+            If this is your first time, the number you input will automatically be setup as your new pincode, please keep it safe
+          </Text>
 
           <PinHolder onChange={(input) => setUserPin(input)} onComplete={(val) => _handleSubmission(val)}>
             <></>

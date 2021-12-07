@@ -9,7 +9,6 @@ export default function View(props: any): JSX.Element {
   return (
     <Container minH='100vh'>
       <DefaultAccess {...props} />
-      <DarkModeSwitch />
     </Container>
   );
 }

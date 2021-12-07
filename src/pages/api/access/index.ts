@@ -4,7 +4,7 @@ import * as airtable from '../../../lib/airtable.config';
 import { IRecordResponse } from '../../../lib/interface';
 import { PARAMS } from '../../../lib/constants';
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse<IRecordResponse[] | null>): Promise<void> {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<IRecordResponse[] | any>): Promise<void> {
   const {
     query: { id, name },
     method,
@@ -14,7 +14,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   const allCollections = await airtable
     .getSimpleCollection(PARAMS)
     .all()
-    .then((v) => v.map((record) => ({ id: record.id, ...record.fields })));
+    .then((v) => v.map((record) => ({ id: record.id, name: record.fields.name, isActivated: record.fields.isActivated })));
 
   switch (method) {
     case 'GET':

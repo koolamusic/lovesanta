@@ -5,7 +5,6 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
     "lint:ts": "tsc --pretty --noEmit",
     "lint:fix": "eslint src --fix && yarn format",
     "lint:strict": "eslint --max-warnings=0 src",

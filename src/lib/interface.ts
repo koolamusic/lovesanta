@@ -1,4 +1,5 @@
 export interface IRecordOptionProps {
+  id: string;
   name: string;
   isActivated: string;
   pin: string;

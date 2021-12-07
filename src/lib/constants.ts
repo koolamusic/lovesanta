@@ -4,7 +4,7 @@ export const PARAMS = {
   baseView: 'Main',
 };
 
-export default {
+const secrets = {
   AIRTABLE_KEY: process.env.AIRTABLE_KEY,
   AIRTABLE_BASE: process.env.AIRTABLE_BASE,
   AIRTABLE_KEY_PUBLIC: process.env.NEXT_PUBLIC_AIRTABLE_KEY,
@@ -34,3 +34,5 @@ export const FAMILY: UserParamsObject[] = [
   { value: 'uchechi', label: 'Uchechi' },
   { value: 'winner', label: 'Winner' },
 ];
+
+export default secrets;

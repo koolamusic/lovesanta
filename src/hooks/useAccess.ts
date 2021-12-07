@@ -24,7 +24,7 @@ export default function useAccess() {
       }
       /*/////////////// Wipe the Local store ///////////////// */
       /* ------ prevent data leak, when two users interact on the same browser ---- */
-      await store.wipe
+      await store.wipe;
       /*/////////////// Wipe the Local store ///////////////// */
 
       /* Initialize user data in session */
@@ -35,6 +35,7 @@ export default function useAccess() {
       Router.push('/pin');
       console.log(response.data[0]);
     } catch (error: any) {
+      await setAccessing(false);
       toast({
         title: 'Unable to grant your request.',
         description: error.message,

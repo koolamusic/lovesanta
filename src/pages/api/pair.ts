@@ -37,16 +37,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   };
 
   switch (method) {
-    case 'GET':
+    case 'GET': {
       const sanitizeName = name.toString();
       const userRecord = await findByName(sanitizeName);
       res.status(200).json(userRecord);
       break;
-    case 'PUT':
+    }
+    case 'PUT': {
       const putAccess = await findByFilter(`AND({name} = '${body.params.name}', {pin} = '${body.params.pin}')`);
       res.status(200).json(putAccess);
       break;
-    case 'POST':
+    }
+    case 'POST': {
       let collections: IRecordResponse[] = [];
       if (isAuthenticated()) {
         collections = await airtable
@@ -93,11 +95,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
             resCallback(raw.map((record) => ({ id: record.id, ...record.fields })));
             // res.status(200).json((requesterRecord as unknown) as THandlerResponse)
           });
-      } catch (error) {
+      } catch (error: any) {
         res.status(409).json(error);
       }
 
       break;
+    }
     default:
       res.setHeader('Allow', ['GET', 'POST', 'PATCH', 'PUT']);
       res.status(405).end(`Method ${method} Not Allowed`);
