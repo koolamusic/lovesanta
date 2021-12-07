@@ -28,7 +28,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const user = await parseAuthPageParams(id);
 
   try {
-    const response = await axios.post<IRecordResponse>(`${secrets.BASE_URL}/api/access/user`, {
+    const response = await axios.post<IRecordResponse[]>(`${secrets.BASE_URL}/api/access/user`, {
       params: {
         name: user.name,
         pin: user.pin,
@@ -37,7 +37,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     console.log(response.data, '[Dip:GetServerSideProps] User API response');
 
     /* Is this user does not have a pair, let's create one for them */
-    if (!response.data.isPaired) {
+    if (!response.data[0].isPaired) {
       const collections = await airtable
         .getSimpleCollection(PARAMS)
         .all()
@@ -54,7 +54,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       // console.log(data)
 
       /* Prevent user from pairing themselves by removing them from the list */
-      const filterOwnerCollection = await collections.filter((item) => item.id !== response.data.id);
+      const filterOwnerCollection = await collections.filter((item) => item.id !== response.data[0].id);
 
       /* Filter users who haven't been paired, they essentially have no pair or users who have them assigned */
       const noPairCollection = filterOwnerCollection.filter((item) => !item.hasPair);
@@ -62,17 +62,17 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       /* Select A random user from the list */
       const sampledArr = (noPairCollection.length > 1 ? sample(noPairCollection) : noPairCollection) as IRecordResponse;
 
-      console.log(sampledArr, noPairCollection)
       /* Update requester record and increment count */
-      const getUserPair = await airtable.updateManyRecord(BASENAME, [
+      // const getUserPair = await airtable.updateManyRecord(BASENAME, 
+      const updatePayload = [
         {
-          "id": response.data.id,
+          "id": response.data[0].id,
           "fields": {
-            "count": response.data.count + 1,
+            "count": response.data[0].count + 1,
             "pairId": sampledArr.id,
             "pairName": sampledArr.name,
             "isPaired": true,
-            "hasPair": response.data.hasPair
+            "hasPair": response.data[0].hasPair
           }
         },
         {
@@ -85,12 +85,20 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
             "hasPair": true,  // hasPair is when another user has paired them
           }
         },
-      ]);
-      console.log(getUserPair, '[Dip:GetServerSideProps] Get User Pair');
+      ]
+
+      console.log(updatePayload)
+      const { data } = await axios.patch<IRecordResponse[]>(`${secrets.BASE_URL}/api/update`, {
+        params: {
+          payload: updatePayload
+        },
+      });
+      console.log(data)
+      console.log(data, '[Dip:GetServerSideProps] Get User Pair');
 
       return {
         props: {
-          user: getUserPair,
+          user: updatePayload,
         },
       };
     }
