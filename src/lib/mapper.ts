@@ -1,10 +1,7 @@
 import * as airtable from './airtable.config';
+import { PARAMS } from './constants';
 import { IRecordResponse } from './interface';
 
-const PARAMS = {
-  baseName: 'List',
-  baseView: 'Main',
-};
 
 export const listRecord = async (): Promise<IRecordResponse[]> => {
   const data = await airtable

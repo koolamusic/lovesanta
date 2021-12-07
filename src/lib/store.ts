@@ -7,9 +7,8 @@ import { persist } from 'zustand/middleware';
 /* Handle all of the type definitions for the Store by Slice     */
 /**--------------------------------------------------------------*/
 type StoreState = {
-  fishes: number;
-  repopulate: () => void;
   wipe: () => void; // Clears the entire store
+  activate: () => void; // activates the user
   updateUser: (user: Partial<IRecordResponse>) => void;
   id: string;
   name: string;
@@ -34,7 +33,6 @@ export enum StoreBoolEnum {
 export const useStore = create<StoreState>(
   persist(
     (set) => ({
-      fishes: 10,
       id: '',
       name: 'Human',
       isActivated: 'false',
@@ -43,8 +41,8 @@ export const useStore = create<StoreState>(
       pairId: '',
       count: 0,
       page: 'default',
+      activate: () => set(state => ({ isActivated: "true" })),
       updateUser: (user) => set((state) => Object.assign(state, user)),
-      repopulate: () => set((state) => ({ fishes: state.fishes + 1 })),
       wipe: () => set({}, true), // clears the entire store, actions included
     }),
     /* ------ Persist Middleware specific configs and action ------ */

@@ -4,6 +4,7 @@ import Router from 'next/router';
 import progress from 'nprogress';
 import { GlobalStyle } from '@/components/GlobalStyle';
 import { ThemeProvider } from '@/theme/ThemeProvider';
+import { ScaleFade } from '@chakra-ui/react';
 
 /* Configure N-progress Routing Feedback */
 progress.configure({ showSpinner: false });
@@ -15,11 +16,13 @@ Router.events.on('routeChangeComplete', (_url) => {
 });
 Router.events.on('routeChangeError', () => progress.done());
 
-function App({ Component, pageProps }: AppProps): JSX.Element {
+function App({ Component, pageProps, router }: AppProps): JSX.Element {
   return (
     <ThemeProvider cookies={pageProps.cookies}>
       <GlobalStyle />
-      <Component {...pageProps} />
+      <ScaleFade key={router.route} initialScale={0.9} in={true}>
+        <Component {...pageProps} />
+      </ScaleFade>
     </ThemeProvider>
   );
 }

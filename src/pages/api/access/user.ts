@@ -16,8 +16,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   console.log(body, method, id, name);
 
   /* Callback to send response payload */
-  const resCallback = (payload: any) => {
-    return res.status(200).json(payload);
+  const resCallback = async (payload: any) => {
+    console.log(JSON.stringify(payload), "[RES_CALLBACK]: API Handler");
+
+    return await res.status(200).json(payload);
   };
 
   switch (method) {
@@ -33,20 +35,22 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
     case 'PUT':
       const putAccess = await findByFilter(`AND({name} = '${body.params.name}', {pin} = '${body.params.pin}')`);
-      console.log(putAccess);
+      console.log(JSON.stringify(putAccess));
       if (_.isArray(putAccess) && !putAccess.length) {
         try {
           await (
             await findByName(body.params.name)
-          ).map((val, _idx) =>
-            airtable
-              .updateOneRecord(BASENAME, val.id, {
+          ).map(async (val, _idx) => {
+            console.log(val, "from PUT access")
+            const user = await airtable.updateOneRecord(BASENAME, val.id, {
                 pin: body.params.pin,
                 isActivated: 'true',
               })
-              .then((v) => v.map((record) => resCallback({ id: record.id, ...record.fields })))
-          );
-        } catch (error) {
+            console.log(user, "[API:ACCESS]: /put/user");
+            /* return response from API */
+            resCallback(user)
+            });
+        } catch (error: any) {
           res.status(500).json(error);
         }
       } else {

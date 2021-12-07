@@ -7,7 +7,7 @@ import { STEP } from '../components/realm';
 /* Import Page Components here */
 import DefaultAccess from '../components/routes/Access';
 import CreatePin from '../components/routes/CreatePin';
-import Authenticate from '../components/routes/EnterPin';
+import Authenticate from '../components/routes/PinAuthPage';
 import Dip from '../components/routes/Dip';
 
 interface IViewProps {

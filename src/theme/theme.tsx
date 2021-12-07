@@ -95,12 +95,24 @@ export const theme = extendTheme({
   components: {
     Button: {
       baseStyle: {
-        boxShadow: '4px 5px 0px 000000'
+        boxShadow: '4px 5px 0px 000000',
       },
-        defaultProps: {
-          size: "lg",
-          variant: "outline",
+      defaultProps: {
+        size: 'lg',
+        variant: 'outline',
+      },
+    },
+    Heading: {
+      baseStyle: {
+        fontWeight: "600",
+      },
+      sizes: {
+        small: {
+          fontSize: "20px",
         },
+        medium: { fontSize: "25px" },
+        large: { fontSize: "30px" },
+      },
     }
   },
   styles: {

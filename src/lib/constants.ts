@@ -1,4 +1,4 @@
-export const BASENAME = 'PairDatabase';
+export const BASENAME = 'List';
 export const PARAMS = {
   baseName: BASENAME,
   baseView: 'Main',

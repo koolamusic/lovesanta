@@ -1,6 +1,6 @@
-import { useState } from 'react';
 import Router from 'next/router';
 import axios from 'axios';
+import { useState } from 'react';
 import { useStore } from '@/lib/store';
 import { IRecordResponse } from '@/lib/interface';
 
@@ -22,16 +22,18 @@ export default function useAccess() {
         setAccessing(false);
         throw new Error('We dont know you 🙄');
       }
+      /*/////////////// Wipe the Local store ///////////////// */
+      /* ------ prevent data leak, when two users interact on the same browser ---- */
+      await store.wipe
+      /*/////////////// Wipe the Local store ///////////////// */
 
       /* Initialize user data in session */
       store.updateUser(response.data[0]);
-        /* stop waiting and push to pin page */
-        /* -- The goal is to use the isActivated instore to handle user setup --- */
-        setAccessing(false);
-        Router.push('/pin');
-        console.log(response.data[0]);
-
-    
+      /* stop waiting and push to pin page */
+      /* -- The goal is to use the isActivated instore to handle user setup --- */
+      setAccessing(false);
+      Router.push('/pin');
+      console.log(response.data[0]);
     } catch (error: any) {
       toast({
         title: 'Unable to grant your request.',

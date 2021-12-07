@@ -3,17 +3,14 @@ import { useToast, Select, FormLabel, Heading, Button, Flex } from '@chakra-ui/r
 import { FAMILY } from '@/lib/constants';
 import useAccess from '@/hooks/useAccess';
 
-
-
-
 const AccessPage = () => {
   const [userName, setName] = React.useState('');
-  const {handleAccess, isAccessing} = useAccess()
+  const { handleAccess, isAccessing } = useAccess();
   const toast = useToast();
 
   const _handleSubmission = () => {
-    return handleAccess({userName, toast})
-  }
+    return handleAccess({ userName, toast });
+  };
 
   return (
     <Flex direction='column' maxW='420px' width='100%'>
@@ -32,7 +29,7 @@ const AccessPage = () => {
           </option>
         ))}
       </Select>
-      <Button onClick={_handleSubmission} isLoading={isAccessing} size='lg' isFullWidth mt='8' colorScheme='orange'>
+      <Button onClick={_handleSubmission} isLoading={isAccessing} isFullWidth mt='8'>
         Start
       </Button>
     </Flex>

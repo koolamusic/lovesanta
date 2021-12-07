@@ -61,6 +61,7 @@ export const getByRecord = (baseName: string, recordId: string) => {
   return base(baseName).find(recordId);
 };
 
+
 export const createOneRecord = <T extends CreateRecordOptionProps | Record<any, string>>(baseName: string, payload: T) => {
   const base = new Airtable({ apiKey: secrets.AIRTABLE_KEY }).base(secrets.AIRTABLE_BASE as string);
 
@@ -75,7 +76,7 @@ export const createOneRecord = <T extends CreateRecordOptionProps | Record<any, 
   ]);
 };
 
-export const updateOneRecord = <T extends CreateRecordOptionProps | Record<any, string>>(
+export const updateOneRecord = async <T extends CreateRecordOptionProps | Record<any, string>>(
   baseName: string,
   recordId: string,
   payload: Partial<T>
@@ -84,7 +85,7 @@ export const updateOneRecord = <T extends CreateRecordOptionProps | Record<any, 
 
   console.log(`updating new record in ${baseName} for ${payload}`);
 
-  return base(baseName).update([
+  const updatedRecord = await base(baseName).update([
     {
       id: recordId,
       fields: {
@@ -92,6 +93,9 @@ export const updateOneRecord = <T extends CreateRecordOptionProps | Record<any, 
       },
     },
   ]);
+
+  console.log(base, updatedRecord, "<<<<<<<<CONFIG:updateOneRecord>>>>>>>")
+  return updatedRecord
 };
 
 export const createManyRecord = <T extends IManyRecordField>(baseName: string, payload: T[]) => {
@@ -99,16 +103,4 @@ export const createManyRecord = <T extends IManyRecordField>(baseName: string, p
 
   console.log(`creating new record in ${baseName}`);
   return base(baseName).create([[...payload]]);
-};
-
-export const notifyRecord = async (message: string, recipientName: string, status: string, channel: string) => {
-  console.log(`airtable.provider func: notifyRecord for ${status} status`);
-  const recordCreatedOption = {
-    Recipient: recipientName,
-    Message: message,
-    Status: status,
-    Time: new Date().toString(),
-    Channel: channel,
-  };
-  return await createOneRecord('Delivered_Messages', recordCreatedOption);
 };
