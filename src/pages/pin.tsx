@@ -1,6 +1,5 @@
 import React from 'react';
 import { Container } from '../components/Container';
-import { DarkModeSwitch } from '../components/DarkModeSwitch';
 
 /* Import Page Components here */
 import AuthPage from '../components/routes/PinAuthPage';

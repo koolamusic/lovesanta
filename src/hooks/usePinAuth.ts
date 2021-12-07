@@ -64,7 +64,8 @@ export default function usePinAuth() {
         parseAuthPageParams(params);
 
         setAccessing(false);
-        Router.push(`/dip/${params}`);
+        Router.replace(`/dip/${params}`);
+        // window.open(`/dip/${params}`);
       }
     } catch (error: any) {
       await setAccessing(false);

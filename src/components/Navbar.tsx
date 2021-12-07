@@ -18,20 +18,20 @@ export default function Navbar() {
         px={4}
       >
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
-          <Box>DIP</Box>
+          <Stack direction={'row'} spacing={7}>
+            {/* --- Home Icon ---- */}
+            <RouteLink cursor='pointer' colorScheme='yellow' href='/'>
+              <Icon cursor={'pointer'} as={TriangleUpIcon} mt={1} fontSize={'1.3rem'} />
+            </RouteLink>
+            {/* --- Home Icon ---- */}
+
+            <Button size={'sm'} border={'none'} boxShadow={'none'} onClick={toggleColorMode}>
+              {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
+            </Button>
+          </Stack>
 
           <Flex alignItems={'center'}>
-            <Stack direction={'row'} spacing={7}>
-              {/* --- Home Icon ---- */}
-              <RouteLink cursor='pointer' colorScheme='yellow' href='/'>
-                <Icon cursor={'pointer'} as={TriangleUpIcon} mt={1} fontSize={'1.3rem'} />
-              </RouteLink>
-              {/* --- Home Icon ---- */}
-
-              <Button size={'sm'} border={'none'} boxShadow={'none'} onClick={toggleColorMode}>
-                {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
-              </Button>
-            </Stack>
+            <Box>DIP</Box>
           </Flex>
         </Flex>
       </Box>

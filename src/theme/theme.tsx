@@ -18,10 +18,10 @@ const config = {
 export const theme: Partial<ChakraTheme> = extendTheme({
   config,
   fonts: {
-    body: `"Pixeboy", Inter, Segoe UI, Oxygen, Ubuntu, Roboto, Fira Sans, Helvetica Neue, system-ui, sans-serif`,
+    body: `"Sole Sans", Inter, Segoe UI, Oxygen, Ubuntu, Roboto, Fira Sans, Helvetica Neue, system-ui, sans-serif`,
     heading: `"Pixeboy", Inter, Cantarell, Oxygen, Ubuntu, system-ui, sans-serif`,
-    menu: `"Pixeboy", Inter, Cantarell, Oxygen, Ubuntu, system-ui, monospace`,
-    mono: 'Neue Montreal, system-ui, monospace',
+    menu: `"Sole Sans", Inter, Cantarell, Oxygen, Ubuntu, system-ui, monospace`,
+    mono: 'Sole Sans, system-ui, monospace',
   },
   colors: {
     background: '#ffffff',
@@ -137,6 +137,9 @@ export const theme: Partial<ChakraTheme> = extendTheme({
       'html, #__next': {
         height: '100%',
         fontFamily: 'Pixeboy',
+      },
+      p: {
+        fontFamily: 'Sole Sans',
       },
       '#__next': {
         display: 'flex',

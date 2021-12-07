@@ -15,6 +15,7 @@ type StoreState = {
   isActivated: string;
   pin: string;
   isPaired: string;
+  pairName?: string;
   pairId: string;
   count: number;
   page: 'default' | 'createPin' | 'enterPin' | 'dip' | string;
