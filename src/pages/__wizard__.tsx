@@ -8,7 +8,7 @@ import { STEP } from '../components/realm';
 import DefaultAccess from '../components/routes/Access';
 import CreatePin from '../components/routes/CreatePin';
 import Authenticate from '../components/routes/PinAuthPage';
-import Dip from '../components/routes/Dip';
+// import Dip from '../components/routes/Dip';
 
 interface IViewProps {
   useFormStep: (...args: any) => React.Dispatch<React.SetStateAction<string>> | Promise<void>;
@@ -34,9 +34,6 @@ export default function View(props: IViewProps): JSX.Element {
       break;
     case 'authenticate':
       FormComponent = Authenticate;
-      break;
-    case 'dip':
-      FormComponent = Dip;
       break;
     // case 'activity':
     //     FormComponent = Activity;
