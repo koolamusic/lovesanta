@@ -1,103 +1,88 @@
 import React from 'react';
-import axios from 'axios';
 import { GetServerSideProps } from 'next';
 import { Container } from '@/components/Container';
 
 /* Import Page Components here */
 import PairPage from '@/components/routes/Dip';
 import { parseAuthPageParams } from '@/lib/helpers';
-import { IAirtableRawJSON, IRecordResponse } from '@/lib/interface';
-import secrets, { BASENAME, PARAMS } from '@/lib/constants';
+import { IRecordResponse } from '@/lib/interface';
+import { BASENAME, PARAMS } from '@/lib/constants';
 import * as airtable from '@/lib/airtable.config';
 import sample from 'lodash/sample';
+import filter from 'lodash/filter';
 
-export default function Pair(props: any): JSX.Element {
+const Pair: React.FC<{ user: IRecordResponse }> = (props) => {
   return (
     <Container minH='100vh'>
       <PairPage {...props} />
     </Container>
   );
-}
+};
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { id } = ctx.params as any;
   console.log(ctx.params, '[Dip:GetServerSideProps]');
 
-  secrets.BASE_URL;
-
-  const user = await parseAuthPageParams(id);
+  const authParams = await parseAuthPageParams(id);
 
   try {
-    const response = await axios.post<IRecordResponse>(`${secrets.BASE_URL}/api/access/user`, {
-      params: {
-        name: user.name,
-        pin: user.pin,
-      },
-    });
-    console.log(response.data, '[Dip:GetServerSideProps] User API response');
+    const collections = (await airtable
+      .getSimpleCollection(PARAMS)
+      .all()
+      .then((v) => v.map((record) => ({ id: record.id, ...record.fields })))) as IRecordResponse[];
+
+    /* Get the current user by filtering based off params */
+    const [user] = filter(collections, authParams);
+
+    console.log(user, '[Dip:GetServerSideProps] _lodash.filter[user]');
 
     /* Is this user does not have a pair, let's create one for them */
-    if (!response.data.isPaired) {
-      const collections = await airtable
-        .getSimpleCollection(PARAMS)
-        .all()
-        .then((v) => v.map((record) => ({ id: record.id, ...record.fields }))) as IRecordResponse[];
-
-      // const { data } = await axios.post<IRecordResponse[]>(`${secrets.BASE_URL}/api/pair`, {
-      //   params: {
-      //     userId: response.data.id,
-      //     name: response.data.name,
-      //     pin: response.data.pin,
-      //     count: response.data.count,
-      //   },
-      // });
-      // console.log(data)
-
-      /* Prevent user from pairing themselves by removing them from the list */
-      const filterOwnerCollection = await collections.filter((item) => item.id !== response.data.id);
-
-      /* Filter users who haven't been paired, they essentially have no pair or users who have them assigned */
-      const noPairCollection = filterOwnerCollection.filter((item) => !item.hasPair);
+    if (!user.isPaired) {
+      /* Filter out the owner and all users who have pairs from the collection */
+      /* rtp is short for Ready to Pair */
+      const rtp = await collections.filter((item) => item.id !== user.id && !item.hasPair);
+      console.log(rtp, '<<<<<<<<<<<[Dip:GetServerSideProps] Available Pairs (RTP)>>>>>>>>>>');
 
       /* Select A random user from the list */
-      const sampledArr = (noPairCollection.length > 1 ? sample(noPairCollection) : noPairCollection) as IRecordResponse;
+      const sampledArr = (rtp.length >= 2 ? sample(rtp) : rtp[0]) as IRecordResponse;
+      const batchUpdatePayload = [
+        {
+          id: user.id,
+          fields: {
+            count: Number(user.count) + 1,
+            pairId: sampledArr.id,
+            pairName: sampledArr.name,
+            isPaired: true,
+            hasPair: user.hasPair,
+          },
+        },
+        {
+          id: sampledArr.id,
+          fields: {
+            count: sampledArr.count,
+            pairId: sampledArr.pairId,
+            pairName: sampledArr.pairName,
+            isPaired: sampledArr.isPaired as true, // this is a hack for TS... isPaired is when this user has a pair
+            hasPair: true, // hasPair is when another user has paired them
+          },
+        },
+      ];
+      console.log(batchUpdatePayload, '[Dip:GetServerSideProps] Batch Update payload>>>>>>');
 
-      console.log(sampledArr, noPairCollection)
       /* Update requester record and increment count */
-      const getUserPair = await airtable.updateManyRecord(BASENAME, [
-        {
-          "id": response.data.id,
-          "fields": {
-            "count": response.data.count + 1,
-            "pairId": sampledArr.id,
-            "pairName": sampledArr.name,
-            "isPaired": true,
-            "hasPair": response.data.hasPair
-          }
-        },
-        {
-          "id": sampledArr.id,
-          "fields": {
-            "count": sampledArr.count,
-            "pairId": sampledArr.pairId,
-            "pairName": sampledArr.pairName,
-            "isPaired": sampledArr.isPaired as true,  // this is a hack for TS... isPaired is when this user has a pair
-            "hasPair": true,  // hasPair is when another user has paired them
-          }
-        },
-      ]);
-      console.log(getUserPair, '[Dip:GetServerSideProps] Get User Pair');
+      const [batchUpdateResponse] = await airtable.updateManyRecord(BASENAME, batchUpdatePayload);
+      console.log(batchUpdateResponse, '[Dip:GetServerSideProps] Batch Update Pair Record');
 
       return {
         props: {
-          user: getUserPair,
+          user: { id: batchUpdateResponse.id, ...batchUpdateResponse.fields },
         },
       };
     }
 
     return {
       props: {
-        user: response.data,
+        user: user,
       },
     };
   } catch (error) {
@@ -110,3 +95,5 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     };
   }
 };
+
+export default Pair;

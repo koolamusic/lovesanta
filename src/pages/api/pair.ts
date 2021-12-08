@@ -51,10 +51,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     case 'POST': {
       let collections: IRecordResponse[] = [];
       if (isAuthenticated()) {
-        collections = await airtable
+        collections = (await airtable
           .getSimpleCollection(PARAMS)
           .all()
-          .then((v) => v.map((record) => ({ id: record.id, ...record.fields }))) as IRecordResponse[];
+          .then((v) => v.map((record) => ({ id: record.id, ...record.fields })))) as IRecordResponse[];
       }
       try {
         /* Check if user Exceeds their limit */
@@ -75,7 +75,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         const filterOwnerCollection = await collections.filter((item) => item.id !== body.params.userId);
 
         /* Filter users who haven't been paired */
-        const noPairCollection = await filterOwnerCollection.filter((item) => !item.isPaired);
+        const noPairCollection = await filterOwnerCollection.filter((item) => !item.hasPair);
 
         /* Select A random user from the list */
         const sampledArr = (noPairCollection.length > 1 ? _.sample(noPairCollection) : noPairCollection) as IRecordResponse;
