@@ -10,7 +10,7 @@ interface TableOptionProps {
 }
 
 export interface CreateRecordOptionProps {
-  id?: string // actually only available in update, but we will keep this hack available here
+  id?: string; // actually only available in update, but we will keep this hack available here
   name: string;
   isActivated: boolean;
   pin: string;
@@ -31,8 +31,7 @@ export interface UpdateRecordOptionProps {
     pairName?: string;
     pairId?: string;
     count?: number;
-  }
-
+  };
 }
 
 interface IManyRecordField {
@@ -105,7 +104,7 @@ export const updateOneRecord = async <T extends CreateRecordOptionProps | any>(
     {
       id: recordId,
       fields: {
-        ...payload as any,
+        ...(payload as any),
       },
     },
   ]);

@@ -15,6 +15,8 @@ export const Container = (props: FlexProps) => {
       padding={['1rem 1rem', '2rem 3rem']}
       margin='auto'
       alignItems='center'
+      pb={12}
+      mb={6}
       justifyContent='flex-start'
       // bg={bgColor[colorMode]}
       color={color[colorMode]}

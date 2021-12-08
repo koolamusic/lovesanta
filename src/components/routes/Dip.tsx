@@ -21,7 +21,7 @@ import { FAMILY } from '@/lib/constants';
 import useAccess from '@/hooks/useAccess';
 import { useStore } from '@/lib/store';
 
-const DipPage = () => {
+const DipPage = ({ user }) => {
   const [isSubmitting, setSubmitting] = React.useState<boolean>(false);
 
   const store = useStore((state) => state);
@@ -34,6 +34,7 @@ const DipPage = () => {
     return handleAccess({ userName, toast });
   };
 
+  console.log(user)
   // const pairAction = async (): Promise<void> => {
   //   await setSubmitting(true);
 
@@ -82,7 +83,7 @@ const DipPage = () => {
       <Heading textAlign='center' as='h2' color='gray.600' my='0'>
         Your Pair is:
       </Heading>
-      {/* <Text color="gray.600" textAlign="center" maxW="30rem" mb="6">Keep calm, let us pair you with a lovely human</Text> */}
+      <Text color="gray.600" textAlign="center" maxW="30rem" mb="6">Keep calm, let us pair you with a lovely human</Text>
 
       <Alert status='success' border='1px dashed' borderColor='ButtonShadow'>
         <Box flex='1'>
@@ -90,8 +91,8 @@ const DipPage = () => {
             {/* <AttentionSeeker>{pairName}</AttentionSeeker> */}
           </AlertTitle>
           <AlertDescription display='block' pb='3'>
-            {/* Hey, <strong style={{ color: '##ff3092', textTransform: 'capitalize' }}>{pairName} </strong> */}
-            {/* {store.name.charAt(0).toUpperCase() + store.name.slice(1)} */}
+            Hey, <strong style={{ color: '##ff3092', textTransform: 'capitalize' }}>{pairName} </strong>
+            {user.name.charAt(0).toUpperCase() + user.name.slice(1)}
             will be expecting a wonderful gift from you this Christmas, do well to buy them something lovely, they dont have to
             know that you&apos;ve been paired to buy them a gift
           </AlertDescription>
@@ -109,7 +110,7 @@ const DipPage = () => {
         </Heading>
       )} */}
 
-      {/* {store.pairId && store.pairName && <PairBox pairName={store.pairName} />} */}
+      {user.pairId && user.pairName && <PairBox pairName={user.pairName} />}
 
       <Button
         isLoading={isSubmitting}

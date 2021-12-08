@@ -19,7 +19,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     return res.status(200).json(payload);
   };
 
-
   switch (method) {
     case 'PUT': {
       const putAccess = await findByFilter(`AND({name} = '${body.params.name}', {pin} = '${body.params.pin}')`);
@@ -27,8 +26,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       break;
     }
     case 'PATCH': {
-     const result = await airtable.updateManyRecord(BASENAME, body.params.payload)
-     resCallback(result)
+      const result = await airtable.updateManyRecord(BASENAME, body.params.payload);
+      resCallback(result);
       break;
     }
     default:

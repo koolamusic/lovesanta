@@ -11,6 +11,7 @@ export default function Navbar() {
     <>
       <Box
         position={'fixed'}
+        zIndex={'9'}
         bottom={0}
         borderTop={useColorModeValue('1px solid #eee', '1px solid #232323')}
         w={'100%'}
