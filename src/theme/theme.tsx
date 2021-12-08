@@ -75,8 +75,8 @@ export const theme: Partial<ChakraTheme> = extendTheme({
       20: '#f9f9f9',
       30: '#f2f2f2',
       200: '#eeeeeee',
-      700: '#333333',
-      800: '#222222',
+      700: '#222222',
+      800: '#111111',
     },
     brandBlue: {
       500: '#3444F1',

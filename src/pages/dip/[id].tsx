@@ -11,13 +11,13 @@ import * as airtable from '@/lib/airtable.config';
 import sample from 'lodash/sample';
 import filter from 'lodash/filter';
 
-const Pair: React.FC<{user: IRecordResponse}> = (props) => {
+const Pair: React.FC<{ user: IRecordResponse }> = (props) => {
   return (
     <Container minH='100vh'>
       <PairPage {...props} />
     </Container>
   );
-}
+};
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { id } = ctx.params as any;
@@ -96,4 +96,4 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   }
 };
 
-export default Pair
+export default Pair;
