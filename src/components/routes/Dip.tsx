@@ -36,7 +36,8 @@ const DipPage = ({ user }: { user: IRecordResponse }) => {
     await handlePair({ user, toast });
   };
 
-  console.log(user);
+  // console.log(user);
+  const disableButton = store.count > 2 || user.count > 2 ? true : false
 
   return (
     <Container height='100vh'>
@@ -56,7 +57,7 @@ const DipPage = ({ user }: { user: IRecordResponse }) => {
       </Button>
       {/* //////////////////If we have a pair lets preview this box ////////////// */}
 
-      <Button minH={'48px'} isLoading={isAccessing} isDisabled={store.count > 2} onClick={_handleSubmission} isFullWidth mt='8'>
+      <Button minH={'48px'} isLoading={isAccessing} isDisabled={disableButton} onClick={_handleSubmission} isFullWidth mt='8'>
         Generate New Pair
       </Button>
 
