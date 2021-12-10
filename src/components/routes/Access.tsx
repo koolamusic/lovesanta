@@ -19,9 +19,7 @@ const AccessPage = () => {
         Love Dip
       </Heading>
 
-      <FormLabel color='orange.600' margin='0'>
-        Who are you?
-      </FormLabel>
+      <FormLabel margin='0'>Who are you?</FormLabel>
       <Select size='lg' onChange={(v: any) => setName(v.target.value)} placeholder='Who are you?'>
         {FAMILY.map((val, index) => (
           <option key={index + '-' + val.value} value={val.value}>

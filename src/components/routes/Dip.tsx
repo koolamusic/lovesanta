@@ -1,9 +1,9 @@
-import React from 'react';
-
+import React, { useEffect } from 'react';
 import { Container } from '../Container';
 import {
   AlertIcon,
   Heading,
+  useToast,
   Button,
   Flex,
   Alert,
@@ -13,25 +13,30 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { IRecordResponse } from '../../lib/interface';
-// import usePair from '@/hooks/usePair';
-// import { useStore } from '@/lib/store';
+import usePair from '@/hooks/usePair';
+import { useStore } from '@/lib/store';
 import { PairPreviewBox } from '@/components/display/PairPreviewBox';
 import PairPreferenceDrawer from '@/components/display/PairPreferenceDrawer';
+import ConfettiComponent from '@/components/Confetti';
 
+const DipPage = ({ user }: { user: IRecordResponse }) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isAccessing, handlePair } = usePair();
 
-const DipPage = ({ user }: {user: IRecordResponse}) => {
-  const { isOpen, onOpen, onClose } = useDisclosure()
-  // const store = useStore((state) => state);
+  /* dependencies */
+  const store = useStore((state) => state);
+  const toast = useToast();
 
-  // const toast = useToast();
+  useEffect(() => {
+    /* Once we retrieve props, lets persist to the app store */
+    store.updateUser(user);
+  }, [user, store]);
 
-  const _handleSubmission = () => {
-    return;
+  const _handleSubmission = async () => {
+    await handlePair({ user, toast });
   };
 
-  console.log(user)
-
-
+  console.log(user);
 
   return (
     <Container height='100vh'>
@@ -42,16 +47,16 @@ const DipPage = ({ user }: {user: IRecordResponse}) => {
         </Heading>
       )}
 
-  {/* //////////////////If we have a pair lets preview this box ////////////// */}
-      {user.pairId && <PairPreviewBox name={user.name} pairName={ user.pairName} />}
-<Button mb={6} mt={2} size={'sm'} boxShadow={'none'} onClick={onOpen}>Check what your pair wants</Button>
-      <Button
-        // isLoading={isSubmitting}
-        isDisabled={user.count > 2}
-        onClick={_handleSubmission}
-        isFullWidth
-        mt='8'
-      >
+      {/* //////////////////If we have a pair lets preview this box ////////////// */}
+      {user.pairId && (
+        <PairPreviewBox count={store.count} isAccessing={isAccessing} name={store.name} pairName={store.pairName} />
+      )}
+      <Button mb={6} mt={2} size={'sm'} boxShadow={'none'} onClick={onOpen}>
+        Check what your pair wants
+      </Button>
+      {/* //////////////////If we have a pair lets preview this box ////////////// */}
+
+      <Button isLoading={isAccessing} isDisabled={store.count > 2} onClick={_handleSubmission} isFullWidth mt='8'>
         Generate New Pair
       </Button>
 
@@ -71,17 +76,23 @@ const DipPage = ({ user }: {user: IRecordResponse}) => {
           <AlertTitle mt={1}>Instructions</AlertTitle>
         </Flex>
 
-        <AlertDescription fontSize={'md'} mb={2} mt={1}>1. You can only generate a new pair thrice (3 times)</AlertDescription>
+        <AlertDescription fontSize={'md'} mb={2} mt={1}>
+          1. You can only generate a new pair thrice (3 times)
+        </AlertDescription>
 
         <AlertDescription fontSize={'md'} maxW='30rem' mb={1}>
           2. If you don&apos;t like your pair, you have {3 - user.count} Tries remaining to generate a new one
         </AlertDescription>
-        <AlertDescription fontSize={'md'} mb={1} pb={6}>3. Viewing your pair&apos;s preference will cost you one count, so use it wisely</AlertDescription>
+        <AlertDescription fontSize={'md'} mb={1} pb={6}>
+          3. Viewing your pair&apos;s preference will cost you one count, so use it wisely
+        </AlertDescription>
       </Alert>
       {/*  --------------------- Instruction set ---------------------  */}
 
       {/* -------  Show the users preferences in a drawer ------ */}
       <PairPreferenceDrawer pref={user.preferences} isOpen={isOpen} onDrawerClose={onClose} />
+      {/* -------  Show the users preferences in a drawer ------ */}
+      <ConfettiComponent />
     </Container>
   );
 };

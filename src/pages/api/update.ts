@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import * as airtable from '../../lib/airtable.config';
 import { IRecordResponse } from '../../lib/interface';
 import { BASENAME } from '../../lib/constants';
-import {  findByFilter } from '../../lib/mapper';
+import { findByFilter } from '../../lib/mapper';
 
 type THandlerResponse = IRecordResponse | IRecordResponse[] | null | undefined;
 export default async function handler(req: NextApiRequest, res: NextApiResponse<THandlerResponse>): Promise<void> {

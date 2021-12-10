@@ -6,7 +6,7 @@ export const DarkModeSwitch = () => {
   const isDark = colorMode === 'dark';
   return (
     <Container>
-      <Switch position='fixed' top='1rem' right='1rem' colorScheme='orange' isChecked={isDark} onChange={toggleColorMode} />;
+      <Switch position='fixed' top='1rem' right='1rem' colorScheme='yellow' isChecked={isDark} onChange={toggleColorMode} />;
     </Container>
   );
 };

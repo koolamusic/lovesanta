@@ -15,7 +15,7 @@ type StoreState = {
   isActivated: string;
   pin: string;
   isPaired: string;
-  pairName?: string;
+  pairName: string;
   pairId: string;
   count: number;
   page: 'default' | 'createPin' | 'enterPin' | 'dip' | string;
@@ -40,6 +40,7 @@ export const useStore = create<StoreState>(
       pin: 'string',
       isPaired: 'false',
       pairId: '',
+      pairName: '',
       count: 0,
       page: 'default',
       activate: () => set({ isActivated: 'true' }),
