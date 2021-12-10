@@ -37,11 +37,11 @@ const DipPage = ({ user }: { user: IRecordResponse }) => {
   };
 
   // console.log(user);
-  const disableButton = store.count > 2 || user.count > 2 ? true : false
+  const disableButton = store.count > 2 || user.count > 2 ? true : false;
 
   return (
     <Container height='100vh'>
-      <Flex mt='12' pt='12' />
+      <Flex mt={8} pt={8} />
       {!user.pairName && (
         <Heading as='h6' textAlign='center' fontSize='2rem'>
           You currently don&apos;t have an pair yet
@@ -90,6 +90,9 @@ const DipPage = ({ user }: { user: IRecordResponse }) => {
         </AlertDescription>
       </Alert>
       {/*  --------------------- Instruction set ---------------------  */}
+
+      {/* ----- Hack to add space between the fixed bottom navbar  ----- */}
+      <Flex minH={{ base: '42px', md: '8px' }} pb={12} />
 
       {/* -------  Show the users preferences in a drawer ------ */}
       <PairPreferenceDrawer pref={store.pairPreference} isOpen={isOpen} onDrawerClose={onClose} />
