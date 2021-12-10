@@ -56,11 +56,11 @@ export default function usePinAuth() {
           isClosable: true,
         });
       } else {
-        console.log(response.data, '[usePinAuth: handleAuth]');
+        // console.log(response.data, '[usePinAuth: handleAuth]');
         await store.updateUser(response.data);
         /* Route to the dip page using the user params id for GetServersideProps*/
         /* -- The goal is to use the isActivated instore to handle user setup --- */
-        const params = buildAuthPageParams({ id: store.id, pin: store.pin, name: store.name });
+        const params = buildAuthPageParams({ id: store.id, pin: userPin, name: store.name });
         parseAuthPageParams(params);
 
         setAccessing(false);

@@ -84,7 +84,7 @@ const DipPage = ({ user }: { user: IRecordResponse }) => {
           2. If you don&apos;t like your pair, you have {3 - user.count} Tries remaining to generate a new one
         </AlertDescription>
         <AlertDescription fontSize={'md'} mb={1} pb={6}>
-          3. Viewing your pair&apos;s preference will cost you one count, so use it wisely
+          3. Viewing your pair&apos;s preference might cost you one count, so use wisely, lol
         </AlertDescription>
       </Alert>
       {/*  --------------------- Instruction set ---------------------  */}

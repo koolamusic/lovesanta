@@ -1,4 +1,4 @@
-export const BASENAME = 'List';
+export const BASENAME = 'PairDatabase';
 export const PARAMS = {
   baseName: BASENAME,
   baseView: 'Main',
@@ -22,11 +22,14 @@ export const FAMILY: UserParamsObject[] = [
   { value: 'bobo', label: 'Bobo' },
   { value: 'bukola', label: 'Bukola' },
   { value: 'chike', label: 'Chike' },
+  { value: 'divine', label: 'Divine' },
   { value: 'ezinne', label: 'Ezinne' },
   { value: 'joy', label: 'Joy' },
   { value: 'miracle', label: 'Miracle' },
   { value: 'mkpuruoma', label: 'Mkpuruoma' },
   { value: 'nedu', label: 'Nedu' },
+  { value: 'okezie', label: 'Okezie' },
+  { value: 'praise', label: 'Praise' },
   { value: 'princess', label: 'Princess' },
   { value: 'ruth', label: 'Ruth' },
   { value: 'sharon', label: 'Sharon' },

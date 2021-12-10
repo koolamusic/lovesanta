@@ -33,7 +33,7 @@ export default function useAccess() {
       /* -- The goal is to use the isActivated instore to handle user setup --- */
       setAccessing(false);
       Router.push('/pin');
-      console.log(response.data[0]);
+      // console.log(response.data[0]);
     } catch (error: any) {
       await setAccessing(false);
       toast({
