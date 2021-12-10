@@ -51,12 +51,12 @@ const DipPage = ({ user }: { user: IRecordResponse }) => {
       {user.pairId && (
         <PairPreviewBox count={store.count} isAccessing={isAccessing} name={store.name} pairName={store.pairName} />
       )}
-      <Button mb={6} mt={2} size={'sm'} boxShadow={'none'} onClick={onOpen}>
+      <Button mb={6} mt={2} minH={'32px'} size={'sm'} boxShadow={'none'} onClick={onOpen}>
         Check what your pair wants
       </Button>
       {/* //////////////////If we have a pair lets preview this box ////////////// */}
 
-      <Button isLoading={isAccessing} isDisabled={store.count > 2} onClick={_handleSubmission} isFullWidth mt='8'>
+      <Button minH={'48px'} isLoading={isAccessing} isDisabled={store.count > 2} onClick={_handleSubmission} isFullWidth mt='8'>
         Generate New Pair
       </Button>
 
@@ -65,6 +65,7 @@ const DipPage = ({ user }: { user: IRecordResponse }) => {
         display={'flex'}
         flexDir={'column'}
         alignItems={'flex-start'}
+        minH={'240px'}
         border={'1px'}
         variant={useColorModeValue('solid', 'outline')}
         borderRadius={'md'}
@@ -90,7 +91,7 @@ const DipPage = ({ user }: { user: IRecordResponse }) => {
       {/*  --------------------- Instruction set ---------------------  */}
 
       {/* -------  Show the users preferences in a drawer ------ */}
-      <PairPreferenceDrawer pref={user.preferences} isOpen={isOpen} onDrawerClose={onClose} />
+      <PairPreferenceDrawer pref={user.pairPreference} isOpen={isOpen} onDrawerClose={onClose} />
       {/* -------  Show the users preferences in a drawer ------ */}
       <ConfettiComponent />
     </Container>

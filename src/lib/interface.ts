@@ -5,6 +5,7 @@ export interface IRecordOptionProps {
   preferences: string;
   pin: string;
   pairName?: string;
+  pairPreference: string;
   hasPair?: boolean;
   isPaired: boolean;
   pairId: string;
@@ -17,6 +18,7 @@ export interface IRecordResponse {
   pairName: string;
   preferences: string;
   hasPair?: boolean;
+  pairPreference: string;
   isActivated: string;
   pin: string;
   isPaired: boolean;
@@ -31,7 +33,8 @@ export interface IAirtableRawJSON {
     pairName: string;
     preferences: string;
     isActivated: string;
-    hasPair: boolean;
+  pairPreference: string;
+  hasPair: boolean;
     pin: string;
     isPaired: boolean;
     pairId: string;

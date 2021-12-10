@@ -52,6 +52,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
             count: Number(user.count) + 1,
             pairId: sampledArr.id,
             pairName: sampledArr.name,
+            pairPreference: sampledArr.preferences,
             isPaired: true,
             hasPair: user.hasPair,
           },
@@ -59,9 +60,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         {
           id: sampledArr.id,
           fields: {
-            count: sampledArr.count,
-            pairId: sampledArr.pairId,
-            pairName: sampledArr.pairName,
             isPaired: sampledArr.isPaired as true, // this is a hack for TS... isPaired is when this user has a pair
             hasPair: true, // hasPair is when another user has paired them
           },
@@ -70,6 +68,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       console.log(batchUpdatePayload, '[Dip:GetServerSideProps] Batch Update payload>>>>>>');
 
       /* Update requester record and increment count */
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
       const [batchUpdateResponse] = await airtable.updateManyRecord(BASENAME, batchUpdatePayload);
       console.log(batchUpdateResponse, '[Dip:GetServerSideProps] Batch Update Pair Record');
 

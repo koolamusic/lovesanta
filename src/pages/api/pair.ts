@@ -85,6 +85,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
           .updateOneRecord(BASENAME, body.params.userId, {
             count: body.params.count + 1,
             pairId: sampledArr.id,
+            pairPreference: sampledArr.preferences,
             pairName: sampledArr.name,
           })
           .then(async (raw) => {
