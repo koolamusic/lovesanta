@@ -93,7 +93,7 @@ const DipPage = ({ user }: { user: IRecordResponse }) => {
       {/* -------  Show the users preferences in a drawer ------ */}
       <PairPreferenceDrawer pref={store.pairPreference} isOpen={isOpen} onDrawerClose={onClose} />
       {/* -------  Show the users preferences in a drawer ------ */}
-      <ConfettiComponent show={isOpen || !isAccessing } />
+      <ConfettiComponent show={isOpen || !isAccessing} />
     </Container>
   );
 };

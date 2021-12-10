@@ -3,8 +3,8 @@ import useWindowSize from '@/hooks/useWindowSize';
 import Confetti from 'react-confetti';
 
 type ConfProps = {
-  show: boolean
-}
+  show: boolean;
+};
 export default function ConfettiComponent({ show }: ConfProps) {
   const { width, height } = useWindowSize();
 

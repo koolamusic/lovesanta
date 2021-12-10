@@ -33,8 +33,8 @@ export interface IAirtableRawJSON {
     pairName: string;
     preferences: string;
     isActivated: string;
-  pairPreference: string;
-  hasPair: boolean;
+    pairPreference: string;
+    hasPair: boolean;
     pin: string;
     isPaired: boolean;
     pairId: string;
