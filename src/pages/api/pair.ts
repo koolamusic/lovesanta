@@ -64,10 +64,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
           throw new Error('Your limit has been exceeded');
         }
 
-        /* Check if user has an existing pair, so we can update that Pair-ID with their new isPaired Status */
+        /* Check if user has an existing pair, so we can update that Pair-ID with their new hasPair Status */
+        /* This way remove the relationship, so that this pair can be re-assigned to someone else */
         if (_.startsWith(user.fields.pairId, 'rec')) {
           await airtable.updateOneRecord(BASENAME, user.fields.pairId, {
-            isPaired: false,
+            hasPair: false,
           });
         }
 
@@ -91,7 +92,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
           .then(async (raw) => {
             /* Update Paired (sampledArr) User with isPaired Boolean */
             await airtable.updateOneRecord(BASENAME, sampledArr.id, {
-              isPaired: true,
+              hasPair: true,
             });
             resCallback(raw.map((record) => ({ id: record.id, ...record.fields })));
             // res.status(200).json((requesterRecord as unknown) as THandlerResponse)
