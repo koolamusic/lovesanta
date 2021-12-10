@@ -2,19 +2,20 @@ import React from 'react';
 import useWindowSize from '@/hooks/useWindowSize';
 import Confetti from 'react-confetti';
 
-export default function ConfettiComponent() {
+type ConfProps = {
+  show: boolean
+}
+export default function ConfettiComponent({ show }: ConfProps) {
   const { width, height } = useWindowSize();
-  const [party, setParty] = React.useState(false);
 
   return (
     <Confetti
       width={width}
       height={height}
-      recycle={party}
+      recycle={false}
       // style={{ pointerEvents: 'none' }}
-      numberOfPieces={800}
+      numberOfPieces={show ? 750 : 0}
       onConfettiComplete={(confettiInstance: any) => {
-        setParty(false);
         confettiInstance.reset();
       }}
     />

@@ -82,7 +82,7 @@ const DipPage = ({ user }: { user: IRecordResponse }) => {
         </AlertDescription>
 
         <AlertDescription fontSize={'md'} maxW='30rem' mb={1}>
-          2. If you don&apos;t like your pair, you have {3 - user.count} Tries remaining to generate a new one
+          2. If you don&apos;t like your pair, you have {3 - store.count} Tries remaining to generate a new one
         </AlertDescription>
         <AlertDescription fontSize={'md'} mb={1} pb={6}>
           3. Viewing your pair&apos;s preference might cost you one count, so use wisely, lol
@@ -91,9 +91,9 @@ const DipPage = ({ user }: { user: IRecordResponse }) => {
       {/*  --------------------- Instruction set ---------------------  */}
 
       {/* -------  Show the users preferences in a drawer ------ */}
-      <PairPreferenceDrawer pref={user.pairPreference} isOpen={isOpen} onDrawerClose={onClose} />
+      <PairPreferenceDrawer pref={store.pairPreference} isOpen={isOpen} onDrawerClose={onClose} />
       {/* -------  Show the users preferences in a drawer ------ */}
-      <ConfettiComponent />
+      <ConfettiComponent show={isOpen || !isAccessing } />
     </Container>
   );
 };
