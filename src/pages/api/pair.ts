@@ -43,11 +43,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       res.status(200).json(userRecord);
       break;
     }
-    case 'PUT': {
-      const putAccess = await findByFilter(`AND({name} = '${body.params.name}', {pin} = '${body.params.pin}')`);
-      res.status(200).json(putAccess);
-      break;
-    }
     case 'POST': {
       let collections: IRecordResponse[] = [];
       if (isAuthenticated()) {
@@ -84,7 +79,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         /* Update requester record and increment count */
         await airtable
           .updateOneRecord(BASENAME, body.params.userId, {
-            count: body.params.count + 1,
+            count: user.fields.count + 1,
             pairId: sampledArr.id,
             pairPreference: sampledArr.preferences,
             pairName: sampledArr.name,
@@ -104,7 +99,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       break;
     }
     default:
-      res.setHeader('Allow', ['GET', 'POST', 'PATCH', 'PUT']);
+      res.setHeader('Allow', ['GET', 'POST', 'PATCH']);
       res.status(405).end(`Method ${method} Not Allowed`);
   }
 }

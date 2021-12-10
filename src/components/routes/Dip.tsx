@@ -23,7 +23,7 @@ const DipPage = ({ user }: { user: IRecordResponse }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isAccessing, handlePair } = usePair();
 
-  /* dependencies */
+  /* -------- dependencies --------- */
   const store = useStore((state) => state);
   const toast = useToast();
 
