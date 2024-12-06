@@ -1,7 +1,7 @@
 import { auth } from "~/server/auth";
 import { api, HydrateClient } from "~/trpc/server";
 
-import { FeedComponent } from "~/components/feed";
+import { EventFeedComponent } from "~/components/feed";
 import { NavbarComponent } from "~/components/navbar/block";
 import { Container } from "@chakra-ui/react";
 
@@ -16,7 +16,8 @@ export default async function Home() {
   return (
     <HydrateClient>
       <Container pb={24}>
-        <FeedComponent />
+
+        <EventFeedComponent />
 
         <NavbarComponent />
       </Container>
