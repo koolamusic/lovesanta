@@ -1,13 +1,12 @@
 import { extendTheme, ChakraTheme } from '@chakra-ui/react';
-import { createBreakpoints } from '@chakra-ui/theme-tools';
 
-const breakpoints = createBreakpoints({
+const breakpoints = {
   sm: '40em',
   md: '52em',
   lg: '69em',
   xl: '96em',
   '2xl': '134em',
-});
+};
 
 const config = {
   initialColorMode: 'dark',

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { IRecordResponse, IRecordOptionProps } from '@/lib/interface';
-import create from 'zustand';
+import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 /**--------------------------------------------------------------*/
@@ -50,7 +50,7 @@ export const useStore = create<StoreState>(
     }),
     /* ------ Persist Middleware specific configs and action ------ */
     {
-      name: 'app-lovedip',
+      name: '__secretsanta__',
     }
   )
 );
