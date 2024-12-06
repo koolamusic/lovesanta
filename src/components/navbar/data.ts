@@ -48,5 +48,13 @@ export const items = [
   },
 ];
 
+export const staticSecondaryNavItems: SecondaryNavItem[] = [
+  {
+    value: "overview",
+    label: "Overview",
+  },
+  { value: "profile", label: "Profile" },
+]
+
 export type NavItem = (typeof items)[number];
 export type SecondaryNavItem = NavItem["secondary"][number];

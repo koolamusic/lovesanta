@@ -1,3 +1,4 @@
+'use client';
 import { HStack, IconButton, Tabs, type TabsRootProps } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import type { SecondaryNavItem } from "./data";
@@ -7,13 +8,14 @@ import { LuLogOut } from "react-icons/lu";
 
 interface Props extends TabsRootProps {
   items?: SecondaryNavItem[];
+  activeKey: number;
 }
 
 export const SecondaryNavigation = (props: Props) => {
-  const { items = [], ...rest } = props;
-  const [activeTab, setActiveTab] = useState(items[0]?.value);
+  const { items = [], activeKey,  ...rest } = props;
+  const [activeTab, setActiveTab] = useState(items[activeKey]?.value);
   useEffect(() => {
-    setActiveTab(items[0]?.value);
+    setActiveTab(items[activeKey]?.value);
   }, [items]);
 
   return (

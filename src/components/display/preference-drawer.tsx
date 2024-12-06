@@ -34,7 +34,7 @@ export default function PairPreferenceDrawer({
       <DrawerBackdrop />
       <DrawerTrigger asChild>
         <Button variant="outline" size="sm">
-          Open Drawer
+          Check what your pair wants
         </Button>
       </DrawerTrigger>
       <DrawerTrigger />

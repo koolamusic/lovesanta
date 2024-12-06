@@ -25,9 +25,12 @@ export default async function PairingInfo() {
 
   return (
     <HydrateClient>
+          <ConfettiComponent show={true} />
+        <NavbarComponent activeMenuKey={1} />
+
+
       <Container pb={24}>
-        <Container height="100vh">
-          <Flex mt={8} pt={8} />
+          <Flex pt={20} />
           <Heading as="h6" textAlign="center" fontSize="2rem">
             You currently don&apos;t have an pair yet
           </Heading>
@@ -36,14 +39,11 @@ export default async function PairingInfo() {
           {/* {user.pairId && ( */}
           <PairPreviewBox
             count={2}
-            isAccessing={true}
+            isAccessing={false}
             name={"bukola rite"}
             pairName={"santa bukola"}
           />
           {/* )} */}
-          <Button mb={6} mt={2} minH={"32px"} size={"sm"} boxShadow={"none"}>
-            Check what your pair wants
-          </Button>
           {/* //////////////////If we have a pair lets preview this box ////////////// */}
 
           <Button minH={"48px"} w={"full"} mt="8">
@@ -73,12 +73,9 @@ export default async function PairingInfo() {
           {/* -------  Show the users preferences in a drawer ------ */}
           <PairPreferenceDrawer wishlist={"we want to buy a lot of sneakers"} />
           {/* -------  Show the users preferences in a drawer ------ */}
-          <ConfettiComponent show={true} />
-        </Container>
 
         <PreviousConnections />
-        <NavbarComponent />
-      </Container>
+        </Container>
     </HydrateClient>
   );
 }
