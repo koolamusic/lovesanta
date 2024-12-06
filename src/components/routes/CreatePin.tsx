@@ -56,7 +56,7 @@ const AuthPage = () => {
         <PinHolder onChange={(input) => setUserPin(input)} onComplete={(val) => createPinAccess(val)}>
           <></>
         </PinHolder>
-        <Button onClick={() => createPinAccess(userPin)} size='lg' isLoading={isSubmitting} isFullWidth mt='8' colorScheme='teal'>
+        <Button onClick={() => createPinAccess(userPin)} size='lg' isLoading={isSubmitting} w={'full'} mt='8' colorScheme='teal'>
           Create Secure Pin
         </Button>
       </Flex>

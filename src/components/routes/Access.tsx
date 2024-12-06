@@ -27,7 +27,7 @@ const AccessPage = () => {
           </option>
         ))}
       </Select>
-      <Button onClick={_handleSubmission} isLoading={isAccessing} isFullWidth mt='8'>
+      <Button onClick={_handleSubmission} isLoading={isAccessing} w={'full'} mt='8'>
         Start
       </Button>
     </Flex>

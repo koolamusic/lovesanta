@@ -61,7 +61,7 @@ const AuthPage = () => {
           </PinHolder>
         </VStack>
       </Center>
-      <Button onClick={() => _handleSubmission(userPin)} isLoading={isAccessing} isFullWidth mt='8'>
+      <Button onClick={() => _handleSubmission(userPin)} isLoading={isAccessing} w={'full'} mt='8'>
         Unlock
       </Button>
     </Flex>

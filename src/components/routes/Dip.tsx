@@ -57,7 +57,7 @@ const DipPage = ({ user }: { user: IRecordResponse }) => {
       </Button>
       {/* //////////////////If we have a pair lets preview this box ////////////// */}
 
-      <Button minH={'48px'} isLoading={isAccessing} isDisabled={disableButton} onClick={_handleSubmission} isFullWidth mt='8'>
+      <Button minH={'48px'} isLoading={isAccessing} isDisabled={disableButton} onClick={_handleSubmission} w={'full'} mt='8'>
         Generate New Pair
       </Button>
 
