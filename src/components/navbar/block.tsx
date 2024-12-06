@@ -17,7 +17,10 @@ export const NavbarComponent = ({ activeMenuKey = 0 }) => {
       py={{ base: "4", md: "6", lg: "8" }}
     >
       <Flex justify="center">
-        <SecondaryNavigation activeKey={activeMenuKey}  items={staticSecondaryNavItems} />
+        <SecondaryNavigation
+          activeKey={activeMenuKey}
+          items={staticSecondaryNavItems}
+        />
       </Flex>
     </Container>
   );

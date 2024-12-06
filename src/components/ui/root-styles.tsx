@@ -1,10 +1,10 @@
-import { Global } from '@emotion/react';
+import { Global } from "@emotion/react";
 
 export const RootStyles = () => (
   <Global
     styles={`
         /* -----------Make clicks pass-through----------- */
-        html,body {
+        * {
           -webkit-overflow-scrolling: touch;
           scroll-behavior: smooth;
           font-variant-ligatures: common-ligatures contextual discretionary-ligatures;

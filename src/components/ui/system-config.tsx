@@ -1,5 +1,5 @@
 import { createSystem, defaultConfig } from "@chakra-ui/react";
-import { defineTextStyles } from "@chakra-ui/react"
+import { defineTextStyles } from "@chakra-ui/react";
 
 export const textStyles = defineTextStyles({
   body: {
@@ -14,13 +14,23 @@ export const textStyles = defineTextStyles({
       textTransform: "None",
     },
   },
-})
+  heading: {
+    description: "The heading text style - used in titles",
+    value: {
+      fontFamily: "Alliance",
+      fontWeight: "500",
+      letterSpacing: "0",
+      textDecoration: "None",
+      textTransform: "None",
+    },
+  },
+});
 
 export const systemConfig = createSystem(defaultConfig, {
   cssVarsPrefix: "xk",
 
   theme: {
-      textStyles,
+    textStyles,
     breakpoints: {
       sm: "40em",
       md: "52em",
@@ -57,16 +67,14 @@ export const systemConfig = createSystem(defaultConfig, {
     "html, #__next": {
       height: "100%",
       fontFamily: "Blimone",
+      fontSize: "16px",
+      fontWeight: "400",
       letterSpacing: ".3px",
     },
-    p: {
-      fontFamily: "Blimone",
-    },
-    "body": {
+    body: {
       overflowY: "scroll", // Always show scrollbar to avoid flickering
       paddingBottom: "100px",
       fontFamily: "'Blimone'",
-      fontWeight: "400",
     },
     html: {
       scrollBehavior: "smooth",

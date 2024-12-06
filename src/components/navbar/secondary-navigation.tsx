@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { HStack, IconButton, Tabs, type TabsRootProps } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import type { SecondaryNavItem } from "./data";
@@ -12,7 +12,7 @@ interface Props extends TabsRootProps {
 }
 
 export const SecondaryNavigation = (props: Props) => {
-  const { items = [], activeKey,  ...rest } = props;
+  const { items = [], activeKey, ...rest } = props;
   const [activeTab, setActiveTab] = useState(items[activeKey]?.value);
   useEffect(() => {
     setActiveTab(items[activeKey]?.value);
