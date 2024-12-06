@@ -1,6 +1,11 @@
-import { PopoverContent, PopoverRoot, PopoverTitle, PopoverTrigger } from '~/components/ui/popover'
-import { IconButton, PopoverBody } from '@chakra-ui/react'
-import { LuBell } from 'react-icons/lu'
+import {
+  PopoverContent,
+  PopoverRoot,
+  PopoverTitle,
+  PopoverTrigger,
+} from "~/components/ui/popover";
+import { IconButton, PopoverBody } from "@chakra-ui/react";
+import { LuBell } from "react-icons/lu";
 
 export const NotificationPopover = () => {
   return (
@@ -16,5 +21,5 @@ export const NotificationPopover = () => {
         </PopoverBody>
       </PopoverContent>
     </PopoverRoot>
-  )
-}
+  );
+};

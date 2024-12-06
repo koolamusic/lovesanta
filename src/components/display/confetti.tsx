@@ -1,11 +1,13 @@
-import React from 'react';
-import useWindowSize from '@/hooks/useWindowSize';
-import Confetti from 'react-confetti';
+"use client";
+
+import React from "react";
+import useWindowSize from "~/components/hooks/use-window";
+import Confetti from "react-confetti";
 
 type ConfProps = {
   show: boolean;
 };
-export default function ConfettiComponent({ show }: ConfProps) {
+export function ConfettiComponent({ show }: ConfProps) {
   const { width, height } = useWindowSize();
 
   return (
@@ -13,7 +15,6 @@ export default function ConfettiComponent({ show }: ConfProps) {
       width={width}
       height={height}
       recycle={false}
-      // style={{ pointerEvents: 'none' }}
       numberOfPieces={show ? 750 : 0}
       onConfettiComplete={(confettiInstance: any) => {
         confettiInstance.reset();

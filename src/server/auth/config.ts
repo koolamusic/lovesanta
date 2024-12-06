@@ -1,8 +1,7 @@
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { type DefaultSession, type NextAuthConfig } from "next-auth";
 import DiscordProvider from "next-auth/providers/discord";
-import CredentialsProvider from "next-auth/providers/credentials"
-
+import CredentialsProvider from "next-auth/providers/credentials";
 
 import { db } from "~/server/db";
 
@@ -34,41 +33,43 @@ declare module "next-auth" {
  */
 export const authConfig = {
   providers: [
-  CredentialsProvider({
-    // The name to display on the sign in form (e.g. "Sign in with...")
-    name: "Credentials",
-    // `credentials` is used to generate a form on the sign in page.
-    // You can specify which fields should be submitted, by adding keys to the `credentials` object.
-    // e.g. domain, username, password, 2FA token, etc.
-    // You can pass any HTML attribute to the <input> tag through the object.
-    credentials: {
-      username: { label: "Username", type: "text", placeholder: "joy" },
-      password: { label: "Password", type: "password" }
-    },
-    async authorize(credentials, req) {
-      // Add logic here to look up the user from the credentials supplied
+    CredentialsProvider({
+      // The name to display on the sign in form (e.g. "Sign in with...")
+      name: "Credentials",
+      // `credentials` is used to generate a form on the sign in page.
+      // You can specify which fields should be submitted, by adding keys to the `credentials` object.
+      // e.g. domain, username, password, 2FA token, etc.
+      // You can pass any HTML attribute to the <input> tag through the object.
+      credentials: {
+        username: { label: "Username", type: "text", placeholder: "joy" },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials, req) {
+        // Add logic here to look up the user from the credentials supplied
 
-      // You need to provide your own logic here that takes the credentials
-      // submitted and returns either an object representing a user or value
+        // You need to provide your own logic here that takes the credentials
+        // submitted and returns either an object representing a user or value
 
-      const user = await db.user.findFirst({
-        where: {
-          username: (credentials as { username: string; password: string }).username,
-          passcode: (credentials as { username: string; password: string }).password
+        const user = await db.user.findFirst({
+          where: {
+            username: (credentials as { username: string; password: string })
+              .username,
+            passcode: (credentials as { username: string; password: string })
+              .password,
+          },
+        });
+
+        if (user) {
+          // Any object returned will be saved in `user` property of the JWT
+          return user;
+        } else {
+          // If you return null then an error will be displayed advising the user to check their details.
+          // return null
+
+          throw new Error("please check your username or passcode");
         }
-      })
-
-      if (user) {
-        // Any object returned will be saved in `user` property of the JWT
-        return user
-      } else {
-        // If you return null then an error will be displayed advising the user to check their details.
-        // return null
-
-        throw new Error('please check your username or passcode')
-      }
-    }
-  }),
+      },
+    }),
     DiscordProvider,
     /**
      * ...add more providers here.
@@ -91,8 +92,6 @@ export const authConfig = {
     }),
   },
 } satisfies NextAuthConfig;
-
-
 
 // ...
 // providers: [

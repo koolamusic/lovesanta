@@ -1,47 +1,52 @@
-import { LuBookmark, LuClock, LuLayoutDashboard, LuSettings } from 'react-icons/lu'
+import {
+  LuBookmark,
+  LuClock,
+  LuLayoutDashboard,
+  LuSettings,
+} from "react-icons/lu";
 
 export const items = [
   {
-    value: 'dashboard',
-    label: 'Dashboard',
+    value: "dashboard",
+    label: "Dashboard",
     icon: LuLayoutDashboard,
     secondary: [
       {
-        value: 'overview',
-        label: 'Overview',
+        value: "overview",
+        label: "Overview",
       },
-      { value: 'inbox', label: 'Inbox' },
+      { value: "profile", label: "Profile" },
     ],
   },
   {
-    value: 'history',
+    value: "history",
     icon: LuClock,
-    label: 'History',
+    label: "History",
     secondary: [
-      { value: 'recent', label: 'Recent Activity' },
-      { value: 'archived', label: 'Archived' },
+      { value: "recent", label: "Recent Activity" },
+      { value: "archived", label: "Archived" },
     ],
   },
   {
-    value: 'favorites',
+    value: "favorites",
     icon: LuBookmark,
-    label: 'Favorites',
+    label: "Favorites",
     secondary: [
-      { value: 'bookmarks', label: 'Bookmarks' },
-      { value: 'saved-items', label: 'Saved Items' },
+      { value: "bookmarks", label: "Bookmarks" },
+      { value: "saved-items", label: "Saved Items" },
     ],
   },
   {
-    value: 'settings',
+    value: "settings",
     icon: LuSettings,
-    label: 'Settings',
+    label: "Settings",
     secondary: [
-      { value: 'account', label: 'Account' },
-      { value: 'preferences', label: 'Preferences' },
-      { value: 'security', label: 'Security' },
+      { value: "account", label: "Account" },
+      { value: "preferences", label: "Preferences" },
+      { value: "security", label: "Security" },
     ],
   },
-]
+];
 
-export type NavItem = (typeof items)[number]
-export type SecondaryNavItem = NavItem['secondary'][number]
+export type NavItem = (typeof items)[number];
+export type SecondaryNavItem = NavItem["secondary"][number];

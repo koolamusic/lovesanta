@@ -1,15 +1,15 @@
-import { createSystem, defaultConfig } from "@chakra-ui/react"
+import { createSystem, defaultConfig } from "@chakra-ui/react";
 
 export const systemConfig = createSystem(defaultConfig, {
   cssVarsPrefix: "xk",
 
   theme: {
     breakpoints: {
-      sm: '40em',
-      md: '52em',
-      lg: '69em',
-      xl: '96em',
-      '2xl': '134em',
+      sm: "40em",
+      md: "52em",
+      lg: "69em",
+      xl: "96em",
+      "2xl": "134em",
     },
     tokens: {
       colors: {
@@ -37,23 +37,20 @@ export const systemConfig = createSystem(defaultConfig, {
     },
   },
   globalCss: {
-    'html, #__next': {
-      height: '100%',
-      fontFamily: 'Pixeboy',
-      letterSpacing: '.3px',
+    "html, #__next": {
+      height: "100%",
+      fontFamily: "Pixeboy",
+      letterSpacing: ".3px",
     },
     p: {
-      fontFamily: 'Sole Sans',
+      fontFamily: "Sole Sans",
     },
-    '#__next': {
-      display: 'flex',
-      flexDirection: 'column',
-    },
-    '.body': {
-      overflowY: 'scroll', // Always show scrollbar to avoid flickering
+    ".body": {
+      overflowY: "scroll", // Always show scrollbar to avoid flickering
+      paddingBottom: "100px",
     },
     html: {
-      scrollBehavior: 'smooth',
+      scrollBehavior: "smooth",
     },
   },
-})
+});

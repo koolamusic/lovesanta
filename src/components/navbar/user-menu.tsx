@@ -1,12 +1,18 @@
-import { LuLogOut, LuSettings, LuUser } from 'react-icons/lu'
-import { Avatar } from '~/components/ui/avatar'
-import { MenuContent, MenuItem, MenuRoot, MenuSeparator, MenuTrigger } from '~/components/ui/menu'
+import { LuLogOut, LuSettings, LuUser } from "react-icons/lu";
+import { Avatar } from "~/components/ui/avatar";
+import {
+  MenuContent,
+  MenuItem,
+  MenuRoot,
+  MenuSeparator,
+  MenuTrigger,
+} from "~/components/ui/menu";
 
 export const UserMenu = () => {
   return (
-    <MenuRoot positioning={{ placement: 'bottom' }}>
+    <MenuRoot positioning={{ placement: "bottom" }}>
       <MenuTrigger>
-        <Avatar size={'xs'} src="https://i.pravatar.cc/300" />
+        <Avatar size={"xs"} src="https://i.pravatar.cc/300" />
       </MenuTrigger>
       <MenuContent>
         <MenuItem value="profile">
@@ -24,5 +30,5 @@ export const UserMenu = () => {
         </MenuItem>
       </MenuContent>
     </MenuRoot>
-  )
-}
+  );
+};

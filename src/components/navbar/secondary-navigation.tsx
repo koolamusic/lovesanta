@@ -1,20 +1,20 @@
-import { HStack, IconButton, Tabs, type TabsRootProps } from '@chakra-ui/react'
-import { useEffect, useState } from 'react'
-import type { SecondaryNavItem } from './data'
-import { ColorModeButton } from '../ui/color-mode'
-import { UserMenu } from './user-menu'
-import { LuLogOut } from 'react-icons/lu'
+import { HStack, IconButton, Tabs, type TabsRootProps } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import type { SecondaryNavItem } from "./data";
+import { ColorModeButton } from "../ui/color-mode";
+// import { UserMenu } from './user-menu'
+import { LuLogOut } from "react-icons/lu";
 
 interface Props extends TabsRootProps {
-  items?: SecondaryNavItem[]
+  items?: SecondaryNavItem[];
 }
 
 export const SecondaryNavigation = (props: Props) => {
-  const { items = [], ...rest } = props
-  const [activeTab, setActiveTab] = useState(items[0]?.value)
+  const { items = [], ...rest } = props;
+  const [activeTab, setActiveTab] = useState(items[0]?.value);
   useEffect(() => {
-    setActiveTab(items[0]?.value)
-  }, [items])
+    setActiveTab(items[0]?.value);
+  }, [items]);
 
   return (
     <Tabs.Root
@@ -31,34 +31,36 @@ export const SecondaryNavigation = (props: Props) => {
         p="1"
         h="10"
         borderRadius="lg"
-        bg={{ base: 'bg.muted', _dark: 'transparent' }}
+        bg={{ base: "bg.muted", _dark: "gray.900" }}
       >
         {items.map(({ value, label }) => (
           <Tabs.Trigger key={value} value={value} h="8">
             {label}
           </Tabs.Trigger>
         ))}
-        <Tabs.Indicator borderRadius="l2" bg={{ base: 'white', _dark: 'bg.subtle' }} />
-        
-        
-        <HStack ml={'3'} mr="0" spaceX={-2}>
-      <IconButton
-      size={'xs'}
-         css={{
-          _icon: {
-            width: "5",
-            height: "5",
-          },
-        }}
-        aria-label="Logout" variant="ghost">
-       <LuLogOut />
-       </IconButton>
+        <Tabs.Indicator
+          borderRadius="l2"
+          bg={{ base: "white", _dark: "bg.subtle" }}
+        />
 
-      <ColorModeButton />
+        <HStack ml={"3"} mr="0" spaceX={-2}>
+          <IconButton
+            size={"xs"}
+            css={{
+              _icon: {
+                width: "5",
+                height: "5",
+              },
+            }}
+            aria-label="Logout"
+            variant="ghost"
+          >
+            <LuLogOut />
+          </IconButton>
 
-      </HStack>
+          <ColorModeButton />
+        </HStack>
       </Tabs.List>
-
     </Tabs.Root>
-  )
-}
+  );
+};

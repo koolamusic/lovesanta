@@ -1,15 +1,30 @@
-import { Badge, Container, Flex, HStack, Spacer, Stack, Text, VStack } from '@chakra-ui/react'
-import { BsChat, BsChevronUp } from 'react-icons/bs'
-import { Avatar } from '~/components/ui/avatar'
-import { Status } from '~/components/ui/status'
-import { feeds } from './_data'
+import {
+  Badge,
+  Container,
+  Flex,
+  HStack,
+  Spacer,
+  Stack,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
+import { BsChat, BsChevronUp } from "react-icons/bs";
+import { Avatar } from "~/components/ui/avatar";
+import { Status } from "~/components/ui/status";
+import { feeds } from "./_data";
 
 export const FeedComponent = () => {
   return (
-    <Container maxW="3xl" py={{ base: '12', md: '24' }}>
+    <Container maxW="3xl" py={{ base: "12", md: "24" }}>
       <Stack gap="6">
         {feeds.map((feed) => (
-          <Flex key={feed.id} borderWidth="1px" divideX="1px" borderRadius="l3" bg="bg">
+          <Flex
+            key={feed.id}
+            borderWidth="1px"
+            divideX="1px"
+            borderRadius="l3"
+            bg="bg"
+          >
             <Stack p="6" flex="1">
               <Badge variant="surface" alignSelf="flex-start">
                 In Progress
@@ -54,5 +69,5 @@ export const FeedComponent = () => {
         ))}
       </Stack>
     </Container>
-  )
-}
+  );
+};
