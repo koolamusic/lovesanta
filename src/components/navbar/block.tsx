@@ -12,6 +12,7 @@ export const NavbarComponent = ({ activeMenuKey = 0 }) => {
       position={"fixed"}
       zIndex={100}
       left={0}
+      right={0}
       bottom={2}
       py={{ base: "4", md: "6", lg: "8" }}
     >

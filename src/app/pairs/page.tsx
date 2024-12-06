@@ -25,11 +25,11 @@ export default async function PairingInfo() {
 
   return (
     <HydrateClient>
-          <ConfettiComponent show={true} />
         <NavbarComponent activeMenuKey={1} />
 
 
-      <Container pb={24}>
+      <Container pb={24} overflowX={'hidden'}>
+          <ConfettiComponent show={true} />
           <Flex pt={20} />
           <Heading as="h6" textAlign="center" fontSize="2rem">
             You currently don&apos;t have an pair yet

@@ -1,9 +1,26 @@
 import { createSystem, defaultConfig } from "@chakra-ui/react";
+import { defineTextStyles } from "@chakra-ui/react"
+
+export const textStyles = defineTextStyles({
+  body: {
+    description: "The body text style - used in paragraphs",
+    value: {
+      fontFamily: "var(--font-geist-sans)",
+      fontWeight: "400",
+      fontSize: "16px",
+      lineHeight: "24",
+      letterSpacing: "0",
+      textDecoration: "None",
+      textTransform: "None",
+    },
+  },
+})
 
 export const systemConfig = createSystem(defaultConfig, {
   cssVarsPrefix: "xk",
 
   theme: {
+      textStyles,
     breakpoints: {
       sm: "40em",
       md: "52em",
@@ -39,15 +56,17 @@ export const systemConfig = createSystem(defaultConfig, {
   globalCss: {
     "html, #__next": {
       height: "100%",
-      fontFamily: "Pixeboy",
+      fontFamily: "Blimone",
       letterSpacing: ".3px",
     },
     p: {
-      fontFamily: "Sole Sans",
+      fontFamily: "Blimone",
     },
-    ".body": {
+    "body": {
       overflowY: "scroll", // Always show scrollbar to avoid flickering
       paddingBottom: "100px",
+      fontFamily: "'Blimone'",
+      fontWeight: "400",
     },
     html: {
       scrollBehavior: "smooth",
