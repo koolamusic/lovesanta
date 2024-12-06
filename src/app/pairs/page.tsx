@@ -8,12 +8,14 @@ import {
   Container,
   Flex,
   Heading,
+  Stack,
 } from "@chakra-ui/react";
 import { PreviousConnections } from "~/app/_components/previous-connections";
 import { ConfettiComponent } from "~/components/display/confetti";
 import { PairPreviewBox } from "~/components/display/pair-preview";
 import PairPreferenceDrawer from "~/components/display/preference-drawer";
 import { Button } from "~/components/ui/button";
+import { CurrentConnection } from "../_components/current-connection";
 
 export default async function PairingInfo() {
   const hello = await api.post.hello({ text: "from tRPC" });
@@ -73,7 +75,15 @@ export default async function PairingInfo() {
         <PairPreferenceDrawer wishlist={"we want to buy a lot of sneakers"} />
         {/* -------  Show the users preferences in a drawer ------ */}
 
-        <PreviousConnections />
+        <Stack my={4} gap={10}>
+          {/*  --------------------- Show current connected pair  --------------------- */}
+
+          <CurrentConnection />
+
+          {/*  --------------------- Show previous connections  --------------------- */}
+          <PreviousConnections />
+          {/*  --------------------- Show previous connections  --------------------- */}
+        </Stack>
       </Container>
     </HydrateClient>
   );
