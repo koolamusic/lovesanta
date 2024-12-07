@@ -1,10 +1,13 @@
 // import "~/styles/globals.css";
-import { Provider } from "~/components/ui/provider";
 
-import { Bricolage_Grotesque } from "next/font/google";
 import { type Metadata } from "next";
 
+import { auth } from "~/server/auth";
+import { redirect } from "next/navigation";
 import { TRPCReactProvider } from "~/trpc/react";
+import { Provider } from "~/components/ui/provider";
+import { Bricolage_Grotesque } from "next/font/google";
+
 
 export const metadata: Metadata = {
   title: "Secret Santa App",
@@ -20,9 +23,18 @@ const bricolage = Bricolage_Grotesque({
   variable: "--font-bricolage",
 });
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+
+  const session = await auth()
+
+  console.log({ session })
+
+  if (session) {
+    redirect('/home')
+  }
+
   return (
     <html
       lang="en"

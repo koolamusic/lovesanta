@@ -5,7 +5,6 @@ import { Field } from "~/components/ui/field"
 import { useForm } from "react-hook-form"
 
 import { Box, Button, Card, HStack, Icon } from '@chakra-ui/react'
-import { LuCheck } from 'react-icons/lu'
 
 interface WishlistCardProps {
   icon: React.ReactNode

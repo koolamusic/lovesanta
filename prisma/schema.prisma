@@ -61,6 +61,7 @@ model User {
     passcode      String?
     email         String?   @unique
     emailVerified DateTime?
+    region        String?  @default("africa") // africa, world, europe, asia
     loginCount    Int       @default(0) // We use this to manage the pin creation helpers
     image         String?
     accounts      Account[]

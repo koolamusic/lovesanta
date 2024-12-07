@@ -5,6 +5,8 @@ import type { SecondaryNavItem } from "./data";
 import { ColorModeButton } from "../ui/color-mode";
 // import { UserMenu } from './user-menu'
 import { LuLogOut } from "react-icons/lu";
+import { signOut } from "next-auth/react"
+
 
 interface Props extends TabsRootProps {
   items?: SecondaryNavItem[];
@@ -56,6 +58,7 @@ export const SecondaryNavigation = (props: Props) => {
             }}
             aria-label="Logout"
             variant="ghost"
+            onClick={() => signOut()}
           >
             <LuLogOut />
           </IconButton>

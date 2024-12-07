@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Container,
   HStack,
@@ -8,22 +10,53 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { BsGoogle } from "react-icons/bs";
 import { Button } from "~/components/ui/button";
 import { Checkbox } from "~/components/ui/checkbox";
 import { Field } from "~/components/ui/field";
 import { PinInput } from "~/components/ui/pin-input";
 import { LuArrowRight } from "react-icons/lu";
 
-export const CredentialForm = () => (
+
+import { useForm } from "react-hook-form";
+import { signIn, getCsrfToken } from 'next-auth/react'
+
+interface FormValues {
+  username: string
+  passcode: string
+}
+
+export const CredentialForm = () => {
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormValues>()
+
+  const onSubmit = handleSubmit((data) => {
+    console.log(data)
+    signIn('credentials', {
+      // redirectTo: '/home',  
+      username: data.username,
+      passcode: data.passcode
+    });
+
+  })
+
+
+  return (
+      <form onSubmit={onSubmit}>
+          {/*  <form method="post" action="/api/auth/callback/credentials"> */}
+           {/* <input name="csrfToken" type="hidden" defaultValue={getCsrfToken()} /> */}
+
   <Stack gap="6">
     <VStack gap="6">
       <Field label="Your username">
-        <Input type="username" />
+        <Input type="username" {...register('username', { required: 'you need a username'})} />
       </Field>
 
       <Field label="Your Passcode">
-        <PinInput count={6} size="xl" placeholder="" />
+        <PinInput count={6} size="xl" placeholder="" {...register('passcode', {required: 'passcode is required'})} />
       </Field>
     </VStack>
 
@@ -34,16 +67,17 @@ export const CredentialForm = () => (
           Forgot password
         </Button>
       </HStack>
-      <Button>
+      <Button type="submit">
         Sign in <LuArrowRight />
       </Button>
       {/* <Button variant="outline">
             <BsGoogle />
             Sign in with Google
-          </Button> */}
+            </Button> */}
     </Stack>
   </Stack>
-);
+            </form>
+)};
 
 export const AuthenticateStack = () => {
   return (

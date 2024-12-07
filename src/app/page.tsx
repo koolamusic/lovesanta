@@ -6,8 +6,8 @@ import { Container } from "@chakra-ui/react";
 import { AuthenticateStack } from "./_components/authenticate";
 
 export default async function Home() {
-  const hello = await api.post.hello({ text: "from tRPC" });
   const session = await auth();
+  console.log({session, from: '[home]'})
 
   if (session?.user) {
     void api.post.getLatest.prefetch();
@@ -15,9 +15,10 @@ export default async function Home() {
 
   return (
     <HydrateClient>
-      <Container pb={24}>
+      <Container pb={20}>
         <AuthenticateStack />
       </Container>
+      <NavbarComponent />
     </HydrateClient>
   );
 }
