@@ -5,8 +5,7 @@ import type { SecondaryNavItem } from "./data";
 import { ColorModeButton } from "../ui/color-mode";
 // import { UserMenu } from './user-menu'
 import { LuLogOut } from "react-icons/lu";
-import { signOut } from "next-auth/react"
-
+import { signOut } from "next-auth/react";
 
 interface Props extends TabsRootProps {
   items?: SecondaryNavItem[];

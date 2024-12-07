@@ -15,7 +15,7 @@ export default async function Home() {
 
   return (
     <HydrateClient>
-        <NavbarComponent />
+      <NavbarComponent />
       <Container pb={20}>
         <ProfileSettingComponent />
       </Container>

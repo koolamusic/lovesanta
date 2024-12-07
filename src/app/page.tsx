@@ -7,7 +7,7 @@ import { AuthenticateStack } from "./_components/authenticate";
 
 export default async function Home() {
   const session = await auth();
-  console.log({session, from: '[home]'})
+  console.log({ session, from: "[home]" });
 
   if (session?.user) {
     void api.post.getLatest.prefetch();

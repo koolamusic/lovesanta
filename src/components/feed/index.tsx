@@ -12,25 +12,23 @@ import { Status } from "~/components/ui/status";
 import { events } from "./_data";
 import { LuChevronRight, LuUser } from "react-icons/lu";
 
-
-
 export const calculateDaysAgo = (dateString: string): string => {
   const eventDate = new Date(dateString);
   const today = new Date();
 
-  if(eventDate > today) {
-    const daysToGo = Math.ceil((eventDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+  if (eventDate > today) {
+    const daysToGo = Math.ceil(
+      (eventDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24),
+    );
     return `${daysToGo} days to go`;
   }
   const diffTime = Math.abs(today.getTime() - eventDate.getTime());
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-  
-  if (diffDays === 0) return 'Today';
-  if (diffDays === 1) return 'Yesterday';
+
+  if (diffDays === 0) return "Today";
+  if (diffDays === 1) return "Yesterday";
   return `${diffDays} days ago`;
 };
-
-
 
 export const EventFeedComponent = () => {
   return (
@@ -47,15 +45,13 @@ export const EventFeedComponent = () => {
             aria-disabled={event.status === "ended"}
           >
             <Stack p="6" flex="1">
-
               <HStack>
-
-              <Badge variant="surface" alignSelf="flex-start">
-                {event.status}
-              </Badge>
-              <Text textStyle="sm" fontWeight="semibold" color={'fg.muted'}>
-                {event.name}
-              </Text>
+                <Badge variant="surface" alignSelf="flex-start">
+                  {event.status}
+                </Badge>
+                <Text textStyle="sm" fontWeight="semibold" color={"fg.muted"}>
+                  {event.name}
+                </Text>
               </HStack>
               {/* <Text textStyle="lg" fontWeight="semibold" mt="2">
                 {event.name}
@@ -72,7 +68,7 @@ export const EventFeedComponent = () => {
 
                 <HStack gap="4">
                   <HStack gap="1">
-                  <LuUser />
+                    <LuUser />
 
                     <Text textStyle="sm" color="fg.muted">
                       {event.participants} participants
@@ -83,24 +79,14 @@ export const EventFeedComponent = () => {
               </HStack>
             </Stack>
             <VStack px="4" justify="center" flexShrink="0">
-            <LuChevronRight />
-            {/* <Text textStyle="sm" fontWeight="semibold">
+              <LuChevronRight />
+              {/* <Text textStyle="sm" fontWeight="semibold">
               {feed.upvotes}
             </Text> */}
-          </VStack>
+            </VStack>
           </Flex>
         ))}
       </Stack>
     </Container>
   );
 };
-
-
-
-
-
-
-
-
-
-

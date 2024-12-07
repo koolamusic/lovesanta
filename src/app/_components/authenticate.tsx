@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   Container,
@@ -16,68 +16,73 @@ import { Field } from "~/components/ui/field";
 import { PinInput } from "~/components/ui/pin-input";
 import { LuArrowRight } from "react-icons/lu";
 
-
 import { useForm } from "react-hook-form";
-import { signIn, getCsrfToken } from 'next-auth/react'
+import { signIn, getCsrfToken } from "next-auth/react";
 
 interface FormValues {
-  username: string
-  passcode: string
+  username: string;
+  passcode: string;
 }
 
 export const CredentialForm = () => {
-
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormValues>()
+  } = useForm<FormValues>();
 
   const onSubmit = handleSubmit((data) => {
-    console.log(data)
-    signIn('credentials', {
-      // redirectTo: '/home',  
+    console.log(data);
+    signIn("credentials", {
+      redirectTo: "/home",
       username: data.username,
-      passcode: data.passcode
+      passcode: data.passcode,
     });
-
-  })
-
+  });
 
   return (
-      <form onSubmit={onSubmit}>
-          {/*  <form method="post" action="/api/auth/callback/credentials"> */}
-           {/* <input name="csrfToken" type="hidden" defaultValue={getCsrfToken()} /> */}
+    <form onSubmit={onSubmit}>
+      {/*  <form method="post" action="/api/auth/callback/credentials"> */}
+      {/* <input name="csrfToken" type="hidden" defaultValue={getCsrfToken()} /> */}
 
-  <Stack gap="6">
-    <VStack gap="6">
-      <Field label="Your username">
-        <Input type="username" {...register('username', { required: 'you need a username'})} />
-      </Field>
+      <Stack gap="6">
+        <VStack gap="6">
+          <Field label="Your username">
+            <Input
+              type="username"
+              {...register("username", { required: "you need a username" })}
+            />
+          </Field>
 
-      <Field label="Your Passcode">
-        <PinInput count={6} size="xl" placeholder="" {...register('passcode', {required: 'passcode is required'})} />
-      </Field>
-    </VStack>
+          <Field label="Your Passcode">
+            <PinInput
+              count={6}
+              size="xl"
+              placeholder=""
+              {...register("passcode", { required: "passcode is required" })}
+            />
+          </Field>
+        </VStack>
 
-    <Stack gap="4">
-      <HStack justify="space-between">
-        <Checkbox defaultChecked>Remember me</Checkbox>
-        <Button variant="plain" size="sm">
-          Forgot password
-        </Button>
-      </HStack>
-      <Button type="submit">
-        Sign in <LuArrowRight />
-      </Button>
-      {/* <Button variant="outline">
+        <Stack gap="4">
+          <HStack justify="space-between">
+            <Checkbox defaultChecked>Remember me</Checkbox>
+            <Button variant="plain" size="sm">
+              Forgot password
+            </Button>
+          </HStack>
+          <Button type="submit">
+            Sign in <LuArrowRight />
+          </Button>
+          {/* <Button variant="outline">
             <BsGoogle />
             Sign in with Google
             </Button> */}
-    </Stack>
-  </Stack>
-            </form>
-)};
+        </Stack>
+      </Stack>
+    </form>
+  );
+};
 
 export const AuthenticateStack = () => {
   return (

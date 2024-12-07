@@ -1,8 +1,8 @@
-import { Button, Container, Flex, HStack, Stack, Text } from '@chakra-ui/react'
-import { LuAtSign } from 'react-icons/lu'
-import { SiApple, SiGoogle } from 'react-icons/si'
-import { AuthCard } from './auth-card'
-import { WishlistCard } from './profile-wishlist-card'
+import { Button, Container, Flex, HStack, Stack, Text } from "@chakra-ui/react";
+import { LuAtSign } from "react-icons/lu";
+import { SiApple, SiGoogle } from "react-icons/si";
+import { AuthCard } from "./auth-card";
+import { WishlistCard } from "./profile-wishlist-card";
 
 export const ProfileSettingComponent = () => {
   return (
@@ -22,7 +22,7 @@ export const ProfileSettingComponent = () => {
             connected
           >
             <Flex gap="4" align="center" width="full">
-              <Text textStyle="sm" color={'fg.muted'} flex="1">
+              <Text textStyle="sm" color={"fg.muted"} flex="1">
                 BUKOLA SANTA
               </Text>
               <HStack colorPalette="gray">
@@ -35,10 +35,14 @@ export const ProfileSettingComponent = () => {
               </HStack>
             </Flex>
           </AuthCard>
-          <WishlistCard icon={<SiGoogle />} title="Wishlist" description="What gifts would you like from Secret Santa " />
+          <WishlistCard
+            icon={<SiGoogle />}
+            title="Wishlist"
+            description="What gifts would you like from Secret Santa "
+          />
           {/* <AuthCard icon={<SiApple />} title="Apple" description="Connect your Apple account" /> */}
         </Stack>
       </Stack>
     </Container>
-  )
-}
+  );
+};

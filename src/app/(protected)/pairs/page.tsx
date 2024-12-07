@@ -15,7 +15,7 @@ import { ConfettiComponent } from "~/components/display/confetti";
 import { PairPreviewBox } from "~/components/display/pair-preview";
 import PairPreferenceDrawer from "~/components/display/preference-drawer";
 import { Button } from "~/components/ui/button";
-import { CurrentConnection } from "../_components/current-connection";
+import { CurrentConnection } from "~/app/_components/current-connection";
 
 export default async function PairingInfo() {
   const hello = await api.post.hello({ text: "from tRPC" });

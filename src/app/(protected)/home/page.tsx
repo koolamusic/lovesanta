@@ -16,7 +16,6 @@ export default async function Home() {
   return (
     <HydrateClient>
       <Container pb={24}>
-
         <EventFeedComponent />
 
         <NavbarComponent />

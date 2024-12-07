@@ -1,13 +1,10 @@
-// import "~/styles/globals.css";
-
 import { type Metadata } from "next";
 
 import { auth } from "~/server/auth";
-import { redirect } from "next/navigation";
 import { TRPCReactProvider } from "~/trpc/react";
 import { Provider } from "~/components/ui/provider";
 import { Bricolage_Grotesque } from "next/font/google";
-
+import { SessionProvider } from "next-auth/react";
 
 export const metadata: Metadata = {
   title: "Secret Santa App",
@@ -26,14 +23,7 @@ const bricolage = Bricolage_Grotesque({
 export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-
-  const session = await auth()
-
-  console.log({ session })
-
-  if (session) {
-    redirect('/home')
-  }
+  const session = await auth();
 
   return (
     <html
@@ -43,7 +33,9 @@ export default async function RootLayout({
     >
       <body>
         <TRPCReactProvider>
-          <Provider>{children}</Provider>
+          <SessionProvider session={session}>
+            <Provider>{children}</Provider>
+          </SessionProvider>
         </TRPCReactProvider>
       </body>
     </html>
