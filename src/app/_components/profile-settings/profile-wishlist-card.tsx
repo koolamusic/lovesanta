@@ -10,12 +10,14 @@ interface WishlistCardProps {
   icon: React.ReactNode;
   title: string;
   description: string;
-  connected?: boolean;
+  placeholder?: string;
   children?: React.ReactNode;
 }
 
+const defaultBio = "I want the new iphone 16 with caramel crust cupcakes and ...";
+
 export const WishlistCard = (props: WishlistCardProps) => {
-  const { icon, title, description, connected, children } = props;
+  const { icon, title, description, placeholder, children } = props;
   return (
     <Card.Root size="sm">
       <Card.Body>
@@ -25,7 +27,7 @@ export const WishlistCard = (props: WishlistCardProps) => {
             <Card.Description>{description}</Card.Description>
           </Box>
         </HStack>
-        <FormStack />
+        <FormStack placeholder={placeholder} />
       </Card.Body>
       {children && <Card.Footer>{children}</Card.Footer>}
     </Card.Root>
@@ -37,7 +39,8 @@ interface FormValues {
   bio: string;
 }
 
-const FormStack = () => {
+
+const FormStack = ({ placeholder = defaultBio }) => {
   const {
     register,
     handleSubmit,
@@ -61,7 +64,8 @@ const FormStack = () => {
             minH={"124px"}
             fontSize={"16px"}
             resize={"none"}
-            placeholder="I want the new iphone 16 with caramel crust cupcakes and ..."
+            placeholder={placeholder}
+            defaultValue={placeholder}
             {...register("bio", { required: "Bio is required" })}
           />
         </Field>

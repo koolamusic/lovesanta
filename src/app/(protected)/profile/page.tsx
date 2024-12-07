@@ -3,7 +3,7 @@ import { api, HydrateClient } from "~/trpc/server";
 
 import { NavbarComponent } from "~/components/navbar/block";
 import { Container } from "@chakra-ui/react";
-import { ProfileSettingComponent } from "~/app/_components/profile-settings";
+import {ProfileSettingComponent} from "~/app/_components/profile-settings";
 
 export default async function Home() {
   const hello = await api.post.hello({ text: "from tRPC" });
@@ -13,11 +13,13 @@ export default async function Home() {
     void api.post.getLatest.prefetch();
   }
 
+  const profileSettings = await ProfileSettingComponent();
+
   return (
     <HydrateClient>
-      <NavbarComponent />
-      <Container pb={20}>
-        <ProfileSettingComponent />
+      <NavbarComponent activeMenuKey={1} />
+      <Container pb={16}>
+        {profileSettings}
       </Container>
     </HydrateClient>
   );

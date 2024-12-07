@@ -24,10 +24,12 @@ declare module "next-auth" {
     } & DefaultSession["user"];
   }
 
-  // interface User {
-  //   // ...other properties
-  //   // role: UserRole;
-  // }
+  interface User {
+    // ...other properties
+    bio?: string;
+    loginCount?: number;
+    region?: string;
+  }
 }
 
 /**
@@ -116,6 +118,7 @@ export const authConfig = {
   },
 
   callbacks: {
+
     /**
      *
      * @jwt callback
@@ -129,7 +132,7 @@ export const authConfig = {
     async jwt({ token, user, account }) {
       if (account?.provider === "credentials") {
         const expires = new Date(Date.now() + 60 * 60 * 24 * 30 * 1000);
-        const sessionToken = nanoid(12);
+        const sessionToken = nanoid(24);
 
         const session = await adapter.createSession!({
           userId: user.id!,

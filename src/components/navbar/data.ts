@@ -4,6 +4,7 @@ import {
   LuLayoutDashboard,
   LuSettings,
 } from "react-icons/lu";
+import { routes } from "~/app/common/routes";
 
 export const items = [
   {
@@ -52,9 +53,10 @@ export const staticSecondaryNavItems: SecondaryNavItem[] = [
   {
     value: "overview",
     label: "Overview",
+    path: routes.home,
   },
-  { value: "profile", label: "Profile" },
+  { value: "profile", label: "Profile", path: routes.profile },
 ];
 
 export type NavItem = (typeof items)[number];
-export type SecondaryNavItem = NavItem["secondary"][number];
+export type SecondaryNavItem = NavItem["secondary"][number] & { path: string };

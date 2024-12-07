@@ -26,6 +26,23 @@ model Post {
     @@index([name])
 }
 
+enum EventStatus {
+    upcoming
+    active
+    ended
+}
+
+model SecretSantaEvent {
+    id           String   @id @default(cuid())
+    year         Int
+    name         String
+    status       EventStatus @default(ended)
+    date         DateTime
+    participants Int
+    isPast       Boolean
+    description  String
+}
+
 // Necessary for Next auth
 model Account {
     id                       String  @id @default(cuid())
@@ -62,8 +79,9 @@ model User {
     email         String?   @unique
     emailVerified DateTime?
     region        String?  @default("africa") // africa, world, europe, asia
-    loginCount    Int       @default(0) // We use this to manage the pin creation helpers
+    loginCount    Int       @default(0) // We use this to manage the pin reset/creation helpers
     image         String?
+    bio           String?   // bio is a string users can use to write their wishlist
     accounts      Account[]
     sessions      Session[]
     posts         Post[]

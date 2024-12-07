@@ -1,11 +1,12 @@
 "use client";
-import { HStack, IconButton, Tabs, type TabsRootProps } from "@chakra-ui/react";
+import { HStack, IconButton, Link as ChakraLink, Tabs, type TabsRootProps } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import type { SecondaryNavItem } from "./data";
 import { ColorModeButton } from "../ui/color-mode";
-// import { UserMenu } from './user-menu'
+
 import { LuLogOut } from "react-icons/lu";
 import { signOut } from "next-auth/react";
+import Link from "next/link";
 
 interface Props extends TabsRootProps {
   items?: SecondaryNavItem[];
@@ -36,9 +37,11 @@ export const SecondaryNavigation = (props: Props) => {
         borderRadius="lg"
         bg={{ base: "bg.muted", _dark: "gray.900" }}
       >
-        {items.map(({ value, label }) => (
+        {items.map(({ value, path, label }) => (
           <Tabs.Trigger key={value} value={value} h="8">
-            {label}
+            <Link href={path} passHref>
+           {label}
+            </Link>
           </Tabs.Trigger>
         ))}
         <Tabs.Indicator
