@@ -27,8 +27,6 @@ interface FormValues {
 }
 
 export const AuthenticateStack = () => {
-
-
   /**
    * @operation
    * When we already have a user session, we can redirect the user to the home page
@@ -36,11 +34,9 @@ export const AuthenticateStack = () => {
    * redirecting the user to the home page.
    */
   const session = useSession();
-  if(session?.data && session?.data.user) {
+  if (session?.data && session?.data.user) {
     redirect(routes.home);
   }
-
-
 
   return (
     <Container maxW="sm" py={{ base: "12", md: "24" }}>
@@ -64,9 +60,6 @@ export const AuthenticateStack = () => {
     </Container>
   );
 };
-
-
-
 
 export const CredentialForm = () => {
   const {

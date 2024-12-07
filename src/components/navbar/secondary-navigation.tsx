@@ -1,5 +1,11 @@
 "use client";
-import { HStack, IconButton, Link as ChakraLink, Tabs, type TabsRootProps } from "@chakra-ui/react";
+import {
+  HStack,
+  IconButton,
+  Link as ChakraLink,
+  Tabs,
+  type TabsRootProps,
+} from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import type { SecondaryNavItem } from "./data";
 import { ColorModeButton } from "../ui/color-mode";
@@ -40,7 +46,7 @@ export const SecondaryNavigation = (props: Props) => {
         {items.map(({ value, path, label }) => (
           <Tabs.Trigger key={value} value={value} h="8">
             <Link href={path} passHref>
-           {label}
+              {label}
             </Link>
           </Tabs.Trigger>
         ))}

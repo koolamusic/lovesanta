@@ -1,4 +1,13 @@
-import { Button, Center, Container, Flex, HStack, Icon, Stack, Text } from "@chakra-ui/react";
+import {
+  Button,
+  Center,
+  Container,
+  Flex,
+  HStack,
+  Icon,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
 import { LuAtSign } from "react-icons/lu";
 import { SiApple, SiGoogle } from "react-icons/si";
 import { AuthCard } from "./auth-card";
@@ -7,9 +16,7 @@ import { db } from "~/server/db";
 import { auth } from "~/server/auth";
 import { Avatar } from "~/components/ui/avatar";
 
-
 export const ProfileSettingComponent = async () => {
-
   const session = await auth();
 
   const profile = await db.user.findFirst({
@@ -24,12 +31,9 @@ export const ProfileSettingComponent = async () => {
 
   return (
     <Container maxW="xl" py="12">
-
-<Stack pb={2}>
-
-      <Avatar size="lg" name={profile.name as string} />
-</Stack>
-
+      <Stack pb={2}>
+        <Avatar size="lg" name={profile.name as string} />
+      </Stack>
 
       <Stack gap="6">
         <Stack gap="1">
@@ -41,12 +45,17 @@ export const ProfileSettingComponent = async () => {
         <Stack gap="4">
           <AuthCard
             icon={<LuAtSign />}
-            title={profile.username ?? 'username'}
+            title={profile.username ?? "username"}
             description="Use username to login"
             connected
           >
             <Flex gap="4" align="center" width="full">
-              <Text textTransform={'uppercase'} textStyle="sm" color={"fg.muted"} flex="1">
+              <Text
+                textTransform={"uppercase"}
+                textStyle="sm"
+                color={"fg.muted"}
+                flex="1"
+              >
                 {profile.name}
               </Text>
               <HStack colorPalette="gray">

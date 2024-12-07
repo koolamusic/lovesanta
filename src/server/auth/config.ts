@@ -26,9 +26,9 @@ declare module "next-auth" {
 
   interface User {
     // ...other properties
-    bio?: string;
-    loginCount?: number;
-    region?: string;
+    // bio?: string;
+    // loginCount?: number;
+    // region?: string;
   }
 }
 
@@ -118,7 +118,6 @@ export const authConfig = {
   },
 
   callbacks: {
-
     /**
      *
      * @jwt callback

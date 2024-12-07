@@ -4,7 +4,7 @@ import { Stack, Textarea } from "@chakra-ui/react";
 import { Field } from "~/components/ui/field";
 import { useForm } from "react-hook-form";
 
-import { Box, Button, Card, HStack, Icon } from "@chakra-ui/react";
+import { Box, Card, HStack, Icon } from "@chakra-ui/react";
 
 interface WishlistCardProps {
   icon: React.ReactNode;
@@ -14,7 +14,8 @@ interface WishlistCardProps {
   children?: React.ReactNode;
 }
 
-const defaultBio = "I want the new iphone 16 with caramel crust cupcakes and ...";
+const defaultBio =
+  "I want the new iphone 16 with caramel crust cupcakes and ...";
 
 export const WishlistCard = (props: WishlistCardProps) => {
   const { icon, title, description, placeholder, children } = props;
@@ -39,15 +40,28 @@ interface FormValues {
   bio: string;
 }
 
+import { api } from "~/trpc/react";
+import { Button } from "~/components/ui/button";
 
 const FormStack = ({ placeholder = defaultBio }) => {
+  const utils = api.useUtils();
+  const updateWishlist = api.post.updateWishlist.useMutation({
+    onSuccess: async () => {
+      await utils.post.invalidate();
+    },
+  });
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormValues>();
 
-  const onSubmit = handleSubmit((data) => console.log(data));
+  const onSubmit = handleSubmit((data) => {
+    console.log(data);
+
+    updateWishlist.mutate({ bio: data.bio });
+  });
 
   return (
     <form onSubmit={onSubmit}>
@@ -71,12 +85,14 @@ const FormStack = ({ placeholder = defaultBio }) => {
         </Field>
 
         <Button
-          borderRadius="lg"
-          type="submit"
-          size="sm"
-          w="full"
-          variant="outline"
-          colorPalette="gray"
+        
+        borderRadius="lg"
+        type="submit"
+        size="sm"
+        w="full"
+        variant="outline"
+        colorPalette="gray"
+        loading={updateWishlist.isPending}
           bg="bg"
         >
           Update your wishlist

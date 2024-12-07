@@ -25,18 +25,16 @@ export const postRouter = createTRPCRouter({
         },
       });
     }),
-    
+
   updateWishlist: protectedProcedure
     .input(z.object({ bio: z.string().min(1) }))
     .mutation(async ({ ctx, input }) => {
-
       return ctx.db.user.update({
         where: { id: ctx.session.user.id },
         data: {
           bio: input.bio,
         },
       });
-      
     }),
 
   getLatest: protectedProcedure.query(async ({ ctx }) => {
