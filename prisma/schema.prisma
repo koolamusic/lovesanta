@@ -27,20 +27,78 @@ model Post {
 }
 
 enum EventStatus {
-    upcoming
-    active
-    ended
+    ACTIVE
+    ENDED
+    UPCOMING
 }
 
-model SecretSantaEvent {
-    id           String   @id @default(cuid())
-    year         Int
-    name         String
-    status       EventStatus @default(ended)
-    date         DateTime
-    participants Int
-    isPast       Boolean
+model Event {
+    id          String        @id @default(cuid())
+    name        String
+    year        Int
+    date        DateTime
     description  String
+    status       EventStatus @default(ENDED)
+    createdAt   DateTime      @default(now())
+    updatedAt   DateTime      @updatedAt
+    participants Participant[]
+    matches     Match[]
+
+    MatchHistory MatchHistory[]
+}
+
+model Participant {
+    id          String   @id @default(cuid())
+    userId      String
+    eventId     String
+    hasJoined   Boolean  @default(false)
+    wishlist    String?  @db.Text
+    budget      Float?
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+    
+    user        User     @relation(fields: [userId], references: [id])
+    event       Event    @relation(fields: [eventId], references: [id])
+    givingTo    Match[]  @relation("Giver")
+    receivingFrom Match[] @relation("Receiver")
+
+    @@unique([userId, eventId])
+}
+
+model Match {
+    id          String   @id @default(cuid())
+    eventId     String
+    giverId     String
+    receiverId  String
+    status      MatchStatus @default(PENDING)
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+
+    event       Event    @relation(fields: [eventId], references: [id])
+    giver       Participant @relation("Giver", fields: [giverId], references: [id])
+    receiver    Participant @relation("Receiver", fields: [receiverId], references: [id])
+
+    @@unique([eventId, giverId])
+    @@unique([eventId, receiverId])
+}
+
+enum MatchStatus {
+    PENDING
+    ACCEPTED
+    COMPLETED
+}
+
+
+model MatchHistory {
+    id          String   @id @default(cuid())
+    eventId     String
+    giverId     String
+    receiverId  String
+    matchedAt   DateTime @default(now())
+    attemptNo   Int      // Track which attempt this was
+    event       Event    @relation(fields: [eventId], references: [id])
+
+    @@index([eventId, giverId])
 }
 
 // Necessary for Next auth
@@ -85,6 +143,7 @@ model User {
     accounts      Account[]
     sessions      Session[]
     posts         Post[]
+    participants  Participant[]
 }
 
 model VerificationToken {
