@@ -14,12 +14,12 @@ import { Button } from "~/components/ui/button";
 export const CurrentConnection = () => {
   return (
     <Container
-      boxShadow="lg"
-      bg={{ base: "bg.subtle", _dark: "transparent" }}
-      py="20"
-      maxW="sm"
-      ring={"1px"}
-      ringColor={{ base: "gray.200", _dark: "bg.muted" }}
+    bg={{ base: "bg.subtle", _dark: "transparent" }}
+    py="20"
+    maxW="sm"
+    // ring={"1px"}
+    // boxShadow="lg"
+      // ringColor={{ base: "gray.200", _dark: "bg.muted" }}
       borderRadius={"lg"}
     >
       <Stack gap="4">
