@@ -1,7 +1,7 @@
 "use client";
 
 import { ChakraProvider } from "@chakra-ui/react";
-import { AppProgressBar as ProgressBar } from 'next-nprogress-bar';
+import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
 import { ColorModeProvider, type ColorModeProviderProps } from "./color-mode";
 import { systemConfig } from "./system-config";
 import { RootStyles } from "./root-styles";

@@ -85,14 +85,13 @@ const FormStack = ({ placeholder = defaultBio }) => {
         </Field>
 
         <Button
-        
-        borderRadius="lg"
-        type="submit"
-        size="sm"
-        w="full"
-        variant="outline"
-        colorPalette="gray"
-        loading={updateWishlist.isPending}
+          borderRadius="lg"
+          type="submit"
+          size="sm"
+          w="full"
+          variant="outline"
+          colorPalette="gray"
+          loading={updateWishlist.isPending}
           bg="bg"
         >
           Update your wishlist

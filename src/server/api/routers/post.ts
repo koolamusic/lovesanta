@@ -29,6 +29,20 @@ export const postRouter = createTRPCRouter({
   updateWishlist: protectedProcedure
     .input(z.object({ bio: z.string().min(1) }))
     .mutation(async ({ ctx, input }) => {
+      const withExistingEvent = await ctx.db.participant.findFirst({
+        where: {
+          userId: ctx.session.user.id,
+        },
+      });
+
+      if (withExistingEvent) {
+        return ctx.db.participant.update({
+          where: { id: withExistingEvent.id },
+          data: {
+            wishlist: input.bio,
+          },
+        });
+      }
       return ctx.db.user.update({
         where: { id: ctx.session.user.id },
         data: {

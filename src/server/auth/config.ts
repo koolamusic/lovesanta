@@ -42,7 +42,7 @@ export const authConfig = {
     Credentials({
       id: "credentials",
       // The name to display on the sign in form (e.g. "Sign in with...")
-      name: "Credentials",
+      name: "Username",
       // `credentials` is used to generate a form on the sign in page.
       // You can specify which fields should be submitted, by adding keys to the `credentials` object.
       // e.g. domain, username, password, 2FA token, etc.
@@ -108,7 +108,7 @@ export const authConfig = {
     },
   },
 
-  debug: env.NODE_ENV === "development",
+  // debug: env.NODE_ENV === "development",
 
   jwt: {
     maxAge: 1 * 24 * 60 * 60,
@@ -147,12 +147,12 @@ export const authConfig = {
 
     /**
      *
-     * This callback is invoked everything our app frontend makes a request to the server.
-     * To retrieve a user session, we simply return back the user and their session token.
+     * This callback is invoked everything our app frontend makes a request for the server
+     * to retrieve a user session, we simply return back the user and their session token.
      * @returns User & Session
      */
     async session({ session, user, token }) {
-      console.log({ session, token, user, from: "[session callback]" });
+      // console.log({ session, token, user, from: "[session callback]" });
       return {
         ...session,
         user: {

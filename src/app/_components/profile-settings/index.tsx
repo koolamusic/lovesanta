@@ -9,7 +9,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { LuAtSign } from "react-icons/lu";
-import { SiApple, SiGoogle } from "react-icons/si";
+import { SiGoogle } from "react-icons/si";
 import { AuthCard } from "./auth-card";
 import { WishlistCard } from "./profile-wishlist-card";
 import { db } from "~/server/db";
@@ -26,13 +26,13 @@ export const ProfileSettingComponent = async () => {
   });
 
   if (!profile) {
-    throw new Error("Profile not found");
+    return <div>You are not logged in</div>;
   }
 
   return (
     <Container maxW="xl" py="12">
       <Stack pb={2}>
-        <Avatar size="lg" name={profile.name ?? 'Santa Clause'} />
+        <Avatar size="lg" name={profile.name ?? "Santa Clause"} />
       </Stack>
 
       <Stack gap="6">

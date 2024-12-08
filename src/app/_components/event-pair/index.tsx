@@ -1,5 +1,4 @@
-import { auth } from "~/server/auth";
-import { api, HydrateClient } from "~/trpc/server";
+import { HydrateClient } from "~/trpc/server";
 
 import { NavbarComponent } from "~/components/navbar/block";
 import {
@@ -10,21 +9,14 @@ import {
   Heading,
   Stack,
 } from "@chakra-ui/react";
-import { PreviousConnections } from "~/app/_components/previous-connections";
+import { PreviousConnections } from "~/app/_components/event-pair/previous-connections";
 import { ConfettiComponent } from "~/components/display/confetti";
 import { PairPreviewBox } from "~/components/display/pair-preview";
 import PairPreferenceDrawer from "~/components/display/preference-drawer";
 import { Button } from "~/components/ui/button";
-import { CurrentConnection } from "~/app/_components/current-connection";
+import { CurrentConnection } from "~/app/_components/event-pair/current-connection";
 
-export default async function PairingInfo() {
-  const hello = await api.post.hello({ text: "from tRPC" });
-  const session = await auth();
-
-  if (session?.user) {
-    void api.post.getLatest.prefetch();
-  }
-
+export function EventPairInfo() {
   return (
     <HydrateClient>
       <NavbarComponent activeMenuKey={1} />
