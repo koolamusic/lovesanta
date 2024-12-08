@@ -68,9 +68,8 @@ export const CredentialForm = () => {
     formState: { errors },
   } = useForm<FormValues>();
 
-  const onSubmit = handleSubmit((data) => {
-    console.log(data);
-    signIn("credentials", {
+  const onSubmit = handleSubmit(async (data) => {
+    await signIn("credentials", {
       redirectTo: "/home",
       username: data.username,
       passcode: data.passcode,
@@ -79,9 +78,6 @@ export const CredentialForm = () => {
 
   return (
     <form onSubmit={onSubmit}>
-      {/*  <form method="post" action="/api/auth/callback/credentials"> */}
-      {/* <input name="csrfToken" type="hidden" defaultValue={getCsrfToken()} /> */}
-
       <Stack gap="6">
         <VStack gap="6">
           <Field label="Your username">
@@ -111,10 +107,6 @@ export const CredentialForm = () => {
           <Button type="submit">
             Sign in <LuArrowRight />
           </Button>
-          {/* <Button variant="outline">
-            <BsGoogle />
-            Sign in with Google
-            </Button> */}
         </Stack>
       </Stack>
     </form>

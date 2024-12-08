@@ -10,7 +10,7 @@ interface WishlistCardProps {
   icon: React.ReactNode;
   title: string;
   description: string;
-  placeholder?: string;
+  placeholder: string;
   children?: React.ReactNode;
 }
 

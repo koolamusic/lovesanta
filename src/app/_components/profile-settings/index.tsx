@@ -32,7 +32,7 @@ export const ProfileSettingComponent = async () => {
   return (
     <Container maxW="xl" py="12">
       <Stack pb={2}>
-        <Avatar size="lg" name={profile.name as string} />
+        <Avatar size="lg" name={profile.name ?? 'Santa Clause'} />
       </Stack>
 
       <Stack gap="6">

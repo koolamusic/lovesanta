@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 import { getRandomNode } from '~/app/common/helpers'
 
-async function createEvent(prisma: PrismaClient, data: {
+export async function createYearlyEvent(prisma: PrismaClient, data: {
   name: string
   year: number
   date: Date
@@ -15,7 +15,7 @@ async function createEvent(prisma: PrismaClient, data: {
   })
 }
 
-async function addParticipant(prisma: PrismaClient, data: {
+export async function addParticipant(prisma: PrismaClient, data: {
   userId: string
   eventId: string
   wishlist?: string
@@ -32,7 +32,7 @@ async function addParticipant(prisma: PrismaClient, data: {
   })
 }
 
-async function createMatch(prisma: PrismaClient, eventId: string, giverId: string) {
+export async function matchParticipant(prisma: PrismaClient, eventId: string, giverId: string) {
   // Get all participants except the giver
   const participants = await prisma.participant.findMany({
     where: {
@@ -66,7 +66,7 @@ async function createMatch(prisma: PrismaClient, eventId: string, giverId: strin
   })
 }
 
-async function rematchParticipant(prisma: PrismaClient, eventId: string, giverId: string) {
+export async function rematchParticipant(prisma: PrismaClient, eventId: string, giverId: string) {
   // Get match history count
   const matchAttempts = await prisma.matchHistory.count({
     where: {
