@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Center, Float, Text } from "@chakra-ui/react";
+import { Box, Center, Float, Stack, Text } from "@chakra-ui/react";
 import React, { useState } from "react";
 import {
   DrawerBackdrop,
@@ -16,6 +16,7 @@ import {
 import { Button } from "~/components/ui/button";
 import {Avatar} from '~/components/ui/avatar'
 import { data } from "tailwindcss/defaultTheme";
+import { FiChevronRight } from "react-icons/fi";
 
 type PreferenceDrawerConfig = {
   wishlist: string;
@@ -40,7 +41,7 @@ export default function PairPreferenceDrawer({
         </Button>
       </DrawerTrigger>
       <DrawerTrigger />
-      <DrawerContent minH={"50vh"} borderTopRadius={"3xl"}>
+      <DrawerContent minH={"50vh"} pt={12}  borderTopRadius={"3xl"}>
         <DrawerCloseTrigger />
 
 
@@ -49,13 +50,13 @@ export default function PairPreferenceDrawer({
 
               <Avatar
                     name={"Bukola Santa"}
-                    borderWidth="1px"
                     borderRadius={'xl'}
                     rotate={'-16'}
                     w={'32'}
                     h={'32'}
                     size={'full'}
-                    bg={'yellow.700'}
+        bg="linear-gradient(40deg, #81f242, red, black)"
+
 
 
                     borderColor="blackAlpha.50"
@@ -71,11 +72,13 @@ export default function PairPreferenceDrawer({
                       <Avatar 
                       rotate={'28'}
                         borderRadius={'xl'}
+        bg="linear-gradient(40deg, black, purple, #81f242)"
+
                         w={'32'}
                         h={'32'}
                         size={'full'}
                          name={'Elena Doe'} 
-                         bg={'teal.700'}>
+                         >
                           <span>.</span>
                          </Avatar>
                     </Float>
@@ -89,7 +92,7 @@ export default function PairPreferenceDrawer({
         </DrawerHeader>
 
                   
-        <DrawerBody textAlign={'center'} fontSize={"sm"} maxW={"4xl"} mx={"auto"}>
+        <DrawerBody textAlign={'center'} mb={0} pb={0} fontSize={"sm"} maxW={"4xl"} mx={"auto"}>
           <Text maxW={'sm'}>
 
           Hi, Elena, you have been paired with <strong>Father Christmas 😆 </strong>
@@ -97,16 +100,12 @@ export default function PairPreferenceDrawer({
           </Text>
 
 
-          <Box
-            p={8}
-            bg={{ base: "gray.50", _dark: "gray.800" }}
-            mt={2}
-            borderRadius={"md"}
-          >
-            <Text mt={2} fontSize={"md"} fontFamily={"heading"}>
-              {wishlist}
-            </Text>
-          </Box>
+<Stack mt={16} >
+
+          <Button  mt={4} ring={'1px'} ringColor={'bg.subtle'} boxShadow={'lg'} variant="subtle" size="md">
+            Generate a new pair <FiChevronRight />
+          </Button>
+</Stack>
         </DrawerBody>
         <DrawerFooter />
         <DrawerCloseTrigger />
