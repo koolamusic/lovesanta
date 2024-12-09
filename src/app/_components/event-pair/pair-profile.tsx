@@ -1,6 +1,6 @@
-import { Stack, Heading, Box, Badge, Text, VStack, Span } from "@chakra-ui/react";
+import { Stack, Heading, Box, Badge, Text, VStack } from "@chakra-ui/react";
 import { RetryIndicator } from "./retry-indicator";
-import { Participant, User, Event } from "@prisma/client";
+import { type Participant, type User, type Event } from "@prisma/client";
 
 
 

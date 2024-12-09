@@ -50,9 +50,9 @@ const FormStack = ({ placeholder = defaultBio }) => {
       await utils.post.invalidate();
     },
 
-    onError: (error) => {
+    onError: async (error) => {
       alert(error.message);
-      utils.post.invalidate();
+      await utils.post.invalidate();
     },
   });
 

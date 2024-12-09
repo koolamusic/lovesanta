@@ -1,6 +1,6 @@
 import { Box, Card, HStack, Separator, Stack, Text } from "@chakra-ui/react";
-import { MatchHistory, User } from "@prisma/client";
-import { LuConstruction, LuInfo } from "react-icons/lu";
+import { type MatchHistory, type User } from "@prisma/client";
+import { LuConstruction } from "react-icons/lu";
 import { Avatar } from "~/components/ui/avatar";
 
 

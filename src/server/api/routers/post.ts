@@ -70,7 +70,7 @@ export const postRouter = createTRPCRouter({
        * Which will then act as the buffer for how many times this data
        * has been queried
        */
-      ctx.db.match.update({
+      await ctx.db.match.update({
         where: {
           id: match.id,
         },

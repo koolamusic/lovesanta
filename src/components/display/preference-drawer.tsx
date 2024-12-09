@@ -16,7 +16,7 @@ import {
 import { Button } from "~/components/ui/button";
 import { Avatar } from "~/components/ui/avatar";
 import { FiChevronRight } from "react-icons/fi";
-import { Participant, User, Event } from "@prisma/client";
+import { type Participant, type User, type Event } from "@prisma/client";
 import { api } from "~/trpc/react";
 import { useRouter } from "next-nprogress-bar";
 
@@ -47,10 +47,10 @@ export default function PairPreferenceDrawer({
         router.refresh();
       },
 
-      onError: (error) => {
+      onError: async (error) => {
         console.error(error);
         alert(error.message);
-        utils.post.invalidate();
+        await utils.post.invalidate();
 
       }
     });

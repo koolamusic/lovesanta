@@ -1,5 +1,4 @@
-import { Participant, type PrismaClient } from "@prisma/client";
-import { TRPCClientError } from "@trpc/client";
+import { type Participant, type PrismaClient } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
 import { getRandomNode } from "~/app/common/helpers";
 
@@ -246,7 +245,7 @@ export async function rematchParticipant({
     data: {
       eventId,
       giverId: participant.userId,
-      receiverId: receiver?.userId as string,
+      receiverId: receiver?.userId!,
       status: "ACCEPTED",
     },
   });
