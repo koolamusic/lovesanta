@@ -35,7 +35,9 @@ export const EventFeedComponent = ({ events }: EventFeedComponentProps) => {
               }}
               key={event.id}
               borderWidth="1px"
+              boxShadow={'md'}
               borderRadius="l3"
+              borderColor={{ base: "fg.subtle", _dark: event.status === "ended" ? "gray.700" : "teal.200/50" }}
               divideX="1px"
               bg="bg"
               _disabled={{ bg: "bg.subtle", cursor: "not-allowed" }}

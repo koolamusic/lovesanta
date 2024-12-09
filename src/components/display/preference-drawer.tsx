@@ -36,7 +36,7 @@ export default function PairPreferenceDrawer({
     >
       <DrawerBackdrop />
       <DrawerTrigger asChild>
-        <Button variant="outline" size="sm">
+        <Button _hover={{ opacity: 0.8 }} bg="teal.800" color={'gray.50'} size="xl" fontFamily={'Sole Sans'} rounded={'lg'}>
           Don&apos;t like this pair? Generate a new pair
         </Button>
       </DrawerTrigger>

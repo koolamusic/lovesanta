@@ -2,104 +2,19 @@ import {
   Container,
   Stack,
   Heading,
-  HStack,
-  Icon,
   Box,
-  Image,
   Badge,
-  IconButton,
-  Span,
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { FiHeart, FiMessageCircle, FiRefreshCcw } from "react-icons/fi";
-import {
-  LuBadgeCheck,
-  LuBriefcase,
-  LuCircleCheck,
-  LuCircleDot,
-  LuGlobe,
-  LuLinkedin,
-  LuMapPin,
-  LuRecycle,
-  LuRefreshCw,
-  LuTwitter,
-} from "react-icons/lu";
-import { Avatar } from "~/components/ui/avatar";
-import { Button } from "~/components/ui/button";
 import { RetryIndicator } from "./retry-indicator";
 
 const triesRemaining = 2;
-
-export const PairProfile = () => {
-  return (
-    <VStack gap="6" textAlign="center">
-      {/* ----------- show the count metadata with pair subtitle -------------- */}
-      <HStack
-        w={"full"}
-        alignSelf={"flex-start"}
-        align={"center"}
-        justifyContent={"space-between"}
-      >
-        <Text fontFamily={"heading"} textAlign={"left"} mb={0}>
-          Your Pair:
-        </Text>
-
-        <Text
-          color={"teal.500"}
-          alignSelf={"flex-end"}
-          textAlign={"right"}
-          fontFamily={"heading"}
-        >
-          {3} Tries left
-        </Text>
-      </HStack>
-      {/* ----------- show the count metadata with pair subtitle -------------- */}
-
-      <VStack gap="2" align={"flex-start"} textAlign="left" fontSize={"sm"}>
-        <HStack
-          fontWeight="medium"
-          w={"full"}
-          bg="bg.muted"
-          gap="0"
-          rounded="lg"
-          px="3"
-          py="1"
-        >
-          <Span color="fg.muted">1/</Span>
-          <Span>You can only generate a new pair thrice (3 times)</Span>
-        </HStack>
-        <HStack
-          fontWeight="medium"
-          w={"full"}
-          bg="bg.muted"
-          gap="0"
-          rounded="lg"
-          px="3"
-          py="1"
-        >
-          <Span color="fg.muted">2/</Span>
-          <Span>If you don&apos;t like your match, generate a new one</Span>
-        </HStack>
-        <HStack
-          fontWeight="medium"
-          bg="bg.muted"
-          gap="0"
-          rounded="lg"
-          px="3"
-          py="1"
-        >
-          <Span color="fg.muted">3/</Span>
-          <Span>Viewing your match might cost you a count</Span>
-        </HStack>
-      </VStack>
-    </VStack>
-  );
-};
-
 const pairName = "Elena Doe";
 
-export const ProfileCard = () => (
+
+
+export const PairProfileHeader = () => (
   <Box
     maxW="100%"
     w={"full"}
@@ -165,23 +80,6 @@ export const ProfileCard = () => (
       </Stack>
 
       <Stack pt={10}>
-        {/* Tags or Wishlist */}
-        {/* Also we can also model tags to show relationship like: */}
-        {/* cousin, brother, inlaw etc */}
-        {/* <HStack spaceX={2}>
-        {["Modelling", "Hiking", "Drawing", "Photo", "Design"].map((tag) => (
-          <Badge
-            key={tag}
-            px={2}
-            py={1}
-            borderRadius="full"
-            bg="gray.100"
-            color="gray.800"
-          >
-            {tag}
-          </Badge>
-        ))}
-      </HStack> */}
 
         {/* Bio */}
         <Text fontSize="sm" color="gray.100">
@@ -194,18 +92,10 @@ export const ProfileCard = () => (
       </Stack>
     </VStack>
 
-    {/* Action Buttons */}
-    <HStack position={"relative"} justify="space-between" px={6} py={2}>
-      <RetryIndicator number={triesRemaining} />
+      {/* ----------- show the count metadata with pair subtitle -------------- */}
 
-      <Text
-        fontSize={"sm"}
-        color={"gray.100"}
-        alignSelf={"flex-end"}
-        textAlign={"right"}
-      >
-        You have {triesRemaining} remaining tries
-      </Text>
-    </HStack>
+      <RetryIndicator count={triesRemaining} />
+      {/* ----------- show the count metadata with pair subtitle -------------- */}
+ 
   </Box>
 );
