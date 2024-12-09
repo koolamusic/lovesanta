@@ -5,6 +5,7 @@ import {
   protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
+import { matchParticipant } from "~/server/methods";
 
 export const postRouter = createTRPCRouter({
   hello: publicProcedure
@@ -24,6 +25,61 @@ export const postRouter = createTRPCRouter({
           createdBy: { connect: { id: ctx.session.user.id } },
         },
       });
+    }),
+
+    enrollForEvent: protectedProcedure
+    .input(z.object({ 
+      eventId: z.string().min(1),
+      userId: z.string().min(1),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const event = await ctx.db.participant.findFirst({
+        where: {
+          eventId: input.eventId,
+          userId: input.userId,
+        },
+      });
+
+      const user = await ctx.db.user.findFirst({
+        where: {
+          id: input.userId,
+        },
+      });
+
+      if (!event) {
+        return await ctx.db.participant.create({
+          data: {
+            eventId: input.eventId,
+            userId: input.userId,
+            hasJoined: true,
+            wishlist: user?.bio,
+            budget: 100,
+          },
+        });
+      }
+
+      return event
+    }),
+
+
+    generateNewPair: protectedProcedure
+    .input(z.object({ 
+      eventId: z.string().min(1),
+      participantId: z.string().min(1),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const match = await ctx.db.match.findFirst({
+        where: {
+          eventId: input.eventId,
+          giverId: input.participantId,
+        },
+      });
+
+      if (!match) {
+        return await matchParticipant(ctx.db, input.eventId, input.participantId);
+      }
+
+      return match;
     }),
 
   updateWishlist: protectedProcedure

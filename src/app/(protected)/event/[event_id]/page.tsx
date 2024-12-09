@@ -1,4 +1,5 @@
 import { EventPairInfo } from "~/app/_components/event-pair";
+import RequestPair from "~/app/_components/request-pair";
 import { NavbarComponent } from "~/components/navbar/block";
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
@@ -56,7 +57,7 @@ const enrollOrGet = async ({ eventId, userId }: EnrollOrGetArgs) => {
 };
 
 export default async function EventPair({ params }: EventParams) {
-  const eventId = params.event_id;
+  const eventId = await params.event_id;
   const session = await auth();
 
   if (!session) {
@@ -67,6 +68,20 @@ export default async function EventPair({ params }: EventParams) {
     eventId,
     userId: session.user.id,
   });
+
+  const alreadyHasMatch = await db.match.findFirst({
+    where: {
+      eventId,
+      giverId: participant.id,
+    },
+  });
+
+  if (!alreadyHasMatch) {
+      return <RequestPair
+        participantId={participant.id}
+        eventId={eventId}
+       /> 
+  }
 
   console.log({ eventId, participant, session });
 

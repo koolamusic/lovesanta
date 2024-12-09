@@ -25,6 +25,7 @@ export const PairProfileHeader = () => (
           color="gray.100"
         >
           Peggie Andrew
+
         </Heading>
       </Box>
       <Box

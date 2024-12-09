@@ -1,4 +1,6 @@
 import { type PrismaClient } from "@prisma/client";
+import { TRPCClientError } from "@trpc/client";
+import { TRPCError } from "@trpc/server";
 import { getRandomNode } from "~/app/common/helpers";
 
 export async function createYearlyEvent(
@@ -43,37 +45,46 @@ export async function matchParticipant(
   eventId: string,
   giverId: string,
 ) {
-  // Get all participants except the giver
-  const participants = await prisma.participant.findMany({
-    where: {
-      eventId,
-      NOT: { id: giverId },
-    },
-    include: {
-      receivingFrom: true, // Get existing matches where they're receiving
-    },
-  });
-
-  // Filter out participants who already have a gift giver
-  const availableReceivers = participants.filter(
-    (p) => p.receivingFrom.length === 0,
-  );
-
-  if (availableReceivers.length === 0) {
-    throw new Error("No available receivers");
+  try {
+    // Get all participants except the giver
+    const participants = await prisma.participant.findMany({
+      where: {
+        eventId,
+        NOT: { id: giverId },
+      },
+      include: {
+        receivingFrom: true, // Get existing matches where they're receiving
+      },
+    });
+  
+    // Filter out participants who already have a gift giver
+    const availableReceivers = participants.filter(
+      (p) => p.receivingFrom.length === 0,
+    );
+  
+    if (availableReceivers.length === 0) {
+      throw new Error("No available receivers");
+    }
+  
+    // Randomly select a receiver
+    const receiver = getRandomNode(availableReceivers) as { id: string };
+  
+    return prisma.match.create({
+      data: {
+        eventId,
+        giverId,
+        receiverId: receiver.id,
+        status: "PENDING",
+      },
+    });
+  } catch (error) {
+    console.error(error);
+    throw new TRPCError({
+      code: "CONFLICT",
+      message: "Failed to match participant",
+    });
+    
   }
-
-  // Randomly select a receiver
-  const receiver = getRandomNode(availableReceivers) as { id: string };
-
-  return prisma.match.create({
-    data: {
-      eventId,
-      giverId,
-      receiverId: receiver.id,
-      status: "PENDING",
-    },
-  });
 }
 
 export async function rematchParticipant(
