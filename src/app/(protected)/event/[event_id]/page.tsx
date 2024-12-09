@@ -57,7 +57,7 @@ const enrollOrGet = async ({ eventId, userId }: EnrollOrGetArgs) => {
 };
 
 export default async function EventPair({ params }: EventParams) {
-  const eventId = await params.event_id;
+  const { event_id: eventId } = await params;
   const session = await auth();
 
   if (!session) {

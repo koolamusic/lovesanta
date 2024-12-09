@@ -71,7 +71,7 @@ model Match {
   eventId    String
   giverId    String
   receiverId String
-  status     MatchStatus @default(PENDING)
+  status     MatchStatus @default(ACCEPTED)
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
 
