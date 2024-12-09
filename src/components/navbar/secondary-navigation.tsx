@@ -1,11 +1,5 @@
 "use client";
-import {
-  HStack,
-  IconButton,
-  Link as ChakraLink,
-  Tabs,
-  type TabsRootProps,
-} from "@chakra-ui/react";
+import { HStack, IconButton, Tabs, type TabsRootProps } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import type { SecondaryNavItem } from "./data";
 import { ColorModeButton } from "../ui/color-mode";
@@ -24,7 +18,7 @@ export const SecondaryNavigation = (props: Props) => {
   const [activeTab, setActiveTab] = useState(items[activeKey]?.value);
   useEffect(() => {
     setActiveTab(items[activeKey]?.value);
-  }, [items]);
+  }, [items, activeKey]);
 
   return (
     <Tabs.Root

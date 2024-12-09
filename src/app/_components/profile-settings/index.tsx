@@ -1,20 +1,20 @@
 import {
   Button,
-  Center,
   Container,
-  Flex,
   HStack,
   Icon,
   Stack,
   Text,
+  VStack,
 } from "@chakra-ui/react";
-import { LuAtSign } from "react-icons/lu";
+import { LuAtSign, LuUserCog } from "react-icons/lu";
 import { SiGoogle } from "react-icons/si";
-import { AuthCard } from "./auth-card";
+import { AuthCard, ConfigPanel } from "./auth-card";
 import { WishlistCard } from "./profile-wishlist-card";
 import { db } from "~/server/db";
 import { auth } from "~/server/auth";
 import { Avatar } from "~/components/ui/avatar";
+import { PinInput } from "~/components/ui/pin-input";
 
 export const ProfileSettingComponent = async () => {
   const session = await auth();
@@ -40,11 +40,13 @@ export const ProfileSettingComponent = async () => {
       </Stack>
 
       <Stack gap="6">
-        <Stack gap="1">
-          <Text fontWeight="semibold" textStyle="lg">
-            Your profile
+        <Stack gap="0" mt={2}>
+          <Text textTransform={"uppercase"} textStyle="md">
+            {profile.name}
           </Text>
-          <Text color="fg.muted">Manage your settings</Text>
+          <Text fontWeight={"medium"} color="fg.muted">
+            Manage your settings
+          </Text>
         </Stack>
         <Stack gap="4">
           <AuthCard
@@ -52,26 +54,46 @@ export const ProfileSettingComponent = async () => {
             title={profile.username ?? "username"}
             description="Use username to login"
             connected
-          >
-            <Flex gap="4" align="center" width="full">
-              <Text
-                textTransform={"uppercase"}
-                textStyle="sm"
-                color={"fg.muted"}
-                flex="1"
+          />
+
+          <ConfigPanel>
+            <Stack gap="4" w="full">
+              <HStack justify={"flex-start"}>
+                <Icon>
+                  <LuUserCog />
+                </Icon>
+                <Text
+                  textAlign={"left"}
+                  fontWeight={"semibold"}
+                  letterSpacing={"1.2px"}
+                  textStyle="md"
+                  color="fg.muted"
+                >
+                  Change your passcode
+                </Text>
+              </HStack>
+              <VStack
+                pt={3}
+                px={1}
+                w={"full"}
+                colorPalette="gray"
+                borderColor={"fg.subtle"}
               >
-                {profile.name}
-              </Text>
-              <HStack colorPalette="gray">
-                {/* <Button size="xs" variant="outline">
-                  Change email
-                </Button> */}
-                <Button size="xs" variant="outline">
+                <PinInput
+                  w={"full"}
+                  count={6}
+                  size="md"
+                  spaceX={0.5}
+                  fontSize={"16px"}
+                  placeholder=""
+                />
+                <Button w={"full"} size="xs" variant="outline">
                   Change passcode
                 </Button>
-              </HStack>
-            </Flex>
-          </AuthCard>
+              </VStack>
+            </Stack>
+          </ConfigPanel>
+
           <WishlistCard
             icon={<SiGoogle />}
             title="Wishlist"

@@ -4,10 +4,13 @@ import { Stack, Textarea } from "@chakra-ui/react";
 import { Field } from "~/components/ui/field";
 import { useForm } from "react-hook-form";
 
-import { Box, Card, HStack, Icon } from "@chakra-ui/react";
+import { api } from "~/trpc/react";
+import { Button } from "~/components/ui/button";
+
+import { Box, Card, HStack } from "@chakra-ui/react";
 
 interface WishlistCardProps {
-  icon: React.ReactNode;
+  icon?: React.ReactNode;
   title: string;
   description: string;
   placeholder: string;
@@ -18,7 +21,7 @@ const defaultBio =
   "I want the new iphone 16 with caramel crust cupcakes and ...";
 
 export const WishlistCard = (props: WishlistCardProps) => {
-  const { icon, title, description, placeholder, children } = props;
+  const { title, description, placeholder, children } = props;
   return (
     <Card.Root size="sm">
       <Card.Body>
@@ -39,9 +42,6 @@ interface FormValues {
   username: string;
   bio: string;
 }
-
-import { api } from "~/trpc/react";
-import { Button } from "~/components/ui/button";
 
 const FormStack = ({ placeholder = defaultBio }) => {
   const utils = api.useUtils();

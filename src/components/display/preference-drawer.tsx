@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Center, Float, Stack, Text } from "@chakra-ui/react";
+import { Center, Float, Stack, Text } from "@chakra-ui/react";
 import React, { useState } from "react";
 import {
   DrawerBackdrop,
@@ -15,7 +15,6 @@ import {
 } from "~/components/ui/drawer";
 import { Button } from "~/components/ui/button";
 import { Avatar } from "~/components/ui/avatar";
-import { data } from "tailwindcss/defaultTheme";
 import { FiChevronRight } from "react-icons/fi";
 
 type PreferenceDrawerConfig = {
@@ -36,7 +35,14 @@ export default function PairPreferenceDrawer({
     >
       <DrawerBackdrop />
       <DrawerTrigger asChild>
-        <Button _hover={{ opacity: 0.8 }} bg="teal.800" color={'gray.50'} size="xl" fontFamily={'Sole Sans'} rounded={'lg'}>
+        <Button
+          _hover={{ opacity: 0.8 }}
+          bg="teal.800"
+          color={"gray.50"}
+          size="xl"
+          fontFamily={"Sole Sans"}
+          rounded={"lg"}
+        >
           Don&apos;t like this pair? Generate a new pair
         </Button>
       </DrawerTrigger>

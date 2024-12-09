@@ -1,18 +1,8 @@
-import {
-  Container,
-  Stack,
-  Heading,
-  Box,
-  Badge,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
+import { Stack, Heading, Box, Badge, Text, VStack } from "@chakra-ui/react";
 import { RetryIndicator } from "./retry-indicator";
 
 const triesRemaining = 2;
 const pairName = "Elena Doe";
-
-
 
 export const PairProfileHeader = () => (
   <Box
@@ -80,7 +70,6 @@ export const PairProfileHeader = () => (
       </Stack>
 
       <Stack pt={10}>
-
         {/* Bio */}
         <Text fontSize="sm" color="gray.100">
           {pairName.charAt(0).toUpperCase() + pairName.slice(1)} will be
@@ -92,10 +81,9 @@ export const PairProfileHeader = () => (
       </Stack>
     </VStack>
 
-      {/* ----------- show the count metadata with pair subtitle -------------- */}
+    {/* ----------- show the count metadata with pair subtitle -------------- */}
 
-      <RetryIndicator count={triesRemaining} />
-      {/* ----------- show the count metadata with pair subtitle -------------- */}
- 
+    <RetryIndicator count={triesRemaining} />
+    {/* ----------- show the count metadata with pair subtitle -------------- */}
   </Box>
 );

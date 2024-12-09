@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { type PrismaClient } from "@prisma/client";
 import { getRandomNode } from "~/app/common/helpers";
 
 export async function createYearlyEvent(

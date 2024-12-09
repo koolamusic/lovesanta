@@ -40,3 +40,13 @@ export const AuthCard = (props: AuthCardProps) => {
     </Card.Root>
   );
 };
+
+export const ConfigPanel = (props: Pick<AuthCardProps, "children">) => {
+  const { children } = props;
+  return (
+    <Card.Root size="sm">
+      <Card.Body>{children}</Card.Body>
+      {/* {children && <Card.Footer>{children}</Card.Footer>} */}
+    </Card.Root>
+  );
+};

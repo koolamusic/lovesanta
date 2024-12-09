@@ -9,7 +9,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { Status } from "~/components/ui/status";
-import { Event } from "./_data";
+import { type Event } from "./_data";
 import { LuChevronRight, LuUser } from "react-icons/lu";
 import { calculateDaysAgo } from "~/app/common/helpers";
 import Link from "next/link";
@@ -35,9 +35,12 @@ export const EventFeedComponent = ({ events }: EventFeedComponentProps) => {
               }}
               key={event.id}
               borderWidth="1px"
-              boxShadow={'md'}
+              boxShadow={"md"}
               borderRadius="l3"
-              borderColor={{ base: "fg.subtle", _dark: event.status === "ended" ? "gray.700" : "teal.200/50" }}
+              borderColor={{
+                base: "fg.subtle",
+                _dark: event.status === "ended" ? "gray.700" : "teal.200/20",
+              }}
               divideX="1px"
               bg="bg"
               _disabled={{ bg: "bg.subtle", cursor: "not-allowed" }}

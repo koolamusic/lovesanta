@@ -1,20 +1,7 @@
 "use client";
-import {
-  Box,
-  Card,
-  Separator,
-  Stack,
-  Text,
-  createListCollection,
-} from "@chakra-ui/react";
+
+import { Box, Card, Separator, Stack, Text } from "@chakra-ui/react";
 import { Avatar } from "~/components/ui/avatar";
-// import {
-//   SelectContent,
-//   SelectItem,
-//   SelectRoot,
-//   SelectTrigger,
-//   SelectValueText,
-// } from '~/components/ui/select'
 
 export const PreviousConnections = () => {
   return (
@@ -64,7 +51,6 @@ type Props = {
 
 const Member = (props: Props) => {
   const { name, avatar, email } = props;
-  const collection = createListCollection({ items: ["Write", "Read"] });
 
   return (
     <Stack
@@ -85,18 +71,6 @@ const Member = (props: Props) => {
           </Text>
         </Box>
       </Stack>
-      {/* <SelectRoot collection={collection} defaultValue={['Read']} size="sm" width="20">
-        <SelectTrigger>
-          <SelectValueText placeholder="Month" />
-        </SelectTrigger>
-        <SelectContent>
-          {collection.items.map((item) => (
-            <SelectItem item={item} key={item}>
-              {item}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </SelectRoot> */}
     </Stack>
   );
 };

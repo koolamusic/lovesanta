@@ -1,4 +1,4 @@
-import { Container, Flex, Grid, HStack } from "@chakra-ui/react";
+import { Container, Flex } from "@chakra-ui/react";
 import { staticSecondaryNavItems } from "./data";
 import { SecondaryNavigation } from "./secondary-navigation";
 

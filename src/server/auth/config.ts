@@ -5,7 +5,6 @@ import Credentials from "next-auth/providers/credentials";
 import { encode } from "next-auth/jwt";
 import { nanoid } from "nanoid";
 import { db } from "~/server/db";
-import { env } from "~/env";
 
 const adapter = PrismaAdapter(db);
 
@@ -151,7 +150,7 @@ export const authConfig = {
      * to retrieve a user session, we simply return back the user and their session token.
      * @returns User & Session
      */
-    async session({ session, user, token }) {
+    async session({ session, user }) {
       // console.log({ session, token, user, from: "[session callback]" });
       return {
         ...session,

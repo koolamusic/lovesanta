@@ -6,7 +6,6 @@ import { Container } from "@chakra-ui/react";
 import { ProfileSettingComponent } from "~/app/_components/profile-settings";
 
 export default async function Home() {
-  const hello = await api.post.hello({ text: "from tRPC" });
   const session = await auth();
 
   if (session?.user) {

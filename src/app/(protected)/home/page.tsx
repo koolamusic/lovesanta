@@ -1,11 +1,10 @@
-import { auth } from "~/server/auth";
-import { api, HydrateClient } from "~/trpc/server";
+import { HydrateClient } from "~/trpc/server";
 
 import { EventFeedComponent } from "~/components/event-feed";
 import { NavbarComponent } from "~/components/navbar/block";
 import { Container } from "@chakra-ui/react";
 import { db } from "~/server/db";
-import { events, Event } from "~/components/event-feed/_data";
+import { events, type Event } from "~/components/event-feed/_data";
 
 export default async function Home() {
   /**

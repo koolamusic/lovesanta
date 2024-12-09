@@ -1,4 +1,3 @@
-import { Container } from "@chakra-ui/react";
 import { EventPairInfo } from "~/app/_components/event-pair";
 import { NavbarComponent } from "~/components/navbar/block";
 import { auth } from "~/server/auth";

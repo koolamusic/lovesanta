@@ -17,7 +17,7 @@ import { PinInput } from "~/components/ui/pin-input";
 import { LuArrowRight } from "react-icons/lu";
 
 import { useForm } from "react-hook-form";
-import { signIn, getCsrfToken, useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { routes } from "../common/routes";
 
@@ -68,6 +68,8 @@ export const CredentialForm = () => {
     formState: { errors },
   } = useForm<FormValues>();
 
+  console.error(errors);
+
   const onSubmit = handleSubmit(async (data) => {
     await signIn("credentials", {
       redirectTo: "/home",
@@ -80,14 +82,14 @@ export const CredentialForm = () => {
     <form onSubmit={onSubmit}>
       <Stack gap="6">
         <VStack gap="6">
-          <Field label="Your username">
+          <Field errorText={errors.username?.message} label="Your username">
             <Input
               type="username"
               {...register("username", { required: "you need a username" })}
             />
           </Field>
 
-          <Field label="Your Passcode">
+          <Field errorText={errors.passcode?.message} label="Your Passcode">
             <PinInput
               count={6}
               size="xl"
