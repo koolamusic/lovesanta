@@ -1,18 +1,35 @@
-import { Stack, Heading, Box, Badge, Text, VStack } from "@chakra-ui/react";
+import { Stack, Heading, Box, Badge, Text, VStack, Span } from "@chakra-ui/react";
 import { RetryIndicator } from "./retry-indicator";
+import { Participant, User, Event } from "@prisma/client";
 
-const triesRemaining = 2;
-const pairName = "Elena Doe";
 
-export const PairProfileHeader = () => (
-  <Box
+
+type CombinedParticipantWithUserAndEvent = Participant & { user?: User, event?: Event };
+
+interface PairProfileHeaderProps {
+  participants: {
+    giver: CombinedParticipantWithUserAndEvent;
+    receiver: CombinedParticipantWithUserAndEvent;
+  };
+  triesRemaining: number;
+}
+
+export const PairProfileHeader = ({ participants, triesRemaining }: PairProfileHeaderProps) => {
+
+  const pairName = participants.receiver.user?.name || "Elena Doe";
+  const eventName = participants.giver.event?.name || "Christmas Party";
+  const wishlist = participants.receiver.wishlist || "No wishlist yet";
+
+  return (
+
+    <Box
     maxW="100%"
     w={"full"}
     overflow="hidden"
     // bg={'teal.700'}
     bg="linear-gradient(90deg, #114240 0%, #032726 100%)"
     position="relative"
-  >
+    >
     {/* Image Section */}
     <Box height={"400px"} position="relative">
       <Box position="absolute" left="0px" bottom={16} w="300px">
@@ -23,8 +40,8 @@ export const PairProfileHeader = () => (
           as="h1"
           size="6xl"
           color="gray.100"
-        >
-          Peggie Andrew
+          >
+         {pairName}
         </Heading>
       </Box>
       <Box
@@ -34,8 +51,8 @@ export const PairProfileHeader = () => (
         display="flex"
         flexDirection="column"
         gap="8px"
-      >
-        <Text>🎉 You have been matched</Text>
+        >
+        <Text><span>🎉</span> {eventName}</Text>
       </Box>
     </Box>
 
@@ -48,7 +65,7 @@ export const PairProfileHeader = () => (
       w="full"
       position="absolute"
       bottom={10}
-    />
+      />
 
     {/* Content Section */}
     <VStack
@@ -60,23 +77,26 @@ export const PairProfileHeader = () => (
       spaceY={2}
       py={4}
       px={6}
-    >
+      >
       {/* Name and Distance */}
       <Stack>
-        <Badge color={"gray.100"} ml="1" bg={"black"}>
+        <Badge color={"gray.50"} ml="1" bg={"black"}>
           You will buy this person a gift
         </Badge>
       </Stack>
 
       <Stack pt={10}>
         {/* Bio */}
-        <Text fontSize="sm" color="gray.100">
+        <Box fontSize="sm" color="gray.300">
+          {/* <Text fontSize={'xs'}>
           {pairName.charAt(0).toUpperCase() + pairName.slice(1)} will be
           expecting a gift from you this Christmas, they dont have to know that
-          you&apos;ve been paired to buy them a gift. do well to buy them
-          something lovely or click the button below to see what they&apos;ll
-          like
-        </Text>
+          you&apos;ve been paired to buy them a gift, however, read their wishlist
+          </Text> */}
+          <Text color="gray.50" pt={4}>
+          {wishlist}
+             </Text>
+        </Box>
       </Stack>
     </VStack>
 
@@ -85,4 +105,5 @@ export const PairProfileHeader = () => (
     <RetryIndicator count={triesRemaining} />
     {/* ----------- show the count metadata with pair subtitle -------------- */}
   </Box>
-);
+)
+};

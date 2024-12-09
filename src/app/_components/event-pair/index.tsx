@@ -6,7 +6,7 @@ import {
   Stack,
   VStack,
 } from "@chakra-ui/react";
-import { Fragment } from "react";
+import { Fragment, Suspense } from "react";
 import { PreviousConnections } from "~/app/_components/event-pair/previous-connections";
 import { ConfettiComponent } from "~/components/display/confetti";
 import PairPreferenceDrawer from "~/components/display/preference-drawer";
@@ -28,7 +28,7 @@ export async function EventPairInfo({ eventId }: EventPairInfoProps) {
     <Fragment>
       {data.isNewPair && <ConfettiComponent show={true} />}
       {/*  --------------------- Show current connected pair  --------------------- */}
-      <PairProfileHeader />
+      <PairProfileHeader triesRemaining={Number(3 - data.attemptCount)} participants={data.participants} />
       {/*  --------------------- Show current connected pair  --------------------- */}
       <Container pb={12} pt={8} overflowX={"hidden"}>
         {/* //////////////////If we have a pair lets preview this box ////////////// */}
@@ -96,22 +96,26 @@ export async function EventPairInfo({ eventId }: EventPairInfoProps) {
 
           <Stack pb={0}>
             {/* -------  Allow user to manage re-match and change pairs ------ */}
+            <Suspense fallback={<div>Loading...</div>}>
             <PairPreferenceDrawer
-              wishlist={"we want to buy a lot of sneakers"}
+              participants={data.participants}
+              event={data.metadata.event}
             />
+            </Suspense>
             {/* -------  Allow user to manage re-match and change pairs ------ */}
           </Stack>
         </Stack>
         {/* //////////////////If we have a pair lets preview this box ////////////// */}
 
-        <h1>Event {eventId}</h1>
 
         {/* ----- Hack to add space between the fixed bottom navbar  ----- */}
         <Spacer minH={{ base: "42px", md: "8px" }} pb={12} />
 
         <Stack my={4} gap={10}>
           {/*  --------------------- Show previous connections  --------------------- */}
-          <PreviousConnections />
+          <Suspense fallback={<div>Loading...</div>}>
+          <PreviousConnections history={[]} />
+          </Suspense>
           {/*  --------------------- Show previous connections  --------------------- */}
         </Stack>
       </Container>

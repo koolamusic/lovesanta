@@ -16,17 +16,47 @@ import {
 import { Button } from "~/components/ui/button";
 import { Avatar } from "~/components/ui/avatar";
 import { FiChevronRight } from "react-icons/fi";
-
+import { Participant, User, Event } from "@prisma/client";
 import { api } from "~/trpc/react";
+import { useRouter } from "next-nprogress-bar";
+
+
+type CombinedParticipantWithUserAndEvent = Participant & { user?: User, event?: Event };
+
 
 type PreferenceDrawerConfig = {
-  wishlist: string;
+  participants: {
+    giver: CombinedParticipantWithUserAndEvent;
+    receiver: CombinedParticipantWithUserAndEvent;
+  };
+  event: Event;
 };
 
 export default function PairPreferenceDrawer({
-  wishlist,
+  participants,
+  event,
 }: PreferenceDrawerConfig) {
   const [open, setOpen] = useState(false);
+
+    const utils = api.useUtils();
+    const router = useRouter();
+  
+    const regeneratePairMutation = api.post.regenerateGiverPair.useMutation({
+      onSuccess: async () => {
+        await utils.post.invalidate();
+        router.refresh();
+      },
+
+      onError: (error) => {
+        console.error(error);
+        alert(error.message);
+        utils.post.invalidate();
+
+      }
+    });
+
+  const giverName = participants.giver.user?.name || "Bukola Santa";
+  const receiverName = participants.receiver.user?.name || "Elena Doe";
 
   return (
     <DrawerRoot
@@ -54,7 +84,7 @@ export default function PairPreferenceDrawer({
 
         <Center rotate={"8"} ml={"-24"} py={8} fontFamily={"Pixeboy"}>
           <Avatar
-            name={"Bukola Santa"}
+            name={giverName}
             borderRadius={"xl"}
             rotate={"-16"}
             w={"32"}
@@ -76,7 +106,7 @@ export default function PairPreferenceDrawer({
                 w={"32"}
                 h={"32"}
                 size={"full"}
-                name={"Elena Doe"}
+                name={receiverName}
               >
                 <span>.</span>
               </Avatar>
@@ -87,10 +117,10 @@ export default function PairPreferenceDrawer({
         <DrawerHeader
           maxW={"md"}
           mx={"auto"}
-          textTransform={"uppercase"}
+          textTransform={"capitalize"}
           fontFamily={"Blimone"}
         >
-          <DrawerTitle fontSize={"2xl"}>Bukola & Elena</DrawerTitle>
+          <DrawerTitle fontSize={"lg"}>{giverName} & {receiverName}</DrawerTitle>
         </DrawerHeader>
 
         <DrawerBody
@@ -101,13 +131,13 @@ export default function PairPreferenceDrawer({
           maxW={"4xl"}
           mx={"auto"}
         >
-          <Text maxW={"sm"}>
-            Hi, Elena, you have been paired with{" "}
-            <strong>Father Christmas 😆 </strong>
-            click the button below to match yourself with a new pair
+          <Text maxW={"xs"}>
+            Hi, {giverName}, you have been paired with{" "}
+            <strong>{receiverName} 😆 </strong> while this is not permanent, if you do not like <span>{receiverName}{' '}</span>
+  and would like to randomly pair with another person, click the button below to try your luck.
           </Text>
 
-          <Stack mt={16}>
+          <Stack mt={10}>
             <Button
               mt={4}
               ring={"1px"}
@@ -115,6 +145,14 @@ export default function PairPreferenceDrawer({
               boxShadow={"lg"}
               variant="subtle"
               size="md"
+              rounded={'l3'}
+              loading={regeneratePairMutation.isPending}
+              onClick={async () => {
+                void regeneratePairMutation.mutate({ 
+                  eventId: event.id, 
+                  participantId: participants.giver.id, 
+                });
+              }}
             >
               Generate a new pair <FiChevronRight />
             </Button>

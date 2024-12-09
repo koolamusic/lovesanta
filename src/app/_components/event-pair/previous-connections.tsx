@@ -1,7 +1,36 @@
-import { Box, Card, Separator, Stack, Text } from "@chakra-ui/react";
+import { Box, Card, HStack, Separator, Stack, Text } from "@chakra-ui/react";
+import { MatchHistory, User } from "@prisma/client";
+import { LuConstruction, LuInfo } from "react-icons/lu";
 import { Avatar } from "~/components/ui/avatar";
 
-export const PreviousConnections = () => {
+
+type ReceiverHistory = MatchHistory & {receiver: User};
+
+interface HistoryProps {
+  history: ReceiverHistory[];
+}
+
+export const PreviousConnections = ({ history }: HistoryProps) => {
+
+  if (history.length === 0) {
+    return (
+      <Card.Root variant="elevated" boxShadow="lg">
+      <Card.Header>
+        <Card.Title display={'flex'}>
+          <HStack spaceX={2} align={'center'}>
+            <LuConstruction /> 
+            You have no previous pair
+            </HStack>
+            </Card.Title>
+      </Card.Header>
+        <Card.Body px={6} color={'fg.muted'}>
+          If you have been paired with someone before, you would see them as previous connections here
+      </Card.Body>
+    </Card.Root>
+    )
+  }
+
+
   return (
     <Card.Root variant="elevated" boxShadow="lg">
       <Card.Header>
@@ -41,13 +70,13 @@ const members = [
   },
 ];
 
-type Props = {
+type MemberProps = {
   name: string;
   avatar: string;
   email: string;
 };
 
-const Member = (props: Props) => {
+const Member = (props: MemberProps) => {
   const { name, avatar, email } = props;
 
   return (

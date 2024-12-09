@@ -22,9 +22,12 @@ const RequestPair = ({ participantId, eventId }: RequestPairProps) => {
       await utils.post.invalidate();
       router.refresh();
     },
+    onError: (error) => {
+      console.error(error);
+      alert(error.message);
+      utils.post.invalidate();
+    }
   });
-
-  // handleGeneratePair = async () => {
 
   return (
     <Box
@@ -54,7 +57,7 @@ const RequestPair = ({ participantId, eventId }: RequestPairProps) => {
             color="white"
             _hover={{ bg: "green.600" }}
             onClick={async () => {
-              generatePairMutation.mutate({ participantId, eventId });
+              void generatePairMutation.mutate({ participantId, eventId });
             }}
           >
             GENERATE

@@ -49,6 +49,11 @@ const FormStack = ({ placeholder = defaultBio }) => {
     onSuccess: async () => {
       await utils.post.invalidate();
     },
+
+    onError: (error) => {
+      alert(error.message);
+      utils.post.invalidate();
+    },
   });
 
   const {

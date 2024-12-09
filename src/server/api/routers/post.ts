@@ -4,7 +4,7 @@ import {
   protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
-import { matchParticipant } from "~/server/methods";
+import { matchParticipant, rematchParticipant } from "~/server/methods";
 
 export const postRouter = createTRPCRouter({
   hello: publicProcedure
@@ -101,13 +101,14 @@ export const postRouter = createTRPCRouter({
 
       return {
         isNewPair: match.createdAt === match.updatedAt,
+        attemptCount: history.length,
         participants: {
           giver,
           receiver,
         },
         metadata: {
           history,
-          pairing: match,
+          matchInfo: match,
           event: giver.event,
         },
       };
@@ -180,6 +181,28 @@ export const postRouter = createTRPCRouter({
       }
 
       return match;
+    }),
+
+  regenerateGiverPair: protectedProcedure
+    .input(
+      z.object({
+        eventId: z.string().min(1),
+        participantId: z.string().min(1),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+
+      const participant = await ctx.db.participant.findFirstOrThrow({
+        where: {
+          id: input.participantId,
+        },
+      });
+
+     return rematchParticipant({
+        prisma: ctx.db,
+        eventId: input.eventId,
+        participant: participant,
+      });
     }),
 
   updateWishlist: protectedProcedure
