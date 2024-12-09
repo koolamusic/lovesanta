@@ -51,6 +51,7 @@ model Participant {
   id        String   @id @default(cuid())
   userId    String
   eventId   String
+  region    String  @default("africa") // inherit from @User africa, world, europe, asia
   hasJoined Boolean  @default(false)
   wishlist  String?  @db.Text
   budget    Float?
@@ -135,7 +136,7 @@ model User {
   passcode      String?
   email         String?       @unique
   emailVerified DateTime?
-  region        String?       @default("africa") // africa, world, europe, asia
+  region        String       @default("africa") // africa, world, europe, asia
   /// @param loginCount - This is a hack we increment upon login
   /// For now we created this to help with the pin reset process, bcos
   /// We manually register our users with the same pin directly from the database

@@ -40,7 +40,7 @@ export const postRouter = createTRPCRouter({
         },
       });
 
-      const user = await ctx.db.user.findFirst({
+      const user = await ctx.db.user.findFirstOrThrow({
         where: {
           id: input.userId,
         },
@@ -52,7 +52,8 @@ export const postRouter = createTRPCRouter({
             eventId: input.eventId,
             userId: input.userId,
             hasJoined: true,
-            wishlist: user?.bio,
+            region: user.region,
+            wishlist: user.bio,
             budget: 100,
           },
         });
@@ -76,7 +77,17 @@ export const postRouter = createTRPCRouter({
       });
 
       if (!match) {
-        return await matchParticipant(ctx.db, input.eventId, input.participantId);
+        const participant = await ctx.db.participant.findFirstOrThrow({
+          where: {
+            id: input.participantId,
+          },
+        });
+
+        return await matchParticipant({
+          participant,
+          prisma: ctx.db,
+          eventId: input.eventId,
+        });
       }
 
       return match;
