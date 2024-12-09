@@ -23,25 +23,20 @@ export function EventPairInfo() {
     <HydrateClient>
       <NavbarComponent activeMenuKey={1} />
 
-        <ConfettiComponent show={true} />
+      <ConfettiComponent show={true} />
 
       <Container pb={24} overflowX={"hidden"}>
-
-
         {/* //////////////////If we have a pair lets preview this box ////////////// */}
         <Stack gap={3}>
+          {/* {user.pairId && ( */}
 
-        {/* {user.pairId && ( */}
-  
-        <PairProfile />
+          <PairProfile />
 
-                {/* -------  Allow user to manage re-match and change pairs ------ */}
-        <PairPreferenceDrawer wishlist={"we want to buy a lot of sneakers"} />
-                {/* -------  Allow user to manage re-match and change pairs ------ */}
+          {/* -------  Allow user to manage re-match and change pairs ------ */}
+          <PairPreferenceDrawer wishlist={"we want to buy a lot of sneakers"} />
+          {/* -------  Allow user to manage re-match and change pairs ------ */}
 
-
-  
-        {/* )} */}
+          {/* )} */}
         </Stack>
         {/* //////////////////If we have a pair lets preview this box ////////////// */}
 

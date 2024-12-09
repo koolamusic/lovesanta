@@ -32,9 +32,11 @@ export const ProfileSettingComponent = async () => {
   return (
     <Container maxW="xl" py="12">
       <Stack pb={2}>
-        <Avatar 
-        bg="linear-gradient(40deg, blue, purple, #81f242)"
-        size="lg" name={profile.name ?? "Santa Clause"} />
+        <Avatar
+          bg="linear-gradient(40deg, blue, purple, #81f242)"
+          size="lg"
+          name={profile.name ?? "Santa Clause"}
+        />
       </Stack>
 
       <Stack gap="6">
