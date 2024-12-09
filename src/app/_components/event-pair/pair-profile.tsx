@@ -1,6 +1,6 @@
 import {
   Container,
-  Float,
+  Stack,
   Heading,
   HStack,
   Icon,
@@ -12,23 +12,28 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { FiHeart, FiMessageCircle } from "react-icons/fi";
+import { FiHeart, FiMessageCircle, FiRefreshCcw } from "react-icons/fi";
 import {
   LuBadgeCheck,
   LuBriefcase,
+  LuCircleCheck,
+  LuCircleDot,
   LuGlobe,
   LuLinkedin,
   LuMapPin,
+  LuRecycle,
+  LuRefreshCw,
   LuTwitter,
 } from "react-icons/lu";
 import { Avatar } from "~/components/ui/avatar";
 import { Button } from "~/components/ui/button";
+import { RetryIndicator } from "./retry-indicator";
+
+const triesRemaining = 2;
 
 export const PairProfile = () => {
   return (
     <VStack gap="6" textAlign="center">
-      <ProfileCard />
-
       {/* ----------- show the count metadata with pair subtitle -------------- */}
       <HStack
         w={"full"}
@@ -92,133 +97,115 @@ export const PairProfile = () => {
   );
 };
 
-const data = {
-  name: "Elena Doe",
-  location: "New York, NY",
-  username: "elena",
-  image: "https://i.pravatar.cc/300?u=20",
-  description:
-    "Product Designer & Developer with over 8 years of experience. Leading design systems at Ipsum Technologies.",
-  social: [
-    {
-      label: "LinkedIn",
-      icon: <LuLinkedin />,
-      url: "#",
-    },
-    {
-      label: "Twitter",
-      icon: <LuTwitter />,
-      url: "#",
-    },
-    {
-      label: "Website",
-      icon: <LuGlobe />,
-      url: "#",
-    },
-  ],
-};
-
 const pairName = "Elena Doe";
 
-const ProfileCard = () => {
-  return (
-    <Box
-      maxW="sm"
-      borderWidth="1px"
-      borderRadius="lg"
-      overflow="hidden"
-      bg={{ base: "white", _dark: "gray.800" }}
-      boxShadow="lg"
-      position="relative"
-    >
-      {/* Image Section */}
-      <Box position="relative">
-        <Image
-          src="https://via.placeholder.com/400x600"
-          alt="Profile"
-          objectFit="cover"
-          height="400px"
-          width="full"
-        />
-        <Box
-          position="absolute"
-          top="10px"
-          left="10px"
-          bg="yellow.400"
-          w="35px"
-          h="35px"
-          borderRadius="full"
-        ></Box>
-        <Box
-          position="absolute"
-          top="10px"
-          right="10px"
-          display="flex"
-          flexDirection="column"
-          gap="8px"
+export const ProfileCard = () => (
+  <Box
+    maxW="100%"
+    w={"full"}
+    overflow="hidden"
+    // bg={'teal.700'}
+    bg="linear-gradient(90deg, #114240 0%, #032726 100%)"
+    position="relative"
+  >
+    {/* Image Section */}
+    <Box height={"400px"} position="relative">
+      <Box position="absolute" left="0px" bottom={16} w="300px">
+        <Heading
+          fontFamily={"Blimone"}
+          px={6}
+          textWrap={"wrap"}
+          as="h1"
+          size="6xl"
+          color="gray.100"
         >
-          <IconButton
-            aria-label="Message"
-            bg="white"
-            color="gray.800"
-            boxShadow="sm"
-            size="sm"
-          >
-            <FiMessageCircle />
-          </IconButton>
-        </Box>
+          Peggie Andrew
+        </Heading>
       </Box>
+      <Box
+        position="absolute"
+        top="10px"
+        right="10px"
+        display="flex"
+        flexDirection="column"
+        gap="8px"
+      >
+        <Text>🎉 You have been matched</Text>
+      </Box>
+    </Box>
 
-      {/* Content Section */}
-      <VStack align="start" spaceY={2} p={4}>
-        {/* Name and Distance */}
-        <Text fontSize="xl" fontWeight="bold">
-          Peggie, 23{" "}
-          <Badge ml="1" colorScheme="green">
-            Online
+    {/* A gradient edge before the next block about 30px height */}
+    <Box
+      maxH={"4px"}
+      bg="linear-gradient(180deg, rgba(20,0,0,0.15) 270%, rgba(0,0,0,0.7) 120%)"
+      backdropFilter="blur(10px)"
+      boxShadow="-13px 20px 200px 300px rgb(0 0 0 / 47%)"
+      w="full"
+      position="absolute"
+      bottom={10}
+    />
+
+    {/* Content Section */}
+    <VStack
+      bg={"transparent"}
+      boxShadow="170px -105px 99px 10px rgb(0 0 0 / 5%)"
+      mt={-20}
+      position={"relative"}
+      align="start"
+      spaceY={2}
+      py={4}
+      px={6}
+    >
+      {/* Name and Distance */}
+
+      <Stack>
+        <Badge color={"gray.100"} ml="1" bg={"black"}>
+          You will buy this person a gift
+        </Badge>
+      </Stack>
+
+      <Stack pt={10}>
+        {/* Tags or Wishlist */}
+        {/* Also we can also model tags to show relationship like: */}
+        {/* cousin, brother, inlaw etc */}
+        {/* <HStack spaceX={2}>
+        {["Modelling", "Hiking", "Drawing", "Photo", "Design"].map((tag) => (
+          <Badge
+            key={tag}
+            px={2}
+            py={1}
+            borderRadius="full"
+            bg="gray.100"
+            color="gray.800"
+          >
+            {tag}
           </Badge>
-        </Text>
-        <Text fontSize="sm" color="gray.500">
-          ~300ft from you
-        </Text>
-
-        {/* Tags */}
-        <HStack spaceX={2}>
-          {["Modelling", "Hiking", "Drawing", "Photo", "Design"].map((tag) => (
-            <Badge
-              key={tag}
-              px={2}
-              py={1}
-              borderRadius="full"
-              bg="gray.100"
-              color="gray.800"
-            >
-              {tag}
-            </Badge>
-          ))}
-        </HStack>
+        ))}
+      </HStack> */}
 
         {/* Bio */}
-        <Text fontSize="sm" color="gray.700">
+        <Text fontSize="sm" color="gray.100">
           {pairName.charAt(0).toUpperCase() + pairName.slice(1)} will be
           expecting a gift from you this Christmas, they dont have to know that
           you&apos;ve been paired to buy them a gift. do well to buy them
           something lovely or click the button below to see what they&apos;ll
           like
         </Text>
-      </VStack>
+      </Stack>
+    </VStack>
 
-      {/* Action Buttons */}
-      <HStack justify="space-between" px={4} py={2}>
-        <Button bg="gray.800" color="white" _hover={{ bg: "gray.700" }}>
-          Like
-          <FiHeart />
-        </Button>
-        <Button bg="purple.500" color="white" _hover={{ bg: "purple.400" }}>
-          Chat
-          <FiMessageCircle />
-        </Button>
-      </HStack>
-    </Box>
-  );
-};
+    {/* Action Buttons */}
+    <HStack position={"relative"} justify="space-between" px={6} py={2}>
+      <RetryIndicator number={triesRemaining} />
+
+      <Text
+        fontSize={"sm"}
+        color={"gray.100"}
+        alignSelf={"flex-end"}
+        textAlign={"right"}
+      >
+        You have {triesRemaining} remaining tries
+      </Text>
+    </HStack>
+  </Box>
+);

@@ -1,6 +1,9 @@
+import { Container } from "@chakra-ui/react";
 import { EventPairInfo } from "~/app/_components/event-pair";
+import { NavbarComponent } from "~/components/navbar/block";
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
+import { HydrateClient } from "~/trpc/server";
 
 interface EventParams {
   params: {
@@ -69,9 +72,9 @@ export default async function EventPair({ params }: EventParams) {
   console.log({ eventId, participant, session });
 
   return (
-    <div className="container mx-auto py-8">
-      <h1>Event {eventId}</h1>
-      <EventPairInfo />
-    </div>
+    <HydrateClient>
+      <NavbarComponent activeMenuKey={0} />
+      <EventPairInfo eventId={eventId} />
+    </HydrateClient>
   );
 }

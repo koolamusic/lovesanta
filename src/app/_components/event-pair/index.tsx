@@ -1,6 +1,3 @@
-import { HydrateClient } from "~/trpc/server";
-
-import { NavbarComponent } from "~/components/navbar/block";
 import {
   AlertDescription,
   AlertRoot,
@@ -16,16 +13,19 @@ import { PairPreviewBox } from "~/components/display/pair-preview";
 import PairPreferenceDrawer from "~/components/display/preference-drawer";
 import { Button } from "~/components/ui/button";
 import { CurrentConnection } from "~/app/_components/event-pair/current-connection";
-import { PairProfile } from "./pair-profile";
+import { PairProfile, ProfileCard } from "./pair-profile";
+import { Fragment } from "react";
 
-export function EventPairInfo() {
+interface EventPairInfoProps {
+  eventId: string;
+}
+
+export function EventPairInfo({ eventId }: EventPairInfoProps) {
   return (
-    <HydrateClient>
-      <NavbarComponent activeMenuKey={1} />
-
+    <Fragment>
+      <ProfileCard />
       <ConfettiComponent show={true} />
-
-      <Container pb={24} overflowX={"hidden"}>
+      <Container pb={12} overflowX={"hidden"}>
         {/* //////////////////If we have a pair lets preview this box ////////////// */}
         <Stack gap={3}>
           {/* {user.pairId && ( */}
@@ -39,6 +39,8 @@ export function EventPairInfo() {
           {/* )} */}
         </Stack>
         {/* //////////////////If we have a pair lets preview this box ////////////// */}
+
+        <h1>Event {eventId}</h1>
 
         {/*  --------------------- Instruction set ---------------------  */}
 
@@ -55,6 +57,6 @@ export function EventPairInfo() {
           {/*  --------------------- Show previous connections  --------------------- */}
         </Stack>
       </Container>
-    </HydrateClient>
+    </Fragment>
   );
 }
