@@ -5,12 +5,9 @@ import { Suspense } from "react";
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
 import { HydrateClient } from "~/trpc/server";
+import { PageProps } from ".next/types/app/page";
 
-interface EventParams {
-  params: {
-    event_id: string;
-  };
-}
+type EventPageProps = PageProps & { params: { event_id: string } };
 
 interface EnrollOrGetArgs {
   eventId: string;
@@ -57,7 +54,7 @@ const enrollOrGet = async ({ eventId, userId }: EnrollOrGetArgs) => {
   return event;
 };
 
-export default async function EventPair({ params }: EventParams) {
+export default async function EventPair({ params }: EventPageProps) {
   const { event_id: eventId } = params;
   const session = await auth();
 
