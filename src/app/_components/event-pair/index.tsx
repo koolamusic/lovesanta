@@ -12,7 +12,7 @@ import { ConfettiComponent } from "~/components/display/confetti";
 import PairPreferenceDrawer from "~/components/display/preference-drawer";
 import { PairProfileHeader } from "./pair-profile";
 
-import {api  } from "~/trpc/server";
+import { api } from "~/trpc/server";
 // import {api  } from "~/trpc/react";
 
 interface EventPairInfoProps {
@@ -20,19 +20,13 @@ interface EventPairInfoProps {
 }
 
 export async function EventPairInfo({ eventId }: EventPairInfoProps) {
-
   const data = await api.post.fetchGiverEnrollment({ eventId });
 
-  console.log({ data })
-
-
-
-
-
+  console.log({ data });
 
   return (
     <Fragment>
-      { data.isNewPair && <ConfettiComponent show={true} /> }
+      {data.isNewPair && <ConfettiComponent show={true} />}
       {/*  --------------------- Show current connected pair  --------------------- */}
       <PairProfileHeader />
       {/*  --------------------- Show current connected pair  --------------------- */}
@@ -124,4 +118,3 @@ export async function EventPairInfo({ eventId }: EventPairInfoProps) {
     </Fragment>
   );
 }
-

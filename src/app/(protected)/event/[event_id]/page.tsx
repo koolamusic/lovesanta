@@ -88,9 +88,7 @@ export default async function EventPair({ params }: EventParams) {
   return (
     <HydrateClient>
       <NavbarComponent activeMenuKey={0} />
-      <Suspense fallback={<div>Loading...</div>}>
-      {eventPairInfo}
-      </Suspense>
+      <Suspense fallback={<div>Loading...</div>}>{eventPairInfo}</Suspense>
     </HydrateClient>
   );
 }

@@ -103,29 +103,28 @@ export async function matchParticipant({
   }
 }
 
-
 /**
- * 
+ *
  * @function rematchParticipant
- * 
+ *
  * @description
- * 
+ *
  * This function allows a participant to rematch with a new participant
- * 
+ *
  * @param {MatchParticipantOptions} options
- * 
+ *
  * The logic is a combination of the matchParticipant effect with a couple
  * of additional steps to ensure that the participant is not matched with
- * the same person they were previously matched or any individual who 
+ * the same person they were previously matched or any individual who
  * already has a match
- * 
+ *
  * We also keep track of the number of times a participant has attempted
  * to rematch and also keep a record of the previous matches
- * 
+ *
  * @returns {Promise<Match>}
- * 
+ *
  * @throws {Error}
- * 
+ *
  */
 export async function rematchParticipant({
   prisma,
@@ -159,8 +158,8 @@ export async function rematchParticipant({
 
   /**
    * @operation
-   * 
-   * Get the current pair that our particpant 
+   *
+   * Get the current pair that our particpant
    * has been matched with
    */
   const currentMatch = await prisma.match.findFirst({
@@ -178,12 +177,11 @@ export async function rematchParticipant({
     throw new Error("You can no longer perform this operation");
   }
 
-
   /**
    * @operation
-   * 
+   *
    * Search for new pairs
-   * We rely on the database to filter out participants who 
+   * We rely on the database to filter out participants who
    * have not been paired or have been paired with the current giver
    */
   const availableReceivers = await prisma.participant.findMany({
@@ -203,14 +201,13 @@ export async function rematchParticipant({
     throw new Error("No available receivers for rematch");
   }
 
-
   /**
    * @operation
-   * 
-   * 
-   * We create a new history record of the 
+   *
+   *
+   * We create a new history record of the
    * individual who has been matched with out participant
-   * 
+   *
    * This is important for tracking purposes
    * !!!We also delete the current match record
    */
@@ -235,17 +232,16 @@ export async function rematchParticipant({
 
   const receiver = getRandomNode(availableReceivers);
 
-
-/**
- * 
- * @operation
- * 
- * We don't update our current match record. 
- * We essentially create an entirely new entry with the updated
- * 
- * records, however in the future, it might be better to simply update
- * the "receiverId" field in the current match record
- */
+  /**
+   *
+   * @operation
+   *
+   * We don't update our current match record.
+   * We essentially create an entirely new entry with the updated
+   *
+   * records, however in the future, it might be better to simply update
+   * the "receiverId" field in the current match record
+   */
   return prisma.match.create({
     data: {
       eventId,
