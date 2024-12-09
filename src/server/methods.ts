@@ -3,14 +3,11 @@ import { TRPCClientError } from "@trpc/client";
 import { TRPCError } from "@trpc/server";
 import { getRandomNode } from "~/app/common/helpers";
 
-
-
 interface MatchParticipantOptions {
   prisma: PrismaClient;
   eventId: string;
   participant: Participant;
-} 
-
+}
 
 export async function createYearlyEvent(
   prisma: PrismaClient,
@@ -49,16 +46,15 @@ export async function addParticipant(
   });
 }
 
-
 /**
- * 
+ *
  * @function matchParticipant
- * 
- * 
+ *
+ *
  * @description
  * This function matches a participant with another participant in an event
  * factors like region, wishlist, and budget are considered when matching
- * 
+ *
  */
 export async function matchParticipant({
   prisma,
@@ -77,19 +73,19 @@ export async function matchParticipant({
         receivingFrom: true, // Get existing matches where they're receiving
       },
     });
-  
+
     // Filter out participants who already have a gift giver
     const availableReceivers = participants.filter(
       (p) => p.receivingFrom.length === 0,
     );
-  
+
     if (availableReceivers.length === 0) {
       throw new Error("No available receivers");
     }
-  
+
     // Randomly select a receiver
     const receiver = getRandomNode(availableReceivers) as { id: string };
-  
+
     return prisma.match.create({
       data: {
         eventId,
@@ -104,10 +100,33 @@ export async function matchParticipant({
       code: "CONFLICT",
       message: "Failed to match participant",
     });
-    
   }
 }
 
+
+/**
+ * 
+ * @function rematchParticipant
+ * 
+ * @description
+ * 
+ * This function allows a participant to rematch with a new participant
+ * 
+ * @param {MatchParticipantOptions} options
+ * 
+ * The logic is a combination of the matchParticipant effect with a couple
+ * of additional steps to ensure that the participant is not matched with
+ * the same person they were previously matched or any individual who 
+ * already has a match
+ * 
+ * We also keep track of the number of times a participant has attempted
+ * to rematch and also keep a record of the previous matches
+ * 
+ * @returns {Promise<Match>}
+ * 
+ * @throws {Error}
+ * 
+ */
 export async function rematchParticipant({
   prisma,
   eventId,
@@ -117,7 +136,7 @@ export async function rematchParticipant({
   const matchAttempts = await prisma.matchHistory.count({
     where: {
       eventId,
-      giverId: participant.id,
+      giverUserId: participant.userId,
     },
   });
 
@@ -129,21 +148,29 @@ export async function rematchParticipant({
   const previousMatches = await prisma.matchHistory.findMany({
     where: {
       eventId,
-      giverId: participant.id,
+      giverUserId: participant.userId,
     },
     select: {
-      receiverId: true,
+      receiverUserId: true,
     },
   });
 
-  const previousReceivers = previousMatches.map((m) => m.receiverId);
+  const previousReceivers = previousMatches.map((m) => m.receiverUserId);
 
-  // Get current match
+  /**
+   * @operation
+   * 
+   * Get the current pair that our particpant 
+   * has been matched with
+   */
   const currentMatch = await prisma.match.findFirst({
     where: {
       eventId,
       giverId: participant.id,
-      NOT: { status: 'COMPLETED' },
+      NOT: { status: "COMPLETED" },
+    },
+    include: {
+      receiver: true,
     },
   });
 
@@ -151,13 +178,20 @@ export async function rematchParticipant({
     throw new Error("You can no longer perform this operation");
   }
 
-  // Find new available receiver
+
+  /**
+   * @operation
+   * 
+   * Search for new pairs
+   * We rely on the database to filter out participants who 
+   * have not been paired or have been paired with the current giver
+   */
   const availableReceivers = await prisma.participant.findMany({
     where: {
       eventId,
       region: participant.region,
       NOT: {
-        OR: [{ id: participant.id }, { id: { in: previousReceivers } }],
+        OR: [{ id: participant.id }, { userId: { in: previousReceivers } }],
       },
       receivingFrom: {
         none: {},
@@ -169,14 +203,25 @@ export async function rematchParticipant({
     throw new Error("No available receivers for rematch");
   }
 
-  // Store current match in history before deletion
+
+  /**
+   * @operation
+   * 
+   * 
+   * We create a new history record of the 
+   * individual who has been matched with out participant
+   * 
+   * This is important for tracking purposes
+   * !!!We also delete the current match record
+   */
   if (currentMatch) {
     await prisma.matchHistory.create({
       data: {
         eventId,
-        giverId: currentMatch.giverId,
-        receiverId: currentMatch.receiverId,
+        giverUserId: participant.userId,
+        receiverUserId: currentMatch.receiver.userId,
         attemptNo: matchAttempts + 1,
+        matchedAt: currentMatch.createdAt,
       },
     });
 
@@ -188,14 +233,24 @@ export async function rematchParticipant({
     });
   }
 
-  const receiver = getRandomNode(availableReceivers) as { id: string };
+  const receiver = getRandomNode(availableReceivers);
 
-  // Create new match
+
+/**
+ * 
+ * @operation
+ * 
+ * We don't update our current match record. 
+ * We essentially create an entirely new entry with the updated
+ * 
+ * records, however in the future, it might be better to simply update
+ * the "receiverId" field in the current match record
+ */
   return prisma.match.create({
     data: {
       eventId,
-      giverId: participant.id,
-      receiverId: receiver.id,
+      giverId: participant.userId,
+      receiverId: receiver?.userId as string,
       status: "ACCEPTED",
     },
   });

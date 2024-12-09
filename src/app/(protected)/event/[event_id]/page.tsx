@@ -1,6 +1,7 @@
 import { EventPairInfo } from "~/app/_components/event-pair";
 import RequestPair from "~/app/_components/request-pair";
 import { NavbarComponent } from "~/components/navbar/block";
+import { Suspense } from "react";
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
 import { HydrateClient } from "~/trpc/server";
@@ -77,18 +78,19 @@ export default async function EventPair({ params }: EventParams) {
   });
 
   if (!alreadyHasMatch) {
-      return <RequestPair
-        participantId={participant.id}
-        eventId={eventId}
-       /> 
+    return <RequestPair participantId={participant.id} eventId={eventId} />;
   }
 
-  console.log({ eventId, participant, session });
+  // console.log({ eventId, participant, session });
+
+  const eventPairInfo = await EventPairInfo({ eventId });
 
   return (
     <HydrateClient>
       <NavbarComponent activeMenuKey={0} />
-      <EventPairInfo eventId={eventId} />
+      <Suspense fallback={<div>Loading...</div>}>
+      {eventPairInfo}
+      </Suspense>
     </HydrateClient>
   );
 }

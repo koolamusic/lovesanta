@@ -6,23 +6,36 @@ import {
   Stack,
   VStack,
 } from "@chakra-ui/react";
+import { Fragment } from "react";
 import { PreviousConnections } from "~/app/_components/event-pair/previous-connections";
 import { ConfettiComponent } from "~/components/display/confetti";
 import PairPreferenceDrawer from "~/components/display/preference-drawer";
 import { PairProfileHeader } from "./pair-profile";
-import { Fragment } from "react";
+
+import {api  } from "~/trpc/server";
+// import {api  } from "~/trpc/react";
 
 interface EventPairInfoProps {
   eventId: string;
 }
 
-export function EventPairInfo({ eventId }: EventPairInfoProps) {
+export async function EventPairInfo({ eventId }: EventPairInfoProps) {
+
+  const data = await api.post.fetchGiverEnrollment({ eventId });
+
+  console.log({ data })
+
+
+
+
+
+
   return (
     <Fragment>
+      { data.isNewPair && <ConfettiComponent show={true} /> }
       {/*  --------------------- Show current connected pair  --------------------- */}
       <PairProfileHeader />
       {/*  --------------------- Show current connected pair  --------------------- */}
-      <ConfettiComponent show={true} />
       <Container pb={12} pt={8} overflowX={"hidden"}>
         {/* //////////////////If we have a pair lets preview this box ////////////// */}
         <Stack
@@ -111,3 +124,4 @@ export function EventPairInfo({ eventId }: EventPairInfoProps) {
     </Fragment>
   );
 }
+

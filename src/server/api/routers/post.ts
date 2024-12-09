@@ -1,5 +1,4 @@
 import { z } from "zod";
-
 import {
   createTRPCRouter,
   protectedProcedure,
@@ -27,11 +26,102 @@ export const postRouter = createTRPCRouter({
       });
     }),
 
-    enrollForEvent: protectedProcedure
+
+  fetchGiverEnrollment: protectedProcedure
     .input(z.object({ 
-      eventId: z.string().min(1),
-      userId: z.string().min(1),
+      eventId: z.string().min(1) 
     }))
+    .query(async ({ ctx, input }) => {
+//  fetch the user from the database based on session data
+
+const user = await ctx.db.user.findFirstOrThrow({
+  where: {
+    id: ctx.session.user.id,
+  },
+});
+
+
+
+// fetch the participant data
+
+const giver = await ctx.db.participant.findFirstOrThrow({
+  where: {
+    eventId: input.eventId,
+    userId: user.id,
+  },
+  include: {
+    user: true,
+    event: true,
+  }
+});
+
+// fetch giver match
+
+const match = await ctx.db.match.findFirstOrThrow({
+  where: {
+    eventId: input.eventId,
+    giverId: giver.id,
+  },
+});
+
+/**
+ * @operation to update the match every time we query it
+ * Ideally we should have created a model called viewCount
+ * 
+ * Which will then act as the buffer for how many times this data
+ * has been queried
+ */
+ctx.db.match.update({
+  where: {
+    id: match.id,
+  },
+  data: {
+    updatedAt: new Date(),
+  },
+});
+
+// fetch receiver profile from match information
+const receiver = await ctx.db.participant.findFirstOrThrow({
+  where: {
+    id: match.receiverId,
+  },
+  include: {
+    user: true,
+  },
+});
+
+const history = await ctx.db.matchHistory.findMany({
+  where: {
+    giverUserId: giver.userId,
+    eventId: input.eventId,
+  },
+  include: {
+    receiver: true,
+  },
+});
+
+return {
+  isNewPair: match.createdAt === match.updatedAt,
+  participants: {
+    giver,
+    receiver,
+  },
+  metadata: {
+    history,
+    pairing: match,
+    event: giver.event,
+  },
+
+}
+    }),
+
+  enrollForEvent: protectedProcedure
+    .input(
+      z.object({
+        eventId: z.string().min(1),
+        userId: z.string().min(1),
+      }),
+    )
     .mutation(async ({ ctx, input }) => {
       const event = await ctx.db.participant.findFirst({
         where: {
@@ -59,15 +149,16 @@ export const postRouter = createTRPCRouter({
         });
       }
 
-      return event
+      return event;
     }),
 
-
-    generateNewPair: protectedProcedure
-    .input(z.object({ 
-      eventId: z.string().min(1),
-      participantId: z.string().min(1),
-    }))
+  generateNewPair: protectedProcedure
+    .input(
+      z.object({
+        eventId: z.string().min(1),
+        participantId: z.string().min(1),
+      }),
+    )
     .mutation(async ({ ctx, input }) => {
       const match = await ctx.db.match.findFirst({
         where: {

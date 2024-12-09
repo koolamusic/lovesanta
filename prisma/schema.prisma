@@ -36,7 +36,7 @@ model Event {
   id          String      @id @default(cuid())
   name        String
   year        Int
-  date        DateTime @default(now())
+  date        DateTime    @default(now())
   description String
   status      EventStatus @default(ENDED)
   createdAt   DateTime    @default(now())
@@ -51,7 +51,7 @@ model Participant {
   id        String   @id @default(cuid())
   userId    String
   eventId   String
-  region    String  @default("africa") // inherit from @User africa, world, europe, asia
+  region    String   @default("africa") // inherit from @User africa, world, europe, asia
   hasJoined Boolean  @default(false)
   wishlist  String?  @db.Text
   budget    Float?
@@ -90,15 +90,16 @@ enum MatchStatus {
 }
 
 model MatchHistory {
-  id         String   @id @default(cuid())
-  eventId    String
-  giverId    String
-  receiverId String
-  matchedAt  DateTime @default(now())
-  attemptNo  Int // Track which attempt this was, for sorting
-  event      Event    @relation(fields: [eventId], references: [id])
+  id             String   @id @default(cuid())
+  eventId        String
+  giverUserId    String
+  receiverUserId String
+  matchedAt      DateTime @default(now())
+  attemptNo      Int // Track which attempt this was, for sorting
+  event          Event    @relation(fields: [eventId], references: [id])
 
-  @@index([eventId, giverId])
+  receiver User @relation(fields: [receiverUserId], references: [id])
+  @@index([eventId, giverUserId])
 }
 
 // Necessary for Next auth
@@ -130,17 +131,17 @@ model Session {
 }
 
 model User {
-  id            String        @id @default(cuid())
+  id            String         @id @default(cuid())
   name          String?
-  username      String?       @unique
+  username      String?        @unique
   passcode      String?
-  email         String?       @unique
+  email         String?        @unique
   emailVerified DateTime?
-  region        String       @default("africa") // africa, world, europe, asia
+  region        String         @default("africa") // africa, world, europe, asia
   /// @param loginCount - This is a hack we increment upon login
   /// For now we created this to help with the pin reset process, bcos
   /// We manually register our users with the same pin directly from the database
-  loginCount    Int           @default(0)
+  loginCount    Int            @default(0)
   image         String?
   /// @param bio - a string users can use to write their wishlist
   /// during event participation, we simply copy bio into participant.wishlist
@@ -149,6 +150,10 @@ model User {
   sessions      Session[]
   posts         Post[]
   participants  Participant[]
+
+  /// @param matchHistory - Where a user has been matched as a receiver
+  /// reference is @receiverUserId in MatchHistory model.
+  matchHistory  MatchHistory[]
 }
 
 model VerificationToken {

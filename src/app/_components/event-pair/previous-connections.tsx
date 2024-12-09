@@ -1,5 +1,3 @@
-"use client";
-
 import { Box, Card, Separator, Stack, Text } from "@chakra-ui/react";
 import { Avatar } from "~/components/ui/avatar";
 

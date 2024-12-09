@@ -17,6 +17,8 @@ import { Button } from "~/components/ui/button";
 import { Avatar } from "~/components/ui/avatar";
 import { FiChevronRight } from "react-icons/fi";
 
+import { api } from "~/trpc/react";
+
 type PreferenceDrawerConfig = {
   wishlist: string;
 };

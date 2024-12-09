@@ -25,7 +25,6 @@ export const PairProfileHeader = () => (
           color="gray.100"
         >
           Peggie Andrew
-
         </Heading>
       </Box>
       <Box
@@ -63,7 +62,6 @@ export const PairProfileHeader = () => (
       px={6}
     >
       {/* Name and Distance */}
-
       <Stack>
         <Badge color={"gray.100"} ml="1" bg={"black"}>
           You will buy this person a gift
