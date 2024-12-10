@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { RetryIndicator } from "./retry-indicator";
 import { type Participant, type User, type Event } from "@prisma/client";
-import { LuGlobe, LuPin } from "react-icons/lu";
+import { LuGlobe } from "react-icons/lu";
 
 type CombinedParticipantWithUserAndEvent = Participant & {
   user?: Pick<User, "name" | "id" | "image" | "username" | "region" | "bio">;

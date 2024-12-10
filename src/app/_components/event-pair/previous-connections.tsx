@@ -52,20 +52,24 @@ export const PreviousConnections = ({ history }: HistoryProps) => {
         <Text textStyle="sm" fontWeight="medium">
           It could have been
         </Text>
-        {history.map((member) => (
-          <Member key={member.id} {...member} />
-        ))}
+        {history
+          .sort(
+            (a, b) =>
+              new Date(b.matchedAt).getTime() - new Date(a.matchedAt).getTime(),
+          )
+          .map((member) => (
+            <Member key={member.id} {...member} />
+          ))}
       </Card.Body>
     </Card.Root>
   );
 };
 
 const Member = (props: ReceiverHistory) => {
-  // const { name, avatar, email } = props;
   const {
-    receiver: { name, username, bio, image, region },
-    matchedAt,
-    attemptNo,
+    receiver: { name, username, image, region },
+    // matchedAt,
+    // attemptNo,
   } = props;
 
   return (
