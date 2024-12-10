@@ -20,9 +20,10 @@ import { type Participant, type User, type Event } from "@prisma/client";
 import { api } from "~/trpc/react";
 import { useRouter } from "next-nprogress-bar";
 
-
-type CombinedParticipantWithUserAndEvent = Participant & { user?: User, event?: Event };
-
+type CombinedParticipantWithUserAndEvent = Participant & {
+  user?: Pick<User, "name" | "id" | "image" | "username" | "region" | "bio">;
+  event?: Event;
+};
 
 type PreferenceDrawerConfig = {
   participants: {
@@ -38,22 +39,21 @@ export default function PairPreferenceDrawer({
 }: PreferenceDrawerConfig) {
   const [open, setOpen] = useState(false);
 
-    const utils = api.useUtils();
-    const router = useRouter();
-  
-    const regeneratePairMutation = api.post.regenerateGiverPair.useMutation({
-      onSuccess: async () => {
-        await utils.post.invalidate();
-        router.refresh();
-      },
+  const utils = api.useUtils();
+  const router = useRouter();
 
-      onError: async (error) => {
-        console.error(error);
-        alert(error.message);
-        await utils.post.invalidate();
+  const regeneratePairMutation = api.post.regenerateGiverPair.useMutation({
+    onSuccess: async () => {
+      await utils.post.invalidate();
+      router.refresh();
+    },
 
-      }
-    });
+    onError: async (error) => {
+      console.error(error);
+      alert(error.message);
+      await utils.post.invalidate();
+    },
+  });
 
   const giverName = participants.giver.user?.name || "Bukola Santa";
   const receiverName = participants.receiver.user?.name || "Elena Doe";
@@ -120,7 +120,9 @@ export default function PairPreferenceDrawer({
           textTransform={"capitalize"}
           fontFamily={"Blimone"}
         >
-          <DrawerTitle fontSize={"lg"}>{giverName} & {receiverName}</DrawerTitle>
+          <DrawerTitle fontSize={"lg"}>
+            {giverName} & {receiverName}
+          </DrawerTitle>
         </DrawerHeader>
 
         <DrawerBody
@@ -133,8 +135,10 @@ export default function PairPreferenceDrawer({
         >
           <Text maxW={"xs"}>
             Hi, {giverName}, you have been paired with{" "}
-            <strong>{receiverName} 😆 </strong> while this is not permanent, if you do not like <span>{receiverName}{' '}</span>
-  and would like to randomly pair with another person, click the button below to try your luck.
+            <strong>{receiverName} 😆 </strong> while this is not permanent, if
+            you do not like <span>{receiverName} </span>
+            and would like to randomly pair with another person, click the
+            button below to try your luck.
           </Text>
 
           <Stack mt={10}>
@@ -145,12 +149,12 @@ export default function PairPreferenceDrawer({
               boxShadow={"lg"}
               variant="subtle"
               size="md"
-              rounded={'l3'}
+              rounded={"l3"}
               loading={regeneratePairMutation.isPending}
               onClick={async () => {
-                void regeneratePairMutation.mutate({ 
-                  eventId: event.id, 
-                  participantId: participants.giver.id, 
+                void regeneratePairMutation.mutate({
+                  eventId: event.id,
+                  participantId: participants.giver.id,
                 });
               }}
             >

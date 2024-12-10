@@ -28,7 +28,10 @@ export async function EventPairInfo({ eventId }: EventPairInfoProps) {
     <Fragment>
       {data.isNewPair && <ConfettiComponent show={true} />}
       {/*  --------------------- Show current connected pair  --------------------- */}
-      <PairProfileHeader triesRemaining={Number(3 - data.attemptCount)} participants={data.participants} />
+      <PairProfileHeader
+        triesRemaining={Number(3 - data.attemptCount)}
+        participants={data.participants}
+      />
       {/*  --------------------- Show current connected pair  --------------------- */}
       <Container pb={12} pt={8} overflowX={"hidden"}>
         {/* //////////////////If we have a pair lets preview this box ////////////// */}
@@ -97,16 +100,15 @@ export async function EventPairInfo({ eventId }: EventPairInfoProps) {
           <Stack pb={0}>
             {/* -------  Allow user to manage re-match and change pairs ------ */}
             <Suspense fallback={<div>Loading...</div>}>
-            <PairPreferenceDrawer
-              participants={data.participants}
-              event={data.metadata.event}
-            />
+              <PairPreferenceDrawer
+                participants={data.participants}
+                event={data.metadata.event}
+              />
             </Suspense>
             {/* -------  Allow user to manage re-match and change pairs ------ */}
           </Stack>
         </Stack>
         {/* //////////////////If we have a pair lets preview this box ////////////// */}
-
 
         {/* ----- Hack to add space between the fixed bottom navbar  ----- */}
         <Spacer minH={{ base: "42px", md: "8px" }} pb={12} />
@@ -114,7 +116,7 @@ export async function EventPairInfo({ eventId }: EventPairInfoProps) {
         <Stack my={4} gap={10}>
           {/*  --------------------- Show previous connections  --------------------- */}
           <Suspense fallback={<div>Loading...</div>}>
-          <PreviousConnections history={[]} />
+            <PreviousConnections history={data.metadata.history} />
           </Suspense>
           {/*  --------------------- Show previous connections  --------------------- */}
         </Stack>

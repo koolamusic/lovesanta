@@ -65,7 +65,7 @@ export const CredentialForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<FormValues>();
 
   console.error(errors);
@@ -84,7 +84,8 @@ export const CredentialForm = () => {
         <VStack gap="6">
           <Field errorText={errors.username?.message} label="Your username">
             <Input
-              type="username"
+              type="text"
+              autoComplete="username"
               {...register("username", { required: "you need a username" })}
             />
           </Field>
@@ -106,7 +107,7 @@ export const CredentialForm = () => {
               Forgot password
             </Button>
           </HStack>
-          <Button type="submit">
+          <Button type="submit" loading={isSubmitting}>
             Sign in <LuArrowRight />
           </Button>
         </Stack>

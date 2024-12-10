@@ -1,35 +1,43 @@
-import { Box, Card, HStack, Separator, Stack, Text } from "@chakra-ui/react";
+import {
+  Badge,
+  Box,
+  Card,
+  HStack,
+  Separator,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
 import { type MatchHistory, type User } from "@prisma/client";
 import { LuConstruction } from "react-icons/lu";
 import { Avatar } from "~/components/ui/avatar";
 
-
-type ReceiverHistory = MatchHistory & {receiver: User};
+type ReceiverHistory = MatchHistory & {
+  receiver: Pick<User, "name" | "id" | "image" | "username" | "region" | "bio">;
+};
 
 interface HistoryProps {
   history: ReceiverHistory[];
 }
 
 export const PreviousConnections = ({ history }: HistoryProps) => {
-
   if (history.length === 0) {
     return (
       <Card.Root variant="elevated" boxShadow="lg">
-      <Card.Header>
-        <Card.Title display={'flex'}>
-          <HStack spaceX={2} align={'center'}>
-            <LuConstruction /> 
-            You have no previous pair
+        <Card.Header>
+          <Card.Title display={"flex"}>
+            <HStack spaceX={2} align={"center"}>
+              <LuConstruction />
+              You have no previous pair
             </HStack>
-            </Card.Title>
-      </Card.Header>
-        <Card.Body px={6} color={'fg.muted'}>
-          If you have been paired with someone before, you would see them as previous connections here
-      </Card.Body>
-    </Card.Root>
-    )
+          </Card.Title>
+        </Card.Header>
+        <Card.Body px={6} color={"fg.muted"}>
+          If you have been paired with someone before, you would see them as
+          previous connections here
+        </Card.Body>
+      </Card.Root>
+    );
   }
-
 
   return (
     <Card.Root variant="elevated" boxShadow="lg">
@@ -44,40 +52,21 @@ export const PreviousConnections = ({ history }: HistoryProps) => {
         <Text textStyle="sm" fontWeight="medium">
           It could have been
         </Text>
-        {members.map((member) => (
-          <Member key={member.name} {...member} />
+        {history.map((member) => (
+          <Member key={member.id} {...member} />
         ))}
       </Card.Body>
     </Card.Root>
   );
 };
 
-const members = [
-  {
-    name: "Segun Adebayo",
-    avatar: "https://avatars.githubusercontent.com/u/6916170?v=4",
-    email: "segun@chakra-ui.com",
-  },
-  {
-    name: "Christian Schröter",
-    avatar: "https://avatars.githubusercontent.com/u/1846056?v=4",
-    email: "chris@chakra-ui.com",
-  },
-  {
-    name: "Philipp Körner",
-    avatar: "https://avatars.githubusercontent.com/u/153984143?v=4",
-    email: "phil@chakra-ui.com",
-  },
-];
-
-type MemberProps = {
-  name: string;
-  avatar: string;
-  email: string;
-};
-
-const Member = (props: MemberProps) => {
-  const { name, avatar, email } = props;
+const Member = (props: ReceiverHistory) => {
+  // const { name, avatar, email } = props;
+  const {
+    receiver: { name, username, bio, image, region },
+    matchedAt,
+    attemptNo,
+  } = props;
 
   return (
     <Stack
@@ -88,14 +77,29 @@ const Member = (props: MemberProps) => {
       align="center"
     >
       <Stack direction="row" gap="3">
-        <Avatar src={avatar} name={name} />
+        <Avatar
+          bg="linear-gradient(40deg, blue, purple, #81f242)"
+          src={image ?? ""}
+          name={name ?? "John Doe"}
+        />
         <Box>
           <Text textStyle="sm" fontWeight="medium">
             {name}
           </Text>
-          <Text textStyle="sm" color="fg.muted">
-            {email}
-          </Text>
+          <HStack>
+            <Text textStyle="sm" color="fg.muted">
+              <span>@</span>
+              {username}
+            </Text>
+
+            <Badge
+              bg="linear-gradient(40deg, #730b0b, #0d0d02, #a7ff77)"
+              color={"gray.50"}
+              ml="1"
+            >
+              {region}
+            </Badge>
+          </HStack>
         </Box>
       </Stack>
     </Stack>

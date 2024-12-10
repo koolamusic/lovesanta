@@ -85,7 +85,16 @@ export const postRouter = createTRPCRouter({
           id: match.receiverId,
         },
         include: {
-          user: true,
+          user: {
+            select: {
+              id: true,
+              name: true,
+              username: true,
+              bio: true,
+              image: true,
+              region: true,
+            },
+          },
         },
       });
 
@@ -95,7 +104,16 @@ export const postRouter = createTRPCRouter({
           eventId: input.eventId,
         },
         include: {
-          receiver: true,
+          receiver: {
+            select: {
+              id: true,
+              name: true,
+              username: true,
+              bio: true,
+              image: true,
+              region: true,
+            },
+          },
         },
       });
 
@@ -191,14 +209,13 @@ export const postRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-
       const participant = await ctx.db.participant.findFirstOrThrow({
         where: {
           id: input.participantId,
         },
       });
 
-     return rematchParticipant({
+      return rematchParticipant({
         prisma: ctx.db,
         eventId: input.eventId,
         participant: participant,

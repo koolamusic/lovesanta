@@ -11,7 +11,7 @@ export function Provider(props: ColorModeProviderProps) {
     <ChakraProvider value={systemConfig}>
       <RootStyles />
       <ProgressBar
-        height="2px"
+        height="4px"
         color="#81f242"
         options={{ showSpinner: false }}
         shallowRouting
