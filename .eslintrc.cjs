@@ -22,6 +22,7 @@ const config = {
     "@typescript-eslint/no-unsafe-member-access": "off",
     "@typescript-eslint/unbound-method": "off",
     "@typescript-eslint/no-non-null-asserted-optional-chain": "warn",
+    "@typescript-eslint/non-nullable-type-assertion-style": "warn",
     "@typescript-eslint/no-empty-object-type": "off",
     "@typescript-eslint/prefer-nullish-coalescing": "off",
     "@typescript-eslint/no-explicit-any": "off",

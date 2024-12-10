@@ -67,7 +67,7 @@ export const PreviousConnections = ({ history }: HistoryProps) => {
 
 const Member = (props: ReceiverHistory) => {
   const {
-    receiver: { name, username, image, region },
+    receiver: { name, username, region },
     // matchedAt,
     // attemptNo,
   } = props;

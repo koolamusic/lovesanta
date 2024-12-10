@@ -19,7 +19,6 @@ import { FiChevronRight } from "react-icons/fi";
 import { type Participant, type User, type Event } from "@prisma/client";
 import { api } from "~/trpc/react";
 import { useRouter } from "next/navigation";
-import { attempt } from "lodash";
 
 type CombinedParticipantWithUserAndEvent = Participant & {
   user?: Pick<User, "name" | "id" | "image" | "username" | "region" | "bio">;
