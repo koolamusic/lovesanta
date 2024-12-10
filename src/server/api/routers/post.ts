@@ -119,7 +119,8 @@ export const postRouter = createTRPCRouter({
 
       return {
         isNewPair: match.createdAt === match.updatedAt,
-        attemptCount: history.length,
+        // attemptsRemaining: Number(3 - history.length),
+        attemptsCount: history.length,
         participants: {
           giver,
           receiver,

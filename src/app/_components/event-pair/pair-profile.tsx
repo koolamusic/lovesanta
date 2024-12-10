@@ -114,7 +114,7 @@ export const PairProfileHeader = ({
               bg={"transparent"}
               boxShadow={"2px 2px 30px 50px rgb(0 0 0 / 10%)"}
             >
-              You will buy this person a gift
+              Some ideas on what to get {pairName}:
             </Badge>
             <Text color="gray.50" pt={4}>
               {wishlist}

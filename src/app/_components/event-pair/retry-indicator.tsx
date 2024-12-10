@@ -17,7 +17,7 @@ export const RetryIndicator = ({ count = 3 }) => {
         alignSelf={"flex-end"}
         textAlign={"right"}
       >
-        You have {count} remaining tries
+        You have {Number(3 - count)} remaining tries
       </Text>
     </HStack>
   );

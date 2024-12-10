@@ -82,8 +82,10 @@ const Member = (props: ReceiverHistory) => {
     >
       <Stack direction="row" gap="3">
         <Avatar
-          bg="linear-gradient(40deg, blue, purple, #81f242)"
-          src={image ?? ""}
+          bg={{
+            base: "red.300",
+            _dark: "linear-gradient(40deg, blue, purple, #81f242)",
+          }}
           name={name ?? "John Doe"}
         />
         <Box>

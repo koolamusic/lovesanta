@@ -229,7 +229,7 @@ export async function rematchParticipant({
     });
   }
 
-  const receiver = getRandomNode(availableReceivers);
+  const receiver = getRandomNode(availableReceivers) as Participant;
 
   /**
    *
@@ -244,8 +244,8 @@ export async function rematchParticipant({
   return prisma.match.create({
     data: {
       eventId,
-      giverId: participant.userId,
-      receiverId: receiver?.userId!,
+      giverId: participant.id,
+      receiverId: receiver.id,
       status: "ACCEPTED",
     },
   });

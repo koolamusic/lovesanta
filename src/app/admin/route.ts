@@ -3,23 +3,31 @@ import { db } from "~/server/db";
 import { type User } from "@prisma/client";
 // import { users } from "./_users";
 
+const users: Pick<
+User,
+"name" | "username" | "passcode" | "region" | "bio"
+>[] = [
+{
+  name: "Suzie Cameron Andrew",
+  username: "suzie",
+  passcode: "000006",
+  region: "europe",
+  bio: "Beautiful handbag with matching shoes",
+},
+];
+
 // export async function POST(request: Request)
 export async function GET(_request: Request) {
+  if (process.env.NODE_ENV !== "development") {
+    return NextResponse.json(
+      { error: "Not in development mode" },
+      { status: 500 },
+    );
+  }
+
   try {
     // const users: Omit<User, "id" | "createdAt" | "updatedAt">[] =
     //   await request.json();
-    const users: Pick<
-      User,
-      "name" | "username" | "passcode" | "region" | "bio"
-    >[] = [
-      {
-        name: "Suzie Cameron Andrew",
-        username: "suzie",
-        passcode: "000006",
-        region: "europe",
-        bio: "Beautiful handbag with matching shoes",
-      },
-    ];
 
     const createdUsers = await db.user.createMany({
       data: users,
@@ -27,12 +35,35 @@ export async function GET(_request: Request) {
       skipDuplicates: true,
     });
 
-    console.log({ createdUsers });
+    const event = await db.event.findFirstOrThrow({
+      where: {
+        id: "cm4hjss4400153b5ug0imp2v3",
+      },
+    });
+
+    const eventCreatePayload = (await db.user.findMany({})).map((user) => ({
+      eventId: event.id,
+      userId: user.id,
+      wishlist: user.bio,
+      region: user.region,
+      budget: 100,
+      hasJoined: true,
+    }));
+
+    // Enroll users for the event
+    const enrollUsers = await db.participant.createMany({
+      data: eventCreatePayload,
+      skipDuplicates: true,
+    });
+
+    // console.log({ enrollUsers, eventCreatePayload });
 
     return NextResponse.json(
       {
-        message: "Users created successfully",
+        message: "Operation created successfully",
         count: createdUsers.count,
+        participants: enrollUsers.count,
+        payload: eventCreatePayload,
       },
       { status: 201 },
     );

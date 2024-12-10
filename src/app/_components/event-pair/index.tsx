@@ -29,7 +29,7 @@ export async function EventPairInfo({ eventId }: EventPairInfoProps) {
       {data.isNewPair && <ConfettiComponent show={true} />}
       {/*  --------------------- Show current connected pair  --------------------- */}
       <PairProfileHeader
-        triesRemaining={Number(3 - data.attemptCount)}
+        triesRemaining={data.attemptsCount}
         participants={data.participants}
       />
       {/*  --------------------- Show current connected pair  --------------------- */}
@@ -101,6 +101,7 @@ export async function EventPairInfo({ eventId }: EventPairInfoProps) {
             {/* -------  Allow user to manage re-match and change pairs ------ */}
             <Suspense fallback={<div>Loading...</div>}>
               <PairPreferenceDrawer
+                attemptsCount={data.attemptsCount}
                 participants={data.participants}
                 event={data.metadata.event}
               />

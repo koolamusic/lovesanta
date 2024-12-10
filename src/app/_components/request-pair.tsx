@@ -1,7 +1,8 @@
 "use client";
 
-import { Box, Stack, Button, Heading, VStack } from "@chakra-ui/react";
-import { useRouter } from "next-nprogress-bar";
+import { Box, Stack, Heading, VStack } from "@chakra-ui/react";
+import { useRouter } from "next/navigation";
+import { Button } from "~/components/ui/button";
 import { api } from "~/trpc/react";
 
 interface RequestPairProps {
@@ -20,7 +21,7 @@ const RequestPair = ({ participantId, eventId }: RequestPairProps) => {
   const generatePairMutation = api.post.generateNewPair.useMutation({
     onSuccess: async () => {
       await utils.post.invalidate();
-      router.refresh();
+      router.push(`/event/${eventId}`);
     },
     onError: async (error) => {
       await utils.post.invalidate();
@@ -42,8 +43,7 @@ const RequestPair = ({ participantId, eventId }: RequestPairProps) => {
       <VStack spaceY={6}>
         <Stack maxW={"xs"} py={12} textAlign={"center"}>
           <Heading fontFamily={"Blimone"}>
-            You don&aspos;t have any pair. Click the button below to generate
-            one
+            You don&apos;t have any pair. Click the button below to generate one
           </Heading>
         </Stack>
 
@@ -51,6 +51,7 @@ const RequestPair = ({ participantId, eventId }: RequestPairProps) => {
           <Button
             w="100px"
             h="100px"
+            loading={generatePairMutation.isPending}
             borderRadius="full"
             data-state="open"
             bg="green.700"

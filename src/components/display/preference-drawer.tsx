@@ -18,7 +18,8 @@ import { Avatar } from "~/components/ui/avatar";
 import { FiChevronRight } from "react-icons/fi";
 import { type Participant, type User, type Event } from "@prisma/client";
 import { api } from "~/trpc/react";
-import { useRouter } from "next-nprogress-bar";
+import { useRouter } from "next/navigation";
+import { attempt } from "lodash";
 
 type CombinedParticipantWithUserAndEvent = Participant & {
   user?: Pick<User, "name" | "id" | "image" | "username" | "region" | "bio">;
@@ -31,11 +32,13 @@ type PreferenceDrawerConfig = {
     receiver: CombinedParticipantWithUserAndEvent;
   };
   event: Event;
+  attemptsCount: number;
 };
 
 export default function PairPreferenceDrawer({
   participants,
   event,
+  attemptsCount,
 }: PreferenceDrawerConfig) {
   const [open, setOpen] = useState(false);
 
@@ -145,6 +148,8 @@ export default function PairPreferenceDrawer({
             <Button
               mt={4}
               ring={"1px"}
+              disabled={attemptsCount >= 3}
+              aria-disabled={attemptsCount >= 3}
               ringColor={"bg.subtle"}
               boxShadow={"lg"}
               variant="subtle"
