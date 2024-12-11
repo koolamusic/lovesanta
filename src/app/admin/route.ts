@@ -1,9 +1,12 @@
 import { NextResponse } from "next/server";
 import { db } from "~/server/db";
 import { type User } from "@prisma/client";
-// import { users } from "./_users";
+import { 
+  demoUsers as users, 
+  // users
+ } from "./_users";
 
-const users: Pick<
+const usxers: Pick<
 User,
 "name" | "username" | "passcode" | "region" | "bio"
 >[] = [
@@ -35,11 +38,24 @@ export async function GET(_request: Request) {
       skipDuplicates: true,
     });
 
-    const event = await db.event.findFirstOrThrow({
-      where: {
-        id: "cm4hjss4400153b5ug0imp2v3",
+    // const event = await db.event.findFirstOrThrow({
+    //   where: {
+    //     id: "cm4hjss4400153b5ug0imp2v3",
+    //   },
+    // });
+
+    const event = await db.event.create({
+      data: {
+        name: "Secret Santa 2024",
+        year: 2024,
+        description: "Secret Santa for the year 2024",
+        date: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),
+        status: "ACTIVE",
+
       },
     });
+
+
 
     const eventCreatePayload = (await db.user.findMany({})).map((user) => ({
       eventId: event.id,

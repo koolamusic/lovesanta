@@ -26,7 +26,7 @@ export async function EventPairInfo({ eventId }: EventPairInfoProps) {
 
   return (
     <Fragment>
-      {data.isNewPair && <ConfettiComponent show={true} />}
+      {!data.isNewPair && <ConfettiComponent show={true} />}
       {/*  --------------------- Show current connected pair  --------------------- */}
       <PairProfileHeader
         triesRemaining={data.attemptsCount}

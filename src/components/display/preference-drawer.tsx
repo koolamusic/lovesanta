@@ -48,6 +48,7 @@ export default function PairPreferenceDrawer({
     onSuccess: async () => {
       await utils.post.invalidate();
       router.refresh();
+      setOpen(false);
     },
 
     onError: async (error) => {
