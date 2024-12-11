@@ -1,12 +1,12 @@
 import { NextResponse } from "next/server";
 import { db } from "~/server/db";
 import { type User } from "@prisma/client";
-import { 
-  demoUsers as users, 
-  // users
- } from "./_users";
+// import { 
+//   demoUsers as users, 
+//   // users
+//  } from "./_users";
 
-const usxers: Pick<
+const users: Pick<
 User,
 "name" | "username" | "passcode" | "region" | "bio"
 >[] = [
