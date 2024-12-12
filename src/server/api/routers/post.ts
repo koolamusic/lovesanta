@@ -232,15 +232,17 @@ export const postRouter = createTRPCRouter({
         },
       });
 
+      console.log({ withExistingEvent })
+
       if (withExistingEvent) {
-        return ctx.db.participant.update({
+        await ctx.db.participant.update({
           where: { id: withExistingEvent.id },
           data: {
             wishlist: input.bio,
           },
         });
       }
-      return ctx.db.user.update({
+      return await ctx.db.user.update({
         where: { id: ctx.session.user.id },
         data: {
           bio: input.bio,
